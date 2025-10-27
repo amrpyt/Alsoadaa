@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Card } from './ui/card';
 import { Button } from './ui/button';
-import { Calendar, Check, X } from 'lucide-react';
+import { Check, X } from 'lucide-react';
 import { products } from '../lib/mockData';
 
 const MONTHS = [

@@ -2,7 +2,7 @@ import { createContext, useContext, useState, ReactNode } from 'react';
 
 interface RouterContextType {
   currentPage: string;
-  navigate: (page: string) => void;
+  navigate: (page: string, newParams?: Record<string, string>) => void;
   params: Record<string, string>;
 }
 
