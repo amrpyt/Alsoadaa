@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  web:
+    image: node:18-alpine
+    working_dir: /app
+    volumes:
+      - /home/jimmy/Alsoadaa:/app
+    ports:
+      - "3847:3000"
+    restart: unless-stopped
+    container_name: alsoadaa-website
+    command: sh -c "npm install && npm run build && npx serve -s dist -l 3000"
+    environment:
+      - NODE_ENV=production
