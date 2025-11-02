@@ -10,11 +10,12 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  server: {
+    host: true, // Listen on all addresses including Docker
+    port: 5173,
+    strictPort: true,
+    watch: {
+      usePolling: true, // Enable polling for Docker volume changes
+    },
+  },
 })
-
-# Tag the image with v1
-docker tag 00jimmy00/alsoadaa-website:latest 00jimmy00/alsoadaa-website:v1
-
-# Then push both tags
-docker push 00jimmy00/alsoadaa-website:latest
-docker push 00jimmy00/alsoadaa-website:v1

@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  web:
+    image: 00jimmy00/alsoadaa-website:v2
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    restart: unless-stopped
+    container_name: alsoadaa-website-prod
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
