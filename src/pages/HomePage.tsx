@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { ProductCard } from '../components/ProductCard';
 import { Button } from '../components/ui/button';
 import { Card } from '../components/ui/card';
@@ -15,12 +15,22 @@ import {
 } from 'lucide-react';
 import { products, testimonials } from '../lib/mockData';
 import { useRouter } from '../lib/router';
+import { useLanguage } from '../lib/LanguageContext';
 
 export function HomePage() {
   const { navigate } = useRouter();
+  const { t } = useLanguage();
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const [scrollRotation, setScrollRotation] = useState(0);
+  const citrusRef = useRef<HTMLDivElement>(null);
 
-  const featuredProducts = products.slice(0, 4);
+  // Featured products: Navel Orange, Grapefruit, Pomegranates, Fresh Grapes
+  const featuredProducts = [
+    products[0], // Navel Orange
+    products[6], // Grapefruit
+    products[1], // Pomegranates
+    products[2], // Fresh Grapes
+  ];
 
   const nextTestimonial = () => {
     setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
@@ -30,25 +40,55 @@ export function HomePage() {
     setCurrentTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length);
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (citrusRef.current) {
+        const rect = citrusRef.current.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        const elementTop = rect.top;
+        const elementHeight = rect.height;
+        
+        // Calculate scroll progress when element is in viewport (0 to 1)
+        // Start at 20% when element enters viewport, reach 0% when fully scrolled
+        const scrollProgress = Math.max(0, Math.min(1, 
+          1 - ((elementTop - windowHeight * 0.2) / (windowHeight * 0.8))
+        ));
+        
+        // Calculate percentage movement (20% to 0%)
+        const movePercent = 20 * (1 - scrollProgress);
+        setScrollRotation(movePercent);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Initial call
+    
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <div>
       {/* Hero Section */}
       <section 
-        className="relative h-[60vh] min-h-[500px] flex items-center justify-center"
-        style={{
-          backgroundImage: 'url(https://images.unsplash.com/photo-1520123704147-ed3a34036262?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlZ3lwdGlhbiUyMGNpdHJ1cyUyMGZhcm18ZW58MXx8fHwxNzYxNDg3MTkyfDA&ixlib=rb-4.1.0&q=80&w=1080)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
+        className="relative h-[60vh] min-h-[500px] flex items-center justify-center overflow-hidden"
       >
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+        >
+          <source src="/hero-video.MOV" type="video/mp4" />
+        </video>
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/70" />
         
         <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
-            Fresh Egyptian Citrus to<br />Your Market in 48 Hours
+            {t.heroTitle}
           </h1>
           <p className="text-xl md:text-2xl text-white/90 mb-8">
-            ISO 9001 & Global G.A.P Certified Exporter Since 2009
+            {t.heroSubtitle}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button 
@@ -56,7 +96,7 @@ export function HomePage() {
               className="text-lg px-8 py-6 bg-[var(--citrus-orange)] hover:bg-[var(--citrus-orange-hover)] text-white"
               onClick={() => navigate('contact')}
             >
-              Request Quote
+              {t.requestQuote}
             </Button>
             <Button 
               size="lg"
@@ -64,8 +104,74 @@ export function HomePage() {
               className="text-lg px-8 py-6 bg-white/10 backdrop-blur-sm border-white/30 text-white hover:bg-white/20"
               onClick={() => navigate('products')}
             >
-              View Products
+              {t.viewProducts}
             </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Citrus Showcase */}
+      <section ref={citrusRef} className="py-20 bg-white overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 lg:px-16">
+          <div 
+            className="flex items-center justify-center gap-6 md:gap-8"
+            style={{
+              willChange: 'transform',
+              transform: `translate3d(0px, ${scrollRotation * 0.6}%, 0px)`,
+              transformStyle: 'preserve-3d',
+              transition: 'transform 0.05s ease-out'
+            }}
+          >
+            {/* Left Orange - Moves right (away from center) */}
+            <div 
+              className="w-[180px] md:w-[280px] flex-shrink-0"
+              style={{
+                willChange: 'transform',
+                transform: `translate3d(${scrollRotation}%, 0px, 0px)`,
+                transformStyle: 'preserve-3d',
+                transition: 'transform 0.05s ease-out'
+              }}
+            >
+              <img 
+                src="/orange.png" 
+                alt="Fresh Orange" 
+                className="w-full h-auto"
+                style={{
+                  willChange: 'transform',
+                  transform: `translate3d(0px, ${scrollRotation * 0.2}%, 0px)`,
+                  transformStyle: 'preserve-3d'
+                }}
+              />
+            </div>
+            {/* Center Lime - Stays in place */}
+            <div className="w-[180px] md:w-[280px] flex-shrink-0">
+              <img 
+                src="/lime.png" 
+                alt="Fresh Lime" 
+                className="w-full h-auto"
+              />
+            </div>
+            {/* Right Lemon - Moves left (away from center) */}
+            <div 
+              className="w-[180px] md:w-[280px] flex-shrink-0"
+              style={{
+                willChange: 'transform',
+                transform: `translate3d(-${scrollRotation}%, 0px, 0px)`,
+                transformStyle: 'preserve-3d',
+                transition: 'transform 0.05s ease-out'
+              }}
+            >
+              <img 
+                src="/lemon.png" 
+                alt="Fresh Lemon" 
+                className="w-full h-auto"
+                style={{
+                  willChange: 'transform',
+                  transform: `translate3d(0px, ${scrollRotation * 0.2}%, 0px)`,
+                  transformStyle: 'preserve-3d'
+                }}
+              />
+            </div>
           </div>
         </div>
       </section>
@@ -77,22 +183,22 @@ export function HomePage() {
             <div className="text-center">
               <Clock className="w-12 h-12 mx-auto mb-3" style={{ color: 'var(--citrus-orange)' }} />
               <div className="text-3xl font-bold mb-1" style={{ color: 'var(--gray-900)' }}>15+</div>
-              <div className="text-sm" style={{ color: 'var(--gray-600)' }}>Years Exporting</div>
+              <div className="text-sm" style={{ color: 'var(--gray-600)' }}>{t.yearsExporting}</div>
             </div>
             <div className="text-center">
               <Globe className="w-12 h-12 mx-auto mb-3" style={{ color: 'var(--citrus-orange)' }} />
               <div className="text-3xl font-bold mb-1" style={{ color: 'var(--gray-900)' }}>50+</div>
-              <div className="text-sm" style={{ color: 'var(--gray-600)' }}>Countries Served</div>
+              <div className="text-sm" style={{ color: 'var(--gray-600)' }}>{t.countriesServed}</div>
             </div>
             <div className="text-center">
               <ShieldCheck className="w-12 h-12 mx-auto mb-3" style={{ color: 'var(--citrus-orange)' }} />
               <div className="text-3xl font-bold mb-1" style={{ color: 'var(--gray-900)' }}>100%</div>
-              <div className="text-sm" style={{ color: 'var(--gray-600)' }}>ISO & GAP Certified</div>
+              <div className="text-sm" style={{ color: 'var(--gray-600)' }}>{t.certified}</div>
             </div>
             <div className="text-center">
               <Truck className="w-12 h-12 mx-auto mb-3" style={{ color: 'var(--citrus-orange)' }} />
               <div className="text-3xl font-bold mb-1" style={{ color: 'var(--gray-900)' }}>1000+</div>
-              <div className="text-sm" style={{ color: 'var(--gray-600)' }}>Containers/Year</div>
+              <div className="text-sm" style={{ color: 'var(--gray-600)' }}>{t.containersPerYear}</div>
             </div>
           </div>
         </div>
@@ -103,10 +209,10 @@ export function HomePage() {
         <div className="max-w-7xl mx-auto px-6 lg:px-16">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{ color: 'var(--gray-900)' }}>
-              Our Premium Products
+              {t.ourPremiumProducts}
             </h2>
             <p className="text-lg" style={{ color: 'var(--gray-600)' }}>
-              Fresh, certified, and delivered with care
+              {t.freshCertifiedDelivered}
             </p>
           </div>
 
@@ -125,7 +231,7 @@ export function HomePage() {
               className="border-[var(--citrus-orange)] text-[var(--citrus-orange)] hover:bg-[var(--citrus-orange-bg)]"
               onClick={() => navigate('products')}
             >
-              View All Products
+              {t.viewAllProducts}
             </Button>
           </div>
         </div>
@@ -136,7 +242,7 @@ export function HomePage() {
         <div className="max-w-7xl mx-auto px-6 lg:px-16">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{ color: 'var(--gray-900)' }}>
-              Why Choose Al Soadaa?
+              {t.whyChooseUs}
             </h2>
           </div>
 
@@ -146,10 +252,10 @@ export function HomePage() {
                 <Award className="w-8 h-8" style={{ color: 'var(--trust-blue)' }} />
               </div>
               <h3 className="text-xl font-semibold mb-3" style={{ color: 'var(--gray-900)' }}>
-                Quality Certified
+                {t.qualityCertified}
               </h3>
               <p style={{ color: 'var(--gray-600)' }}>
-                ISO 9001 and Global G.A.P certified facilities ensure every product meets international quality standards.
+                {t.qualityCertifiedDesc}
               </p>
             </Card>
 
@@ -158,10 +264,10 @@ export function HomePage() {
                 <Truck className="w-8 h-8" style={{ color: 'var(--fresh-green)' }} />
               </div>
               <h3 className="text-xl font-semibold mb-3" style={{ color: 'var(--gray-900)' }}>
-                Reliable Delivery
+                {t.reliableDelivery}
               </h3>
               <p style={{ color: 'var(--gray-600)' }}>
-                Advanced logistics and cold chain management guarantee fresh delivery to 50+ countries worldwide.
+                {t.reliableDeliveryDesc}
               </p>
             </Card>
 
@@ -170,10 +276,10 @@ export function HomePage() {
                 <CheckCircle2 className="w-8 h-8" style={{ color: 'var(--citrus-orange)' }} />
               </div>
               <h3 className="text-xl font-semibold mb-3" style={{ color: 'var(--gray-900)' }}>
-                Fresh Guarantee
+                {t.freshGuarantee}
               </h3>
               <p style={{ color: 'var(--gray-600)' }}>
-                Harvest to export in 48 hours. We guarantee peak freshness and maximum shelf life for your customers.
+                {t.freshGuaranteeDesc}
               </p>
             </Card>
           </div>
@@ -185,10 +291,10 @@ export function HomePage() {
         <div className="max-w-7xl mx-auto px-6 lg:px-16">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{ color: 'var(--gray-900)' }}>
-              Seasonal Availability
+              {t.seasonalAvailability}
             </h2>
             <p className="text-lg" style={{ color: 'var(--gray-600)' }}>
-              Plan ahead with our seasonal harvest calendar
+              {t.planAheadCalendar}
             </p>
           </div>
 
@@ -207,7 +313,7 @@ export function HomePage() {
                   <div className="font-semibold mb-1" style={{ color: 'var(--gray-900)' }}>Oranges</div>
                   <div className="text-xs flex items-center gap-1">
                     <span>⭐</span>
-                    <span style={{ color: 'var(--citrus-orange)' }}>Peak Season</span>
+                    <span style={{ color: 'var(--citrus-orange)' }}>{t.peakSeason}</span>
                   </div>
                 </div>
 
@@ -216,7 +322,7 @@ export function HomePage() {
                   <div className="font-semibold mb-1" style={{ color: 'var(--gray-900)' }}>Grapes</div>
                   <div className="text-xs flex items-center gap-1">
                     <span>🟢</span>
-                    <span style={{ color: 'var(--fresh-green)' }}>In Season</span>
+                    <span style={{ color: 'var(--fresh-green)' }}>{t.inSeason}</span>
                   </div>
                 </div>
 
@@ -225,7 +331,7 @@ export function HomePage() {
                   <div className="font-semibold mb-1" style={{ color: 'var(--gray-900)' }}>Pomegranates</div>
                   <div className="text-xs flex items-center gap-1">
                     <span>🟢</span>
-                    <span style={{ color: 'var(--fresh-green)' }}>In Season</span>
+                    <span style={{ color: 'var(--fresh-green)' }}>{t.inSeason}</span>
                   </div>
                 </div>
               </div>
@@ -236,7 +342,7 @@ export function HomePage() {
                   className="border-[var(--citrus-orange)] text-[var(--citrus-orange)] hover:bg-[var(--citrus-orange-bg)]"
                   onClick={() => navigate('calendar')}
                 >
-                  View Full Calendar
+                  {t.viewFullCalendar}
                 </Button>
               </div>
             </Card>
@@ -249,7 +355,7 @@ export function HomePage() {
         <div className="max-w-7xl mx-auto px-6 lg:px-16">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{ color: 'var(--gray-900)' }}>
-              What Our Clients Say
+              {t.whatClientsSay}
             </h2>
           </div>
 
@@ -326,10 +432,10 @@ export function HomePage() {
         
         <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-            Ready to Import Premium Egyptian Products?
+            {t.readyToImport}
           </h2>
           <p className="text-xl text-white/90 mb-8">
-            Get a customized quote for your business needs
+            {t.getCustomizedQuote}
           </p>
           <Button 
             size="lg"
@@ -337,7 +443,7 @@ export function HomePage() {
             style={{ color: 'var(--citrus-orange)' }}
             onClick={() => navigate('contact')}
           >
-            Get Your Quote Today
+            {t.getYourQuoteToday}
           </Button>
         </div>
       </section>

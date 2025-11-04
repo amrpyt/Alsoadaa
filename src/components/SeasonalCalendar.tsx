@@ -3,11 +3,8 @@ import { Card } from './ui/card';
 import { Button } from './ui/button';
 import { Check, X } from 'lucide-react';
 import { products } from '../lib/mockData';
+import { useLanguage } from '../lib/LanguageContext';
 
-const MONTHS = [
-  'January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December'
-];
 
 const MONTH_KEYS = [
   'january', 'february', 'march', 'april', 'may', 'june',
@@ -15,8 +12,14 @@ const MONTH_KEYS = [
 ] as const;
 
 export function SeasonalCalendar() {
+  const { t } = useLanguage();
   const [view, setView] = useState<'product' | 'month'>('product');
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
+
+  const MONTHS = [
+    t.january, t.february, t.march, t.april, t.may, t.june,
+    t.july, t.august, t.september, t.october, t.november, t.december
+  ];
 
   if (view === 'month') {
     const monthKey = MONTH_KEYS[selectedMonth];
@@ -26,14 +29,14 @@ export function SeasonalCalendar() {
       <div className="space-y-6">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <h2 className="text-3xl font-bold" style={{ color: 'var(--gray-900)' }}>
-            Products Available in {MONTHS[selectedMonth]}
+            {t.productsAvailableIn} {MONTHS[selectedMonth]}
           </h2>
           <Button
             variant="outline"
             onClick={() => setView('product')}
             className="border-[var(--citrus-orange)] text-[var(--citrus-orange)]"
           >
-            View Calendar
+            {t.viewCalendar}
           </Button>
         </div>
 
@@ -79,7 +82,7 @@ export function SeasonalCalendar() {
         ) : (
           <Card className="p-12 text-center">
             <p className="text-lg" style={{ color: 'var(--gray-600)' }}>
-              No products available in {MONTHS[selectedMonth]}
+              {t.noProductsAvailable} {MONTHS[selectedMonth]}
             </p>
           </Card>
         )}
@@ -91,44 +94,44 @@ export function SeasonalCalendar() {
     <div className="space-y-6">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <h2 className="text-3xl font-bold" style={{ color: 'var(--gray-900)' }}>
-          Seasonal Availability Calendar
+          {t.seasonalAvailability}
         </h2>
         <Button
           variant="outline"
           onClick={() => setView('month')}
           className="border-[var(--citrus-orange)] text-[var(--citrus-orange)]"
         >
-          View by Month
+          {t.viewByMonth}
         </Button>
       </div>
 
       {/* Legend */}
       <Card className="p-4">
         <div className="flex flex-wrap items-center gap-6">
-          <span className="font-semibold" style={{ color: 'var(--gray-900)' }}>Legend:</span>
+          <span className="font-semibold" style={{ color: 'var(--gray-900)' }}>{t.legend}:</span>
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--fresh-green)' }}>
               <Check className="w-4 h-4 text-white" />
             </div>
-            <span className="text-sm" style={{ color: 'var(--gray-700)' }}>Available</span>
+            <span className="text-sm" style={{ color: 'var(--gray-700)' }}>{t.available}</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--gray-300)' }}>
               <X className="w-4 h-4" style={{ color: 'var(--gray-500)' }} />
             </div>
-            <span className="text-sm" style={{ color: 'var(--gray-700)' }}>Not Available</span>
+            <span className="text-sm" style={{ color: 'var(--gray-700)' }}>{t.notAvailable}</span>
           </div>
         </div>
       </Card>
 
       {/* Calendar Table */}
-      <div className="overflow-x-auto">
-        <Card className="p-6">
-          <table className="w-full">
+      <Card className="p-6">
+        <div className="overflow-x-auto -mx-6 px-6">
+          <table className="w-full min-w-max">
             <thead>
               <tr style={{ borderBottom: '2px solid var(--gray-200)' }}>
                 <th className="p-3 text-left font-semibold sticky left-0 bg-white z-10" style={{ color: 'var(--gray-900)' }}>
-                  Product
+                  {t.product}
                 </th>
                 {MONTHS.map((month) => (
                   <th key={month} className="p-3 text-center font-medium min-w-[80px]" style={{ color: 'var(--gray-700)' }}>
@@ -149,7 +152,7 @@ export function SeasonalCalendar() {
                 >
                   <td className="p-3 font-medium sticky left-0 bg-white z-10" style={{ color: 'var(--gray-900)' }}>
                     <div className="flex items-center gap-3">
-                      <div className="text-2xl">{getCategoryEmoji(product.category)}</div>
+                      <div className="text-2xl">{getProductEmoji(product.name)}</div>
                       <span>{product.name}</span>
                     </div>
                   </td>
@@ -172,19 +175,32 @@ export function SeasonalCalendar() {
               ))}
             </tbody>
           </table>
-        </Card>
-      </div>
+        </div>
+      </Card>
     </div>
   );
 }
 
-function getCategoryEmoji(category: string) {
+function getProductEmoji(productName: string) {
   const emojis: Record<string, string> = {
-    citrus: '🍊',
-    vegetables: '🥬',
-    berries: '🍓',
-    lemons: '🍋',
-    grapes: '🍇',
+    'Navel Orange': '🍊',
+    'Valencia Orange': '🍊',
+    'Lanylet Orange': '🍊',
+    'Grapefruit': '🍊',
+    'Murcott': '🍊',
+    'Vermont': '🍊',
+    'Fresh Lemons': '🍋',
+    'Pomegranates': '🍎',
+    'Fresh Grapes': '🍇',
+    'Mango': '🥭',
+    'Strawberries': '🍓',
+    'Fresh Vegetables': '🥬',
+    'Green Beans': '🫘',
+    'Lettuce Al-Kabouchy': '🥬',
+    'Red Onion': '🧅',
+    'Golden Onion': '🧅',
+    'Garlic': '🧄',
+    'Colored Pepper': '🫑',
   };
-  return emojis[category] || '🌱';
+  return emojis[productName] || '🌱';
 }
