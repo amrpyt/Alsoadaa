@@ -175,6 +175,22 @@ export interface Translations {
   october: string;
   november: string;
   december: string;
+  
+  // Categories
+  citrus: string;
+  vegetables: string;
+  berries: string;
+  lemons: string;
+  grapes: string;
+  
+  // Seasons
+  seasonInSeason: string;
+  seasonPeak: string;
+  seasonComingSoon: string;
+  seasonLastWeeks: string;
+  
+  // Common
+  viewDetails: string;
 }
 
 export const translations: Record<Language, Translations> = {
@@ -353,6 +369,22 @@ export const translations: Record<Language, Translations> = {
     october: 'October',
     november: 'November',
     december: 'December',
+    
+    // Categories
+    citrus: 'Citrus',
+    vegetables: 'Vegetables',
+    berries: 'Berries',
+    lemons: 'Lemons',
+    grapes: 'Grapes',
+    
+    // Seasons
+    seasonInSeason: 'In Season',
+    seasonPeak: 'Peak Season',
+    seasonComingSoon: 'Coming Soon',
+    seasonLastWeeks: 'Last Weeks',
+    
+    // Common
+    viewDetails: 'View Details',
   },
   ar: {
     // Header
@@ -471,6 +503,80 @@ export const translations: Record<Language, Translations> = {
     october: 'أكتوبر',
     november: 'نوفمبر',
     december: 'ديسمبر',
+    
+    // Categories
+    citrus: 'حمضيات',
+    vegetables: 'خضروات',
+    berries: 'توت',
+    lemons: 'ليمون',
+    grapes: 'عنب',
+    
+    // Seasons
+    seasonInSeason: 'في الموسم',
+    seasonPeak: 'موسم الذروة',
+    seasonComingSoon: 'قريباً',
+    seasonLastWeeks: 'الأسابيع الأخيرة',
+    
+    // Common
+    viewDetails: 'عرض التفاصيل',
+    
+    // Quote Form (missing from ar)
+    contactInformationStep: 'معلومات الاتصال',
+    productSelectionStep: 'اختيار المنتجات',
+    additionalDetailsStep: 'تفاصيل إضافية',
+    companyNameLabel: 'اسم الشركة *',
+    contactPersonLabel: 'الشخص المسؤول *',
+    emailAddressLabel: 'البريد الإلكتروني *',
+    phoneNumberLabel: 'رقم الهاتف *',
+    selectCountryPlaceholder: 'اختر دولتك',
+    selectProductsLabel: 'اختر المنتجات المهتم بها *',
+    estimatedQuantityLabel: 'الكمية المقدرة *',
+    selectQuantityPlaceholder: 'اختر نطاق الكمية',
+    deliveryTimeframeLabel: 'الإطار الزمني المفضل للتسليم *',
+    deliveryTimeframePlaceholder: 'متى تحتاج التسليم؟',
+    additionalMessageLabel: 'رسالة إضافية (اختياري)',
+    optionalText: 'اختياري',
+    backButton: 'رجوع',
+    nextButton: 'التالي',
+    submitButton: 'إرسال',
+    clearFormButton: 'مسح النموذج',
+    quoteSubmittedTitle: 'تم إرسال طلب العرض!',
+    quoteSubmittedMessage: 'شكراً لاهتمامك بمنتجاتنا. لقد استلمنا طلبك وسنراجعه قريباً.',
+    referenceNumberLabel: 'الرقم المرجعي',
+    saveReferenceText: 'احفظ هذا الرقم لسجلاتك',
+    confirmationEmailLabel: 'بريد التأكيد',
+    confirmationEmailMessage: 'تم إرسال بريد تأكيد إلى',
+    responseTimeLabel: 'وقت الرد',
+    responseTimeMessage: 'سيرد فريقنا خلال 24-48 ساعة',
+    yourSelectionLabel: 'اختيارك',
+    productsLabel: 'المنتجات',
+    quantityLabel: 'الكمية',
+    deliveryLabel: 'التسليم',
+    backToHomeButton: 'العودة للرئيسية',
+    submitAnotherButton: 'إرسال طلب آخر',
+    needHelpText: 'تحتاج مساعدة فورية؟',
+    contactSalesLink: 'اتصل بفريق المبيعات',
+    errorTitle: 'خطأ',
+    errorWhatToDo: 'ماذا تفعل:',
+    errorCheckConnection: 'تحقق من اتصالك بالإنترنت',
+    errorVerifyFields: 'تحقق من ملء جميع الحقول المطلوبة',
+    errorTryAgain: 'حاول الإرسال مرة أخرى',
+    errorContactSupport: 'إذا استمرت المشكلة، اتصل بالدعم',
+    loadingProductsText: 'جاري تحميل المنتجات...',
+    unableToLoadProductsTitle: 'تعذر تحميل المنتجات',
+    unableToLoadProductsMessage: 'يرجى التحقق من اتصالك بالإنترنت والمحاولة مرة أخرى.',
+    retryButton: 'إعادة المحاولة',
+    noProductsTitle: 'لا توجد منتجات متاحة',
+    noProductsMessage: 'لا توجد حالياً منتجات متاحة لاختيار اللغة الخاص بك.',
+    refreshButton: 'تحديث',
+    containers1to5: '1-5 حاويات',
+    containers5to20: '5-20 حاوية',
+    containers20to50: '20-50 حاوية',
+    containers50plus: '50+ حاوية',
+    deliveryImmediate: 'فوري (خلال أسبوعين)',
+    deliveryMonth: 'خلال شهر',
+    deliveryQuarter: 'خلال 3 أشهر',
+    deliveryFlexible: 'مرن',
   },
   ru: {
     // Header
@@ -589,5 +695,79 @@ export const translations: Record<Language, Translations> = {
     october: 'Октябрь',
     november: 'Ноябрь',
     december: 'Декабрь',
+    
+    // Categories
+    citrus: 'Цитрусовые',
+    vegetables: 'Овощи',
+    berries: 'Ягоды',
+    lemons: 'Лимоны',
+    grapes: 'Виноград',
+    
+    // Seasons
+    seasonInSeason: 'В сезоне',
+    seasonPeak: 'Пиковый сезон',
+    seasonComingSoon: 'Скоро',
+    seasonLastWeeks: 'Последние недели',
+    
+    // Common
+    viewDetails: 'Посмотреть детали',
+    
+    // Quote Form (missing from ru)
+    contactInformationStep: 'Контактная информация',
+    productSelectionStep: 'Выбор продуктов',
+    additionalDetailsStep: 'Дополнительные детали',
+    companyNameLabel: 'Название компании *',
+    contactPersonLabel: 'Контактное лицо *',
+    emailAddressLabel: 'Адрес электронной почты *',
+    phoneNumberLabel: 'Номер телефона *',
+    selectCountryPlaceholder: 'Выберите вашу страну',
+    selectProductsLabel: 'Выберите интересующие продукты *',
+    estimatedQuantityLabel: 'Ориентировочное количество *',
+    selectQuantityPlaceholder: 'Выберите диапазон количества',
+    deliveryTimeframeLabel: 'Предпочтительные сроки доставки *',
+    deliveryTimeframePlaceholder: 'Когда вам нужна доставка?',
+    additionalMessageLabel: 'Дополнительное сообщение (необязательно)',
+    optionalText: 'Необязательно',
+    backButton: 'Назад',
+    nextButton: 'Далее',
+    submitButton: 'Отправить',
+    clearFormButton: 'Очистить форму',
+    quoteSubmittedTitle: 'Запрос предложения отправлен!',
+    quoteSubmittedMessage: 'Спасибо за ваш интерес к нашим продуктам. Мы получили ваш запрос и скоро его рассмотрим.',
+    referenceNumberLabel: 'Номер ссылки',
+    saveReferenceText: 'Сохраните этот номер для ваших записей',
+    confirmationEmailLabel: 'Подтверждение по электронной почте',
+    confirmationEmailMessage: 'Письмо с подтверждением отправлено на',
+    responseTimeLabel: 'Время ответа',
+    responseTimeMessage: 'Наша команда ответит в течение 24-48 часов',
+    yourSelectionLabel: 'Ваш выбор',
+    productsLabel: 'Продукты',
+    quantityLabel: 'Количество',
+    deliveryLabel: 'Доставка',
+    backToHomeButton: 'Вернуться на главную',
+    submitAnotherButton: 'Отправить еще один запрос',
+    needHelpText: 'Нужна немедленная помощь?',
+    contactSalesLink: 'Свяжитесь с нашим отделом продаж',
+    errorTitle: 'Ошибка',
+    errorWhatToDo: 'Что делать:',
+    errorCheckConnection: 'Проверьте подключение к интернету',
+    errorVerifyFields: 'Убедитесь, что все обязательные поля заполнены',
+    errorTryAgain: 'Попробуйте отправить снова',
+    errorContactSupport: 'Если проблема сохраняется, обратитесь в службу поддержки',
+    loadingProductsText: 'Загрузка продуктов...',
+    unableToLoadProductsTitle: 'Не удалось загрузить продукты',
+    unableToLoadProductsMessage: 'Пожалуйста, проверьте подключение к интернету и попробуйте снова.',
+    retryButton: 'Повторить',
+    noProductsTitle: 'Нет доступных продуктов',
+    noProductsMessage: 'В настоящее время нет доступных продуктов для выбранного вами языка.',
+    refreshButton: 'Обновить',
+    containers1to5: '1-5 контейнеров',
+    containers5to20: '5-20 контейнеров',
+    containers20to50: '20-50 контейнеров',
+    containers50plus: '50+ контейнеров',
+    deliveryImmediate: 'Немедленно (в течение 2 недель)',
+    deliveryMonth: 'В течение 1 месяца',
+    deliveryQuarter: 'В течение 3 месяцев',
+    deliveryFlexible: 'Гибко',
   },
 };

@@ -13,9 +13,46 @@ import {
   ChevronLeft,
   ChevronRight
 } from 'lucide-react';
-import { products, testimonials } from '../lib/mockData';
+import { testimonials } from '../lib/mockData';
 import { useRouter } from '../lib/router';
 import { useLanguage } from '../lib/LanguageContext';
+
+// TODO: Migrate HomePage to fetch featured products from Sanity
+// For now, using minimal product stubs for featured section
+const featuredProductStubs = [
+  {
+    id: '1',
+    slug: 'navel-orange',
+    name: 'Navel Orange',
+    category: 'citrus' as const,
+    season: 'peak' as const,
+    image: 'https://images.unsplash.com/photo-1740242386780-20d3dc753ca1?w=800',
+  },
+  {
+    id: '7',
+    slug: 'grapefruit',
+    name: 'Grapefruit',
+    category: 'citrus' as const,
+    season: 'in-season' as const,
+    image: '/grapefruit-2.jpg',
+  },
+  {
+    id: '2',
+    slug: 'pomegranates',
+    name: 'Pomegranates',
+    category: 'berries' as const,
+    season: 'in-season' as const,
+    image: 'https://images.unsplash.com/photo-1541344999736-83eca272f6fc?w=800',
+  },
+  {
+    id: '3',
+    slug: 'fresh-grapes',
+    name: 'Fresh Grapes',
+    category: 'grapes' as const,
+    season: 'in-season' as const,
+    image: 'https://images.unsplash.com/photo-1596363505729-4190a9506133?w=800',
+  },
+];
 
 export function HomePage() {
   const { navigate } = useRouter();
@@ -24,13 +61,7 @@ export function HomePage() {
   const [scrollRotation, setScrollRotation] = useState(0);
   const citrusRef = useRef<HTMLDivElement>(null);
 
-  // Featured products: Navel Orange, Grapefruit, Pomegranates, Fresh Grapes
-  const featuredProducts = [
-    products[0], // Navel Orange
-    products[6], // Grapefruit
-    products[1], // Pomegranates
-    products[2], // Fresh Grapes
-  ];
+  const featuredProducts = featuredProductStubs;
 
   const nextTestimonial = () => {
     setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
@@ -46,7 +77,6 @@ export function HomePage() {
         const rect = citrusRef.current.getBoundingClientRect();
         const windowHeight = window.innerHeight;
         const elementTop = rect.top;
-        const elementHeight = rect.height;
         
         // Calculate scroll progress when element is in viewport (0 to 1)
         // Start at 20% when element enters viewport, reach 0% when fully scrolled

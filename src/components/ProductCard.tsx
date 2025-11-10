@@ -1,5 +1,7 @@
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { getImageUrl } from '../lib/sanity';
+import { useLanguage } from '../lib/LanguageContext';
+import { translations } from '../lib/translations';
 import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
 
 interface ProductCardProps {
@@ -18,14 +20,17 @@ const categoryColors = {
   grapes: { bg: 'var(--grape-purple)', chip: 'rgba(142, 36, 170, 0.12)' },
 };
 
-const seasonBadges = {
-  'in-season': { emoji: '🟢', text: 'In Season!', bg: 'var(--fresh-green-bg)', color: 'var(--fresh-green)' },
-  'peak': { emoji: '⭐', text: 'Peak Season!', bg: 'var(--citrus-orange-bg)', color: 'var(--citrus-orange)' },
-  'coming-soon': { emoji: '🟡', text: 'Coming Soon', bg: 'var(--lemon-yellow-bg)', color: '#C9A000' },
-  'last-weeks': { emoji: '🔔', text: 'Last Weeks', bg: 'var(--berry-red-bg)', color: 'var(--berry-red)' },
-};
-
 export function ProductCard({ name, image, category, season, certifications = [] }: ProductCardProps) {
+  const { language } = useLanguage();
+  const t = translations[language];
+  
+  const seasonBadges = {
+    'in-season': { emoji: '🟢', text: t.seasonInSeason, bg: 'var(--fresh-green-bg)', color: 'var(--fresh-green)' },
+    'peak': { emoji: '⭐', text: t.seasonPeak, bg: 'var(--citrus-orange-bg)', color: 'var(--citrus-orange)' },
+    'coming-soon': { emoji: '🟡', text: t.seasonComingSoon, bg: 'var(--lemon-yellow-bg)', color: '#C9A000' },
+    'last-weeks': { emoji: '🔔', text: t.seasonLastWeeks, bg: 'var(--berry-red-bg)', color: 'var(--berry-red)' },
+  };
+  
   const badge = seasonBadges[season];
   const colors = categoryColors[category];
   const uniqueCertifications = Array.from(new Set(certifications.filter(Boolean)));
@@ -69,10 +74,10 @@ export function ProductCard({ name, image, category, season, certifications = []
         <div className="flex flex-1 flex-col gap-4 p-4 sm:p-5">
           <div className="space-y-2">
             <span
-              className="inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold capitalize"
+              className="inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold"
               style={{ backgroundColor: colors.chip, color: colors.bg }}
             >
-              {category}
+              {t[category as keyof typeof t] as string}
             </span>
 
             <h3 className="text-base font-semibold leading-tight text-gray-900 transition-colors group-hover:text-gray-800 sm:text-lg">
@@ -97,7 +102,7 @@ export function ProductCard({ name, image, category, season, certifications = []
           <span
             className="mt-auto inline-flex items-center gap-2 text-sm font-semibold text-[var(--gray-700)] transition-colors group-hover:text-[var(--gray-900)]"
           >
-            View details
+            {t.viewDetails}
             <span style={{ color: colors.bg }}>→</span>
           </span>
         </div>

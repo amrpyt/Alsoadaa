@@ -10,7 +10,10 @@
     "preview": "vite preview",
     "migrate": "tsx scripts/migrate-to-sanity.ts",
     "publish-docs": "tsx scripts/publish-documents.ts",
-    "debug-products": "tsx scripts/debug-products.ts"
+    "debug-products": "tsx scripts/debug-products.ts",
+    "translate": "tsx scripts/translate-products.ts",
+    "complete-data": "tsx scripts/complete-data-entry.ts",
+    "import-translations": "tsx scripts/import-translations-to-sanity.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

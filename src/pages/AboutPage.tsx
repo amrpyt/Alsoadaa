@@ -11,7 +11,6 @@ export function AboutPage() {
   const { language } = useLanguage();
   const [pageContent, setPageContent] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchPage = async () => {
@@ -24,7 +23,6 @@ export function AboutPage() {
         setPageContent(data);
       } catch (err) {
         console.error('Failed to fetch about page:', err);
-        setError('Failed to load page content.');
       } finally {
         setLoading(false);
       }

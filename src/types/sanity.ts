@@ -1,4 +1,4 @@
-import type { SanityDocument, SanityImageAssetDocument } from '@sanity/client'
+import type { SanityDocument } from '@sanity/client'
 import type { PortableTextBlock } from '@portabletext/react'
 
 export type Language = 'ar' | 'en' | 'ru'

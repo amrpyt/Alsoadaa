@@ -61,7 +61,6 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [referenceNumber, setReferenceNumber] = useState<string | null>(null);
-  const [submissionTime, setSubmissionTime] = useState<Date | null>(null);
   const [retryCount, setRetryCount] = useState(0);
   const [fetchFailed, setFetchFailed] = useState(false);
   const [isRetrying, setIsRetrying] = useState(false);
@@ -366,7 +365,6 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
       // Generate reference number from Sanity document ID
       const refNumber = `QR-${result._id.substring(0, 8).toUpperCase()}`;
       setReferenceNumber(refNumber);
-      setSubmissionTime(new Date());
       setSubmitted(true);
       // Clear cached data on successful submission
       clearCachedData();
@@ -468,7 +466,6 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
               });
               setCurrentStep(1);
               setReferenceNumber(null);
-              setSubmissionTime(null);
             }}
             variant="outline"
           >

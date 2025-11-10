@@ -108,6 +108,36 @@ export default defineConfig({
             S.documentTypeListItem('calendarEvent').title('Calendar Events'),
             S.divider(),
             S.documentTypeListItem('formSubmission').title('Form Submissions'),
+            S.divider(),
+            S.listItem()
+              .title('Site Translations')
+              .child(
+                S.list()
+                  .title('Translations by Language')
+                  .items([
+                    S.listItem()
+                      .title('Arabic (العربية)')
+                      .child(
+                        S.documentTypeList('siteTranslation')
+                          .title('Arabic Translations')
+                          .filter('_type == "siteTranslation" && language == "ar"')
+                      ),
+                    S.listItem()
+                      .title('English')
+                      .child(
+                        S.documentTypeList('siteTranslation')
+                          .title('English Translations')
+                          .filter('_type == "siteTranslation" && language == "en"')
+                      ),
+                    S.listItem()
+                      .title('Russian (Русский)')
+                      .child(
+                        S.documentTypeList('siteTranslation')
+                          .title('Russian Translations')
+                          .filter('_type == "siteTranslation" && language == "ru"')
+                      ),
+                  ])
+              ),
           ])
     }),
     visionTool(),
@@ -115,7 +145,7 @@ export default defineConfig({
       translate: {
         document: {
           languageField: 'language',
-          documentTypes: ['product', 'page', 'service'],
+          documentTypes: ['product', 'page', 'service', 'siteTranslation'],
         },
       },
     }),
