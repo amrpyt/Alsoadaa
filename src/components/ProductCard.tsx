@@ -37,72 +37,72 @@ export function ProductCard({ name, image, category, season, certifications = []
   return (
     <div className="group cursor-pointer h-full">
       <div 
-        className="relative overflow-hidden bg-white shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 h-full flex flex-col"
-        style={{ borderRadius: '20px' }}
+        className="relative overflow-hidden bg-white shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-1 h-full flex flex-col"
+        style={{ borderRadius: '16px' }}
       >
-        {/* Image Container - Larger aspect ratio */}
-        <div className="aspect-[4/3] relative overflow-hidden">
+        {/* Image Container - Responsive aspect ratio */}
+        <div className="aspect-[3/2] md:aspect-[4/3] lg:aspect-square relative overflow-hidden">
           <ImageWithFallback
             src={imageUrl}
             alt={name}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
             loading="lazy"
           />
           
           {/* Gradient overlay */}
           <div 
-            className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"
+            className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"
             style={{ pointerEvents: 'none' }}
           />
           
-          {/* Season Badge - Larger and more prominent */}
+          {/* Season Badge - Compact */}
           <div 
-            className="absolute top-4 right-4 px-4 py-2 rounded-full flex items-center gap-2 shadow-lg backdrop-blur-sm"
+            className="absolute top-3 right-3 px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-md backdrop-blur-sm"
             style={{ 
               backgroundColor: badge.bg,
               border: `2px solid ${badge.color}`
             }}
           >
-            <span className="text-base md:text-lg">{badge.emoji}</span>
-            <span className="text-sm md:text-base font-semibold" style={{ color: badge.color }}>
+            <span className="text-sm">{badge.emoji}</span>
+            <span className="text-xs font-semibold" style={{ color: badge.color }}>
               {badge.text}
             </span>
           </div>
         </div>
 
-        {/* Card Content - More spacious */}
-        <div className="flex flex-col flex-1 p-5 md:p-6">
-          {/* Product Name - Larger font */}
-          <h3 className="text-lg md:text-xl lg:text-2xl font-bold mb-3 md:mb-4" style={{ color: 'var(--gray-900)' }}>
+        {/* Card Content - Compact but readable */}
+        <div className="flex flex-col flex-1 p-4">
+          {/* Product Name - Balanced sizing */}
+          <h3 className="text-base md:text-lg lg:text-xl font-bold mb-3 line-clamp-2" style={{ color: 'var(--gray-900)' }}>
             {name}
           </h3>
           
-          {/* Certifications - Larger and more prominent */}
+          {/* Certifications - Compact badges */}
           {certifications.length > 0 && (
-            <div className="flex items-center gap-3 md:gap-4 mt-auto">
+            <div className="flex items-center gap-2 mt-auto">
               {certifications.includes('ISO') && (
                 <div 
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg" 
+                  className="flex items-center gap-1 px-2.5 py-1 rounded-md" 
                   style={{ backgroundColor: 'var(--trust-blue-bg)' }}
                 >
-                  <span className="text-sm md:text-base font-semibold" style={{ color: 'var(--trust-blue)' }}>✓ ISO</span>
+                  <span className="text-xs md:text-sm font-semibold" style={{ color: 'var(--trust-blue)' }}>✓ ISO</span>
                 </div>
               )}
               {certifications.includes('GAP') && (
                 <div 
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg" 
+                  className="flex items-center gap-1 px-2.5 py-1 rounded-md" 
                   style={{ backgroundColor: 'var(--trust-blue-bg)' }}
                 >
-                  <span className="text-sm md:text-base font-semibold" style={{ color: 'var(--trust-blue)' }}>✓ GAP</span>
+                  <span className="text-xs md:text-sm font-semibold" style={{ color: 'var(--trust-blue)' }}>✓ GAP</span>
                 </div>
               )}
             </div>
           )}
 
           {/* View Details hint */}
-          <div className="mt-4 pt-4 border-t border-gray-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div className="mt-3 pt-3 border-t border-gray-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             <div 
-              className="flex items-center justify-center gap-2 text-sm md:text-base font-semibold"
+              className="flex items-center justify-center gap-1.5 text-sm font-semibold"
               style={{ color: colors.bg }}
             >
               <span>View Details</span>
