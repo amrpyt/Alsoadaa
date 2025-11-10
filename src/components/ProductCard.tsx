@@ -1,96 +1,110 @@
 import { ImageWithFallback } from './figma/ImageWithFallback';
+import { getImageUrl } from '../lib/sanity';
+import { useLanguage } from '../lib/LanguageContext';
+import { translations } from '../lib/translations';
+import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
 
 interface ProductCardProps {
   name: string;
-  image: string;
+  image: SanityImageSource | string;
   category: 'citrus' | 'vegetables' | 'berries' | 'lemons' | 'grapes';
   season: 'in-season' | 'coming-soon' | 'peak' | 'last-weeks';
   certifications?: string[];
 }
 
 const categoryColors = {
-  citrus: { bg: 'var(--citrus-orange)', light: 'var(--citrus-orange-bg)' },
-  vegetables: { bg: 'var(--fresh-green)', light: 'var(--fresh-green-bg)' },
-  berries: { bg: 'var(--berry-red)', light: 'var(--berry-red-bg)' },
-  lemons: { bg: 'var(--lemon-yellow)', light: 'var(--lemon-yellow-bg)' },
-  grapes: { bg: 'var(--grape-purple)', light: 'var(--grape-purple-bg)' },
-};
-
-const seasonBadges = {
-  'in-season': { emoji: '🟢', text: 'In Season!', bg: 'var(--fresh-green-bg)', color: 'var(--fresh-green)' },
-  'peak': { emoji: '⭐', text: 'Peak Season!', bg: 'var(--citrus-orange-bg)', color: 'var(--citrus-orange)' },
-  'coming-soon': { emoji: '🟡', text: 'Coming Soon', bg: 'var(--lemon-yellow-bg)', color: '#C9A000' },
-  'last-weeks': { emoji: '🔔', text: 'Last Weeks', bg: 'var(--berry-red-bg)', color: 'var(--berry-red)' },
+  citrus: { bg: 'var(--citrus-orange)', chip: 'rgba(255, 140, 66, 0.12)' },
+  vegetables: { bg: 'var(--fresh-green)', chip: 'rgba(76, 175, 80, 0.12)' },
+  berries: { bg: 'var(--berry-red)', chip: 'rgba(229, 57, 53, 0.12)' },
+  lemons: { bg: 'var(--lemon-yellow)', chip: 'rgba(253, 216, 53, 0.18)' },
+  grapes: { bg: 'var(--grape-purple)', chip: 'rgba(142, 36, 170, 0.12)' },
 };
 
 export function ProductCard({ name, image, category, season, certifications = [] }: ProductCardProps) {
+  const { language } = useLanguage();
+  const t = translations[language];
+  
+  const seasonBadges = {
+    'in-season': { emoji: '🟢', text: t.seasonInSeason, bg: 'var(--fresh-green-bg)', color: 'var(--fresh-green)' },
+    'peak': { emoji: '⭐', text: t.seasonPeak, bg: 'var(--citrus-orange-bg)', color: 'var(--citrus-orange)' },
+    'coming-soon': { emoji: '🟡', text: t.seasonComingSoon, bg: 'var(--lemon-yellow-bg)', color: '#C9A000' },
+    'last-weeks': { emoji: '🔔', text: t.seasonLastWeeks, bg: 'var(--berry-red-bg)', color: 'var(--berry-red)' },
+  };
+  
   const badge = seasonBadges[season];
   const colors = categoryColors[category];
+  const uniqueCertifications = Array.from(new Set(certifications.filter(Boolean)));
+  
+  // Get optimized image URL from Sanity or use as-is if it's a string URL
+  const imageUrl = typeof image === 'string' 
+    ? image 
+    : getImageUrl(image, 800, 600) || '';
 
   return (
-    <div className="group cursor-pointer">
+    <div className="group cursor-pointer h-full">
       <div 
-        className="relative overflow-hidden bg-white shadow-md transition-all duration-300 hover:scale-[1.03] hover:shadow-xl"
-        style={{ borderRadius: '16px' }}
+        className="relative flex h-full flex-col overflow-hidden rounded-2xl border border-gray-100/80 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
       >
-        {/* Image */}
-        <div className="aspect-video relative overflow-hidden">
+        {/* Image Container */}
+        <div className="relative aspect-[3/2] sm:aspect-[4/3] lg:aspect-square overflow-hidden">
           <ImageWithFallback
-            src={image}
+            src={imageUrl}
             alt={name}
-            className="w-full h-full object-cover"
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+            loading="lazy"
           />
           
-          {/* Gradient overlay on bottom for text readability */}
+          {/* Gradient overlay */}
           <div 
-            className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"
+            className="absolute inset-0 bg-gradient-to-b from-black/0 via-black/0 to-black/25"
             style={{ pointerEvents: 'none' }}
           />
           
-          {/* Season Badge - Top Right */}
+          {/* Season Badge */}
           <div 
-            className="absolute top-3 right-3 px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-md"
-            style={{ 
-              backgroundColor: badge.bg,
-              border: `2px solid ${badge.color}`
-            }}
+            className="absolute left-4 top-4 inline-flex items-center gap-1 rounded-full border border-white/60 bg-white/90 px-2.5 py-1 text-xs font-semibold shadow-sm backdrop-blur"
+            style={{ color: badge.color }}
           >
-            <span className="text-sm">{badge.emoji}</span>
-            <span className="text-xs font-medium" style={{ color: badge.color }}>
-              {badge.text}
-            </span>
-          </div>
-          
-          {/* Product Name - Bottom Overlay */}
-          <div className="absolute bottom-0 left-0 right-0 p-4">
-            <h3 className="text-xl font-semibold text-white">{name}</h3>
+            <span>{badge.emoji}</span>
+            <span>{badge.text}</span>
           </div>
         </div>
 
-        {/* Certifications - Bottom of card */}
-        {certifications.length > 0 && (
-          <div className="px-4 py-3 flex items-center gap-3">
-            {certifications.includes('ISO') && (
-              <div className="flex items-center gap-1">
-                <span className="text-xs font-medium" style={{ color: 'var(--trust-blue)' }}>✓ ISO</span>
-              </div>
-            )}
-            {certifications.includes('GAP') && (
-              <div className="flex items-center gap-1">
-                <span className="text-xs font-medium" style={{ color: 'var(--trust-blue)' }}>✓ GAP</span>
-              </div>
-            )}
-          </div>
-        )}
+        {/* Card Content */}
+        <div className="flex flex-1 flex-col gap-4 p-4 sm:p-5">
+          <div className="space-y-2">
+            <span
+              className="inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold"
+              style={{ backgroundColor: colors.chip, color: colors.bg }}
+            >
+              {t[category as keyof typeof t] as string}
+            </span>
 
-        {/* Hover: View Details */}
-        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
-          <div 
-            className="px-6 py-2 rounded-lg font-medium text-white"
-            style={{ backgroundColor: colors.bg }}
-          >
-            View Details
+            <h3 className="text-base font-semibold leading-tight text-gray-900 transition-colors group-hover:text-gray-800 sm:text-lg">
+            {name}
+          </h3>
           </div>
+          
+          {uniqueCertifications.length > 0 && (
+            <div className="flex flex-wrap gap-2 text-xs font-medium text-[var(--trust-blue)]">
+              {uniqueCertifications.map((cert) => (
+                <span
+                  key={cert}
+                  className="inline-flex items-center gap-1 rounded-full bg-[var(--trust-blue-bg)] px-2.5 py-1"
+                >
+                  <span>✓</span>
+                  <span>{cert}</span>
+                </span>
+              ))}
+            </div>
+          )}
+
+          <span
+            className="mt-auto inline-flex items-center gap-2 text-sm font-semibold text-[var(--gray-700)] transition-colors group-hover:text-[var(--gray-900)]"
+          >
+            {t.viewDetails}
+            <span style={{ color: colors.bg }}>→</span>
+          </span>
         </div>
       </div>
     </div>

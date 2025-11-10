@@ -1,8 +1,46 @@
+import { useState, useEffect } from 'react';
 import { Card } from '../components/ui/card';
-import { Award, Globe, TrendingUp, Users, Shield, Leaf } from 'lucide-react';
+import { Award, Globe, TrendingUp, Users, Shield, Leaf, Loader2 } from 'lucide-react';
+import { useLanguage } from '../lib/LanguageContext';
+import { client } from '../lib/sanity';
+import { pageBySlugQuery } from '../lib/queries';
+import { PortableText } from '../components/PortableText';
 import { certifications, companyStats } from '../lib/mockData';
 
 export function AboutPage() {
+  const { language } = useLanguage();
+  const [pageContent, setPageContent] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchPage = async () => {
+      try {
+        setLoading(true);
+        const data = await client.fetch(pageBySlugQuery, { 
+          slug: 'about',
+          lang: language 
+        });
+        setPageContent(data);
+      } catch (err) {
+        console.error('Failed to fetch about page:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPage();
+  }, [language]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="w-12 h-12 animate-spin text-[var(--citrus-orange)] mx-auto mb-4" />
+          <p className="text-lg" style={{ color: 'var(--gray-600)' }}>Loading...</p>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="min-h-screen bg-white">
       {/* Hero */}
@@ -55,25 +93,14 @@ export function AboutPage() {
         </div>
       </div>
 
-      {/* Our Story */}
-      <div className="py-16">
-        <div className="max-w-4xl mx-auto px-6 lg:px-16">
-          <h2 className="text-3xl font-bold mb-6 text-center" style={{ color: 'var(--gray-900)' }}>
-            Our Story
-          </h2>
-          <div className="space-y-6 text-lg" style={{ color: 'var(--gray-700)' }}>
-            <p>
-              Founded in 2009, Al Soadaa Import & Export Company has grown to become one of Egypt's leading agricultural export companies. What started as a small family business with a passion for quality has evolved into a trusted partner for importers and distributors across 50+ countries.
-            </p>
-            <p>
-              Our journey began in the fertile lands of the Nile Delta, where we work directly with local farmers to ensure the highest quality produce. Through sustainable farming practices and modern agricultural techniques, we've built a reputation for delivering fresh, premium Egyptian fruits and vegetables to markets worldwide.
-            </p>
-            <p>
-              Today, we export over 1,000 containers annually, maintaining the same commitment to quality and customer satisfaction that defined our first shipment. Every product that leaves our facilities meets rigorous international standards, backed by ISO 9001 and Global G.A.P certifications.
-            </p>
+      {/* Dynamic Content from Sanity */}
+      {pageContent?.content && (
+        <div className="py-16">
+          <div className="max-w-4xl mx-auto px-6 lg:px-16">
+            <PortableText value={pageContent.content} />
           </div>
         </div>
-      </div>
+      )}
 
       {/* Mission & Values */}
       <div className="py-16" style={{ backgroundColor: 'var(--gray-50)' }}>

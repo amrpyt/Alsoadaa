@@ -1,0 +1,122 @@
+import { Card } from '../components/ui/card';
+import { useLanguage } from '../lib/LanguageContext';
+import { Package, Shield, Truck } from 'lucide-react';
+
+export function PackingPage() {
+  const { t } = useLanguage();
+
+  return (
+    <div className="min-h-screen bg-white">
+      {/* Header */}
+      <div className="bg-gradient-to-r from-[var(--fresh-green)] to-[var(--fresh-green-hover)] py-16">
+        <div className="max-w-7xl mx-auto px-6 lg:px-16">
+          <h1 className="text-4xl font-bold text-white mb-4">{t.packing}</h1>
+          <p className="text-xl text-white/90">{t.processing}</p>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-6 lg:px-16 py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+          {/* Content */}
+          <div>
+            <h2 className="text-3xl font-bold mb-6" style={{ color: 'var(--gray-900)' }}>
+              {t.packing}
+            </h2>
+            
+            <Card className="p-6 mb-6">
+              <p className="text-lg mb-4" style={{ color: 'var(--gray-700)' }}>
+                The packing process is preceded by the sizing process, which is made by the sizing machine (Caesar). This machine distributes the fruits according to sizes in its appropriate packing basin.
+              </p>
+
+              <p className="text-lg mb-4" style={{ color: 'var(--gray-700)' }}>
+                In order to perform the final packaging of the fruits inside the carton in a way that insures the accuracy and quality of packing required for markets.
+              </p>
+
+              <p className="text-lg" style={{ color: 'var(--gray-700)' }}>
+                The cartons are closed mechanically by a sticking machine, which is used to close the carton tightly and to ensure its safe arrival to the customer.
+              </p>
+            </Card>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+              <Card className="p-4 text-center">
+                <div className="w-12 h-12 rounded-full mx-auto mb-3 flex items-center justify-center" style={{ backgroundColor: 'var(--fresh-green-bg)' }}>
+                  <Package className="w-6 h-6" style={{ color: 'var(--fresh-green)' }} />
+                </div>
+                <h4 className="font-semibold mb-1" style={{ color: 'var(--gray-900)' }}>
+                  Automated Sizing
+                </h4>
+                <p className="text-sm" style={{ color: 'var(--gray-600)' }}>
+                  Caesar machine for precise sizing
+                </p>
+              </Card>
+
+              <Card className="p-4 text-center">
+                <div className="w-12 h-12 rounded-full mx-auto mb-3 flex items-center justify-center" style={{ backgroundColor: 'var(--citrus-orange-bg)' }}>
+                  <Shield className="w-6 h-6" style={{ color: 'var(--citrus-orange)' }} />
+                </div>
+                <h4 className="font-semibold mb-1" style={{ color: 'var(--gray-900)' }}>
+                  Quality Packing
+                </h4>
+                <p className="text-sm" style={{ color: 'var(--gray-600)' }}>
+                  Accurate carton packaging
+                </p>
+              </Card>
+
+              <Card className="p-4 text-center">
+                <div className="w-12 h-12 rounded-full mx-auto mb-3 flex items-center justify-center" style={{ backgroundColor: 'var(--trust-blue-bg)' }}>
+                  <Truck className="w-6 h-6" style={{ color: 'var(--trust-blue)' }} />
+                </div>
+                <h4 className="font-semibold mb-1" style={{ color: 'var(--gray-900)' }}>
+                  Secure Sealing
+                </h4>
+                <p className="text-sm" style={{ color: 'var(--gray-600)' }}>
+                  Mechanical sticking machine
+                </p>
+              </Card>
+            </div>
+
+            <Card className="p-6 bg-[var(--fresh-green-bg)]">
+              <h3 className="font-semibold text-lg mb-3" style={{ color: 'var(--gray-900)' }}>
+                Packing Standards
+              </h3>
+              <ul className="space-y-2">
+                <li className="flex items-start gap-2">
+                  <span style={{ color: 'var(--fresh-green)' }}>✓</span>
+                  <span style={{ color: 'var(--gray-700)' }}>Automated sizing for consistency</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span style={{ color: 'var(--fresh-green)' }}>✓</span>
+                  <span style={{ color: 'var(--gray-700)' }}>Size-appropriate packing basins</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span style={{ color: 'var(--fresh-green)' }}>✓</span>
+                  <span style={{ color: 'var(--gray-700)' }}>Mechanical carton sealing</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span style={{ color: 'var(--fresh-green)' }}>✓</span>
+                  <span style={{ color: 'var(--gray-700)' }}>Market-ready packaging quality</span>
+                </li>
+              </ul>
+            </Card>
+          </div>
+
+          {/* Image */}
+          <div className="lg:sticky lg:top-24">
+            <Card className="overflow-hidden">
+              <img
+                src="https://images.unsplash.com/photo-1553413077-190dd305871c?w=800&q=80"
+                alt="Packing Process"
+                className="w-full h-auto object-cover"
+              />
+              <div className="p-4 bg-[var(--gray-50)]">
+                <p className="text-sm text-center" style={{ color: 'var(--gray-600)' }}>
+                  Modern packing facility with automated systems
+                </p>
+              </div>
+            </Card>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
