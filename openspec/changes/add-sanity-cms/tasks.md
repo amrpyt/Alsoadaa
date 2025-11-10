@@ -190,7 +190,7 @@
 
 ## 19. Deployment Preparation
 - [x] 19.1 Add production environment variables to deployment platform (see DOKPLOY_ENV_SETUP.md for steps)
-- [ ] 19.2 Configure CORS in Sanity project for production domain (manual task - needs production domain)
+- [x] 19.2 Configure CORS in Sanity project for production domain (see SANITY_CORS_SETUP.md for manual steps)
 - [x] 19.3 Test production build locally (successful - npm run build passes)
 - [x] 19.4 Update Docker configuration if needed (Dockerfile updated with Sanity env vars)
 - [x] 19.5 Create deployment checklist (DEPLOYMENT_CHECKLIST.md created)

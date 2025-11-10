@@ -19,6 +19,6 @@ Keep this managed block so 'openspec update' can refresh the instructions.
 
 <!-- AGENTSBehavior:START -->
 - Use git best practices to manage your changes and commit them to the repository.
-- simple terms, no yapping.
+- simple terms, no yapping. TLDR in simple english, You are talkong to begginer person.
 - DONT CREATE comprehensive guides, just do the job. 
 <!-- AGENTSBehavior:END -->
