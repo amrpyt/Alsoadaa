@@ -8,11 +8,12 @@ A modern, responsive website built with React, TypeScript, Vite, and Tailwind CS
 - ⚡ Fast development with Vite
 - 📱 Fully responsive design
 - 🎯 TypeScript for type safety
-- 🐳 Docker support for easy deployment
+- 🚀 Git-based deployment with Dokploy
 - 🌐 Multi-language support (Arabic, English, Russian)
 - 📝 Sanity.io CMS for content management
 - 🖼️ Optimized image delivery via Sanity CDN
 - 🤖 AI-powered translation with Sanity AI Assist
+- ♻️ Auto-deploy from GitHub commits
 
 ## Getting Started
 
@@ -45,29 +46,37 @@ npm run dev
 
 4. Open [http://localhost:5173](http://localhost:5173) in your browser.
 
-## Docker Deployment
+## Production Deployment
 
-### Build Docker Image
+### Dokploy Deployment (Recommended)
 
+This project is configured for Git-based deployment using Dokploy (similar to Vercel workflow).
+
+#### Quick Start
+
+1. **Push to GitHub:**
 ```bash
-docker build -t alsoadaa-website .
+git push origin main
 ```
 
-### Run with Docker
+2. **Deploy on Dokploy:**
+   - See complete guide: [DOKPLOY_SETUP.md](./DOKPLOY_SETUP.md)
+   - Build Command: `npm install && npm run build`
+   - Output Directory: `dist`
+   - Node.js Version: 18.x or 20.x
 
-```bash
-docker run -p 8080:80 alsoadaa-website
-```
+3. **Add Environment Variables in Dokploy:**
+   - `VITE_SANITY_PROJECT_ID`
+   - `VITE_SANITY_DATASET`
+   - `VITE_SANITY_API_VERSION`
+   - `VITE_SANITY_USE_CDN`
+   - `VITE_SANITY_TOKEN`
 
-### Run with Docker Compose
+#### Auto-Deploy
 
-```bash
-docker-compose up -d
-```
+Enable auto-deploy in Dokploy settings to automatically deploy on every push to main branch.
 
-The application will be available at [http://localhost:8080](http://localhost:8080).
-
-## Building for Production
+### Building for Production
 
 ```bash
 npm run build
@@ -89,8 +98,7 @@ The production-ready files will be in the `dist` directory.
 │   └── sanity.config.ts
 ├── scripts/            # Migration and utility scripts
 ├── public/             # Static assets
-├── Dockerfile          # Docker configuration
-├── nginx.conf          # Nginx configuration
+├── .github/workflows/  # GitHub Actions (build verification)
 └── package.json        # Project dependencies
 ```
 
