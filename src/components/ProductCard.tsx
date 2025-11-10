@@ -35,69 +35,79 @@ export function ProductCard({ name, image, category, season, certifications = []
     : getImageUrl(image, 800, 600) || '';
 
   return (
-    <div className="group cursor-pointer">
+    <div className="group cursor-pointer h-full">
       <div 
-        className="relative overflow-hidden bg-white shadow-md transition-all duration-300 hover:scale-[1.03] hover:shadow-xl"
-        style={{ borderRadius: '16px' }}
+        className="relative overflow-hidden bg-white shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 h-full flex flex-col"
+        style={{ borderRadius: '20px' }}
       >
-        {/* Image */}
-        <div className="aspect-video relative overflow-hidden">
+        {/* Image Container - Larger aspect ratio */}
+        <div className="aspect-[4/3] relative overflow-hidden">
           <ImageWithFallback
             src={imageUrl}
             alt={name}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
             loading="lazy"
           />
           
-          {/* Gradient overlay on bottom for text readability */}
+          {/* Gradient overlay */}
           <div 
-            className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"
+            className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"
             style={{ pointerEvents: 'none' }}
           />
           
-          {/* Season Badge - Top Right */}
+          {/* Season Badge - Larger and more prominent */}
           <div 
-            className="absolute top-3 right-3 px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-md"
+            className="absolute top-4 right-4 px-4 py-2 rounded-full flex items-center gap-2 shadow-lg backdrop-blur-sm"
             style={{ 
               backgroundColor: badge.bg,
               border: `2px solid ${badge.color}`
             }}
           >
-            <span className="text-sm">{badge.emoji}</span>
-            <span className="text-xs font-medium" style={{ color: badge.color }}>
+            <span className="text-base md:text-lg">{badge.emoji}</span>
+            <span className="text-sm md:text-base font-semibold" style={{ color: badge.color }}>
               {badge.text}
             </span>
           </div>
-          
-          {/* Product Name - Bottom Overlay */}
-          <div className="absolute bottom-0 left-0 right-0 p-4">
-            <h3 className="text-xl font-semibold text-white">{name}</h3>
-          </div>
         </div>
 
-        {/* Certifications - Bottom of card */}
-        {certifications.length > 0 && (
-          <div className="px-4 py-3 flex items-center gap-3">
-            {certifications.includes('ISO') && (
-              <div className="flex items-center gap-1">
-                <span className="text-xs font-medium" style={{ color: 'var(--trust-blue)' }}>✓ ISO</span>
-              </div>
-            )}
-            {certifications.includes('GAP') && (
-              <div className="flex items-center gap-1">
-                <span className="text-xs font-medium" style={{ color: 'var(--trust-blue)' }}>✓ GAP</span>
-              </div>
-            )}
-          </div>
-        )}
+        {/* Card Content - More spacious */}
+        <div className="flex flex-col flex-1 p-5 md:p-6">
+          {/* Product Name - Larger font */}
+          <h3 className="text-lg md:text-xl lg:text-2xl font-bold mb-3 md:mb-4" style={{ color: 'var(--gray-900)' }}>
+            {name}
+          </h3>
+          
+          {/* Certifications - Larger and more prominent */}
+          {certifications.length > 0 && (
+            <div className="flex items-center gap-3 md:gap-4 mt-auto">
+              {certifications.includes('ISO') && (
+                <div 
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg" 
+                  style={{ backgroundColor: 'var(--trust-blue-bg)' }}
+                >
+                  <span className="text-sm md:text-base font-semibold" style={{ color: 'var(--trust-blue)' }}>✓ ISO</span>
+                </div>
+              )}
+              {certifications.includes('GAP') && (
+                <div 
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg" 
+                  style={{ backgroundColor: 'var(--trust-blue-bg)' }}
+                >
+                  <span className="text-sm md:text-base font-semibold" style={{ color: 'var(--trust-blue)' }}>✓ GAP</span>
+                </div>
+              )}
+            </div>
+          )}
 
-        {/* Hover: View Details */}
-        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
-          <div 
-            className="px-6 py-2 rounded-lg font-medium text-white"
-            style={{ backgroundColor: colors.bg }}
-          >
-            View Details
+          {/* View Details hint */}
+          <div className="mt-4 pt-4 border-t border-gray-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <div 
+              className="flex items-center justify-center gap-2 text-sm md:text-base font-semibold"
+              style={{ color: colors.bg }}
+            >
+              <span>View Details</span>
+              <span>→</span>
+            </div>
           </div>
         </div>
       </div>
