@@ -1,8 +1,10 @@
 import { ImageWithFallback } from './figma/ImageWithFallback';
+import { getImageUrl } from '../lib/sanity';
+import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
 
 interface ProductCardProps {
   name: string;
-  image: string;
+  image: SanityImageSource | string;
   category: 'citrus' | 'vegetables' | 'berries' | 'lemons' | 'grapes';
   season: 'in-season' | 'coming-soon' | 'peak' | 'last-weeks';
   certifications?: string[];
@@ -26,6 +28,11 @@ const seasonBadges = {
 export function ProductCard({ name, image, category, season, certifications = [] }: ProductCardProps) {
   const badge = seasonBadges[season];
   const colors = categoryColors[category];
+  
+  // Get optimized image URL from Sanity or use as-is if it's a string URL
+  const imageUrl = typeof image === 'string' 
+    ? image 
+    : getImageUrl(image, 800, 600) || '';
 
   return (
     <div className="group cursor-pointer">
@@ -36,9 +43,10 @@ export function ProductCard({ name, image, category, season, certifications = []
         {/* Image */}
         <div className="aspect-video relative overflow-hidden">
           <ImageWithFallback
-            src={image}
+            src={imageUrl}
             alt={name}
             className="w-full h-full object-cover"
+            loading="lazy"
           />
           
           {/* Gradient overlay on bottom for text readability */}

@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card } from './ui/card';
 import { Button } from './ui/button';
-import { Check, X } from 'lucide-react';
-import { products } from '../lib/mockData';
+import { Check, X, Loader2 } from 'lucide-react';
 import { useLanguage } from '../lib/LanguageContext';
-
+import { useRouter } from '../lib/router';
+import { client, getImageUrl } from '../lib/sanity';
+import { allProductsQuery } from '../lib/queries';
 
 const MONTH_KEYS = [
   'january', 'february', 'march', 'april', 'may', 'june',
@@ -12,14 +13,55 @@ const MONTH_KEYS = [
 ] as const;
 
 export function SeasonalCalendar() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const { navigate } = useRouter();
   const [view, setView] = useState<'product' | 'month'>('product');
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
+  const [products, setProducts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        const data = await client.fetch(allProductsQuery, { lang: language });
+        setProducts(data || []);
+      } catch (err) {
+        console.error('Failed to fetch products:', err);
+        setError('Failed to load products.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, [language]);
 
   const MONTHS = [
     t.january, t.february, t.march, t.april, t.may, t.june,
     t.july, t.august, t.september, t.october, t.november, t.december
   ];
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <div className="text-center">
+          <Loader2 className="w-12 h-12 animate-spin text-[var(--citrus-orange)] mx-auto mb-4" />
+          <p className="text-lg" style={{ color: 'var(--gray-600)' }}>Loading calendar...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <Card className="p-12 text-center">
+        <p className="text-lg text-red-600 mb-4">{error}</p>
+        <Button onClick={() => window.location.reload()}>Retry</Button>
+      </Card>
+    );
+  }
 
   if (view === 'month') {
     const monthKey = MONTH_KEYS[selectedMonth];
@@ -59,20 +101,25 @@ export function SeasonalCalendar() {
         {availableProducts.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {availableProducts.map(product => (
-              <Card key={product.id} className="p-4 hover:shadow-lg transition-shadow">
+              <Card key={product._id} className="p-4 hover:shadow-lg transition-shadow cursor-pointer" onClick={() => navigate('product-detail', { slug: product.slug?.current })}>
                 <img
-                  src={product.image}
-                  alt={product.name}
+                  src={typeof product.image === 'string' ? product.image : getImageUrl(product.image, 400, 300) || ''}
+                  alt={product.title}
                   className="w-full h-48 object-cover rounded-lg mb-4"
+                  loading="lazy"
                 />
                 <h3 className="text-xl font-semibold mb-2" style={{ color: 'var(--gray-900)' }}>
-                  {product.name}
+                  {product.title}
                 </h3>
                 <p className="text-sm mb-4" style={{ color: 'var(--gray-600)' }}>
-                  {product.description.substring(0, 100)}...
+                  {product.description?.substring(0, 100)}...
                 </p>
                 <Button
                   className="w-full bg-[var(--citrus-orange)] hover:bg-[var(--citrus-orange-hover)]"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigate('product-detail', { slug: product.slug?.current });
+                  }}
                 >
                   View Details
                 </Button>
@@ -144,22 +191,23 @@ export function SeasonalCalendar() {
             <tbody>
               {products.map((product, index) => (
                 <tr
-                  key={product.id}
+                  key={product._id}
                   style={{
                     borderBottom: index < products.length - 1 ? '1px solid var(--gray-200)' : 'none',
                   }}
-                  className="hover:bg-gray-50 transition-colors"
+                  className="hover:bg-gray-50 transition-colors cursor-pointer"
+                  onClick={() => navigate('product-detail', { slug: product.slug?.current })}
                 >
                   <td className="p-3 font-medium sticky left-0 bg-white z-10" style={{ color: 'var(--gray-900)' }}>
                     <div className="flex items-center gap-3">
-                      <div className="text-2xl">{getProductEmoji(product.name)}</div>
-                      <span>{product.name}</span>
+                      <div className="text-2xl">{getProductEmoji(product.category)}</div>
+                      <span>{product.title}</span>
                     </div>
                   </td>
                   {MONTH_KEYS.map((monthKey) => (
                     <td key={monthKey} className="p-3 text-center">
                       <div className="flex justify-center">
-                        {product.availability[monthKey] ? (
+                        {product.availability?.[monthKey] ? (
                           <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--fresh-green)' }}>
                             <Check className="w-4 h-4 text-white" />
                           </div>
@@ -181,26 +229,14 @@ export function SeasonalCalendar() {
   );
 }
 
-function getProductEmoji(productName: string) {
+function getProductEmoji(category: string) {
   const emojis: Record<string, string> = {
-    'Navel Orange': '🍊',
-    'Valencia Orange': '🍊',
-    'Lanylet Orange': '🍊',
-    'Grapefruit': '🍊',
-    'Murcott': '🍊',
-    'Vermont': '🍊',
-    'Fresh Lemons': '🍋',
-    'Pomegranates': '🍎',
-    'Fresh Grapes': '🍇',
-    'Mango': '🥭',
-    'Strawberries': '🍓',
-    'Fresh Vegetables': '🥬',
-    'Green Beans': '🫘',
-    'Lettuce Al-Kabouchy': '🥬',
-    'Red Onion': '🧅',
-    'Golden Onion': '🧅',
-    'Garlic': '🧄',
-    'Colored Pepper': '🫑',
+    citrus: '🍊',
+    lemons: '🍋',
+    vegetables: '🥬',
+    berries: '🍓',
+    grapes: '🍇',
+    pomegranates: '🍎',
   };
-  return emojis[productName] || '🌱';
+  return emojis[category?.toLowerCase()] || '🌱';
 }

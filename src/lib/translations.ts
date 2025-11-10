@@ -104,6 +104,64 @@ export interface Translations {
   ourMission: string;
   ourVision: string;
   
+  // Quote Form
+  contactInformationStep: string;
+  productSelectionStep: string;
+  additionalDetailsStep: string;
+  companyNameLabel: string;
+  contactPersonLabel: string;
+  emailAddressLabel: string;
+  phoneNumberLabel: string;
+  selectCountryPlaceholder: string;
+  selectProductsLabel: string;
+  estimatedQuantityLabel: string;
+  selectQuantityPlaceholder: string;
+  deliveryTimeframeLabel: string;
+  deliveryTimeframePlaceholder: string;
+  additionalMessageLabel: string;
+  optionalText: string;
+  backButton: string;
+  nextButton: string;
+  submitButton: string;
+  clearFormButton: string;
+  quoteSubmittedTitle: string;
+  quoteSubmittedMessage: string;
+  referenceNumberLabel: string;
+  saveReferenceText: string;
+  confirmationEmailLabel: string;
+  confirmationEmailMessage: string;
+  responseTimeLabel: string;
+  responseTimeMessage: string;
+  yourSelectionLabel: string;
+  productsLabel: string;
+  quantityLabel: string;
+  deliveryLabel: string;
+  backToHomeButton: string;
+  submitAnotherButton: string;
+  needHelpText: string;
+  contactSalesLink: string;
+  errorTitle: string;
+  errorWhatToDo: string;
+  errorCheckConnection: string;
+  errorVerifyFields: string;
+  errorTryAgain: string;
+  errorContactSupport: string;
+  loadingProductsText: string;
+  unableToLoadProductsTitle: string;
+  unableToLoadProductsMessage: string;
+  retryButton: string;
+  noProductsTitle: string;
+  noProductsMessage: string;
+  refreshButton: string;
+  containers1to5: string;
+  containers5to20: string;
+  containers20to50: string;
+  containers50plus: string;
+  deliveryImmediate: string;
+  deliveryMonth: string;
+  deliveryQuarter: string;
+  deliveryFlexible: string;
+  
   // Months
   january: string;
   february: string;
@@ -223,6 +281,64 @@ export const translations: Record<Language, Translations> = {
     ourStory: 'Our Story',
     ourMission: 'Our Mission',
     ourVision: 'Our Vision',
+    
+    // Quote Form
+    contactInformationStep: 'Contact Information',
+    productSelectionStep: 'Product Selection',
+    additionalDetailsStep: 'Additional Details',
+    companyNameLabel: 'Company Name *',
+    contactPersonLabel: 'Contact Person *',
+    emailAddressLabel: 'Email Address *',
+    phoneNumberLabel: 'Phone Number *',
+    selectCountryPlaceholder: 'Select your country',
+    selectProductsLabel: 'Select Products of Interest *',
+    estimatedQuantityLabel: 'Estimated Quantity *',
+    selectQuantityPlaceholder: 'Select quantity range',
+    deliveryTimeframeLabel: 'Preferred Delivery Timeframe *',
+    deliveryTimeframePlaceholder: 'When do you need delivery?',
+    additionalMessageLabel: 'Additional Message (Optional)',
+    optionalText: 'Optional',
+    backButton: 'Back',
+    nextButton: 'Next',
+    submitButton: 'Submit',
+    clearFormButton: 'Clear Form',
+    quoteSubmittedTitle: 'Quote Request Submitted!',
+    quoteSubmittedMessage: 'Thank you for your interest in our products. We\'ve received your request and will review it shortly.',
+    referenceNumberLabel: 'Reference Number',
+    saveReferenceText: 'Save this number for your records',
+    confirmationEmailLabel: 'Confirmation Email',
+    confirmationEmailMessage: 'A confirmation email has been sent to',
+    responseTimeLabel: 'Response Time',
+    responseTimeMessage: 'Our team will respond within 24-48 hours',
+    yourSelectionLabel: 'Your Selection',
+    productsLabel: 'Products',
+    quantityLabel: 'Quantity',
+    deliveryLabel: 'Delivery',
+    backToHomeButton: 'Back to Home',
+    submitAnotherButton: 'Submit Another Request',
+    needHelpText: 'Need immediate assistance?',
+    contactSalesLink: 'Contact our sales team',
+    errorTitle: 'Error',
+    errorWhatToDo: 'What to do:',
+    errorCheckConnection: 'Check your internet connection',
+    errorVerifyFields: 'Verify all required fields are filled',
+    errorTryAgain: 'Try submitting again',
+    errorContactSupport: 'If the problem persists, contact support',
+    loadingProductsText: 'Loading Products...',
+    unableToLoadProductsTitle: 'Unable to Load Products',
+    unableToLoadProductsMessage: 'Please check your internet connection and try again.',
+    retryButton: 'Retry',
+    noProductsTitle: 'No Products Available',
+    noProductsMessage: 'There are currently no products available for your language selection.',
+    refreshButton: 'Refresh',
+    containers1to5: '1-5 containers',
+    containers5to20: '5-20 containers',
+    containers20to50: '20-50 containers',
+    containers50plus: '50+ containers',
+    deliveryImmediate: 'Immediate (within 2 weeks)',
+    deliveryMonth: 'Within 1 month',
+    deliveryQuarter: 'Within 3 months',
+    deliveryFlexible: 'Flexible',
     
     // Months
     january: 'January',

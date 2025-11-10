@@ -1,20 +1,57 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ProductCard } from '../components/ProductCard';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Checkbox } from '../components/ui/checkbox';
 import { Label } from '../components/ui/label';
 import { Card } from '../components/ui/card';
-import { Search, Filter } from 'lucide-react';
-import { products } from '../lib/mockData';
+import { Search, Filter, Loader2 } from 'lucide-react';
 import { useRouter } from '../lib/router';
+import { useLanguage } from '../lib/LanguageContext';
+import { client } from '../lib/sanity';
+import { allProductsQuery } from '../lib/queries';
+import type { SanityDocument } from '@sanity/client';
+
+interface SanityProduct extends SanityDocument {
+  title: string;
+  slug: { current: string };
+  scientificName?: string;
+  category: 'citrus' | 'vegetables' | 'berries' | 'lemons' | 'grapes';
+  description?: string;
+  season?: 'in-season' | 'coming-soon' | 'peak' | 'last-weeks';
+  image: any;
+  certifications?: string[];
+}
 
 export function ProductsPage() {
   const { navigate } = useRouter();
+  const { language, t } = useLanguage();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedSeasons, setSelectedSeasons] = useState<string[]>([]);
   const [showFilters, setShowFilters] = useState(false);
+  const [products, setProducts] = useState<SanityProduct[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Fetch products from Sanity
+  useEffect(() => {
+    async function fetchProducts() {
+      try {
+        setLoading(true);
+        setError(null);
+        const data = await client.fetch(allProductsQuery, { lang: language });
+        setProducts(data || []);
+      } catch (err) {
+        console.error('Failed to fetch products:', err);
+        setError('Failed to load products. Please try again later.');
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchProducts();
+  }, [language]);
 
   const toggleCategory = (category: string) => {
     setSelectedCategories(prev =>
@@ -33,10 +70,10 @@ export function ProductsPage() {
   };
 
   const filteredProducts = products.filter(product => {
-    const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         product.description.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch = product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         (product.description?.toLowerCase().includes(searchTerm.toLowerCase()) || false);
     const matchesCategory = selectedCategories.length === 0 || selectedCategories.includes(product.category);
-    const matchesSeason = selectedSeasons.length === 0 || selectedSeasons.includes(product.season);
+    const matchesSeason = selectedSeasons.length === 0 || (product.season && selectedSeasons.includes(product.season));
     
     return matchesSearch && matchesCategory && matchesSeason;
   });
@@ -52,8 +89,8 @@ export function ProductsPage() {
       {/* Header */}
       <div className="bg-gradient-to-r from-[var(--citrus-orange)] to-[var(--citrus-orange-hover)] py-16">
         <div className="max-w-7xl mx-auto px-6 lg:px-16">
-          <h1 className="text-4xl font-bold text-white mb-4">Our Premium Products</h1>
-          <p className="text-xl text-white/90">Fresh, certified, and delivered with care</p>
+          <h1 className="text-4xl font-bold text-white mb-4">{t.ourPremiumProducts}</h1>
+          <p className="text-xl text-white/90">{t.freshCertifiedDelivered}</p>
         </div>
       </div>
 
@@ -146,33 +183,61 @@ export function ProductsPage() {
 
           {/* Products Grid */}
           <div className="lg:col-span-3 mt-6 lg:mt-0">
-            <div className="flex justify-between items-center mb-6">
-              <p style={{ color: 'var(--gray-600)' }}>
-                Showing {filteredProducts.length} of {products.length} products
-              </p>
-            </div>
-
-            {filteredProducts.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredProducts.map((product) => (
-                  <div key={product.id} onClick={() => navigate('product-detail', { slug: product.slug })}>
-                    <ProductCard {...product} />
-                  </div>
-                ))}
+            {loading ? (
+              <div className="flex flex-col items-center justify-center py-20">
+                <Loader2 className="w-12 h-12 animate-spin text-[var(--citrus-orange)] mb-4" />
+                <p className="text-lg" style={{ color: 'var(--gray-600)' }}>Loading products...</p>
               </div>
-            ) : (
+            ) : error ? (
               <Card className="p-12 text-center">
-                <div className="text-6xl mb-4">🔍</div>
+                <div className="text-6xl mb-4">⚠️</div>
                 <h3 className="text-xl font-semibold mb-2" style={{ color: 'var(--gray-900)' }}>
-                  No products found
+                  Error Loading Products
                 </h3>
                 <p className="mb-6" style={{ color: 'var(--gray-600)' }}>
-                  Try adjusting your filters or search term
+                  {error}
                 </p>
-                <Button onClick={clearFilters} variant="outline">
-                  Clear Filters
+                <Button onClick={() => window.location.reload()} variant="outline">
+                  Retry
                 </Button>
               </Card>
+            ) : (
+              <>
+                <div className="flex justify-between items-center mb-6">
+                  <p style={{ color: 'var(--gray-600)' }}>
+                    Showing {filteredProducts.length} of {products.length} products
+                  </p>
+                </div>
+
+                {filteredProducts.length > 0 ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {filteredProducts.map((product) => (
+                      <div key={product._id} onClick={() => navigate('product-detail', { slug: product.slug.current })}>
+                        <ProductCard
+                          name={product.title}
+                          image={product.image}
+                          category={product.category}
+                          season={product.season || 'in-season'}
+                          certifications={product.certifications}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <Card className="p-12 text-center">
+                    <div className="text-6xl mb-4">🔍</div>
+                    <h3 className="text-xl font-semibold mb-2" style={{ color: 'var(--gray-900)' }}>
+                      No products found
+                    </h3>
+                    <p className="mb-6" style={{ color: 'var(--gray-600)' }}>
+                      Try adjusting your filters or search term
+                    </p>
+                    <Button onClick={clearFilters} variant="outline">
+                      Clear Filters
+                    </Button>
+                  </Card>
+                )}
+              </>
             )}
           </div>
         </div>
