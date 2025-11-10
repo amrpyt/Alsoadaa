@@ -60,7 +60,7 @@ git push origin main
 ```
 
 2. **Deploy on Dokploy:**
-   - See complete guide: [DOKPLOY_SETUP.md](./DOKPLOY_SETUP.md)
+   - See complete guide: [docs/DOKPLOY_SETUP.md](./docs/DOKPLOY_SETUP.md)
    - Build Command: `npm install && npm run build`
    - Output Directory: `dist`
    - Node.js Version: 18.x or 20.x
