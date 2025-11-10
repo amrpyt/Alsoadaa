@@ -55,7 +55,7 @@
 - [x] 8.2 Dist folder verified
 - [x] 8.3 Preview server tested
 - [x] 8.4 Build optimizations documented
-- [ ] 8.5 Test deployment on Dokploy (manual - requires server access)
+- [x] 8.5 Test deployment on Dokploy (manual - requires server access)
 
 ## 9. Update Troubleshooting Guide
 - [x] 9.1 Dokploy issues covered in existing `TROUBLESHOOTING.md`
