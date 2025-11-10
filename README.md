@@ -157,8 +157,7 @@ npm run migrate
 This script will:
 1. Import products from `mockData.ts`
 2. Upload images to Sanity assets
-3. Create initial pages and services
-4. Set up calendar events
+3. Create initial page content
 
 ## License
 
