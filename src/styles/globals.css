@@ -214,17 +214,8 @@ html {
 }
 
 /* RTL-specific layout adjustments */
-[dir="rtl"] .flex {
-  flex-direction: row-reverse;
-}
-
-[dir="rtl"] .flex-row {
-  flex-direction: row-reverse;
-}
-
-[dir="rtl"] .flex-row-reverse {
-  flex-direction: row;
-}
+/* Note: Do NOT reverse all flex containers globally as it breaks navigation */
+/* Only reverse specific containers that need RTL layout */
 
 /* RTL text alignment */
 [dir="rtl"] .text-left {
