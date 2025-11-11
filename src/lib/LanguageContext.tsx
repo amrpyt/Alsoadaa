@@ -14,8 +14,11 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguageState] = useState<Language>(() => {
-    const saved = localStorage.getItem('language');
-    return (saved as Language) || 'ar';
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('language');
+      return (saved as Language) || 'ar';
+    }
+    return 'ar';
   });
 
   const setLanguage = (lang: Language) => {
@@ -31,7 +34,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   }, [language]);
 
   // Fetch translations from Sanity (with fallback to local translations)
-  const { translations: sanityTranslations, loading } = useSanityTranslations();
+  const { translations: sanityTranslations, loading } = useSanityTranslations(language);
 
   const value: LanguageContextType = {
     language,

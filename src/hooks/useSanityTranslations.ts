@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { client } from '../lib/sanity';
-import { useLanguage } from '../lib/LanguageContext';
-import { translations as fallbackTranslations } from '../lib/translations';
+import { translations as fallbackTranslations, Language } from '../lib/translations';
 import type { Translations } from '../lib/translations';
 
 interface SanityTranslation {
@@ -10,8 +9,7 @@ interface SanityTranslation {
   language: string;
 }
 
-export function useSanityTranslations() {
-  const { language } = useLanguage();
+export function useSanityTranslations(language: Language) {
   const [translations, setTranslations] = useState<Translations>(
     fallbackTranslations[language]
   );
