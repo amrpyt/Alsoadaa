@@ -36,7 +36,36 @@ export function useFormPersistence() {
       localStorage.setItem(CACHE_KEY, JSON.stringify(dataToSave));
       console.log('💾 Form data saved to localStorage');
     } catch (error) {
-      console.warn('⚠️ Failed to save form data to localStorage:', error);
+      // Handle QuotaExceededError
+      if (error instanceof DOMException && (
+        error.name === 'QuotaExceededError' ||
+        error.name === 'NS_ERROR_DOM_QUOTA_REACHED'
+      )) {
+        console.warn('⚠️ localStorage quota exceeded, attempting cleanup');
+        try {
+          // Try to clear old product caches to make space
+          const keysToRemove: string[] = [];
+          for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key && key.startsWith('products_')) {
+              keysToRemove.push(key);
+            }
+          }
+          keysToRemove.forEach(key => localStorage.removeItem(key));
+          
+          // Retry saving form data
+          localStorage.setItem(CACHE_KEY, JSON.stringify({
+            ...formData,
+            currentStep,
+            timestamp: Date.now(),
+          }));
+          console.log('💾 Form data saved after cleanup');
+        } catch (retryError) {
+          console.error('❌ Failed to save form data even after cleanup:', retryError);
+        }
+      } else {
+        console.warn('⚠️ Failed to save form data to localStorage:', error);
+      }
     }
   };
 

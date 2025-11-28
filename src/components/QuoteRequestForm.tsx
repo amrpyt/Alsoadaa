@@ -5,7 +5,7 @@ import { Textarea } from './ui/textarea';
 import { Label } from './ui/label';
 import { Card } from './ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import { ChevronLeft, ChevronRight, Check, Loader2, AlertCircle } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Check, Loader2, AlertCircle, Wifi, WifiOff, Download, HelpCircle } from 'lucide-react';
 import { useLanguage } from '../lib/LanguageContext';
 import { client, writeClient } from '../lib/sanity';
 import { allProductsQuery } from '../lib/queries';
@@ -66,7 +66,28 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
   const [isRetrying, setIsRetrying] = useState(false);
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const [showResumeDialog, setShowResumeDialog] = useState(false);
   const maxRetries = 3;
+
+  // Network status monitoring
+  useEffect(() => {
+    const handleOnline = () => setIsOnline(true);
+    const handleOffline = () => setIsOnline(false);
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+  }, []);
+
+  // Show resume dialog if cached data exists on mount
+  useEffect(() => {
+    if (cachedData && !submitted) {
+      setShowResumeDialog(true);
+    }
+  }, []);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -140,6 +161,11 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
           response: error.response
         });
         
+        // Determine error type for better messaging
+        const isNetworkError = !navigator.onLine || error.name === 'TypeError' || error.message?.includes('fetch');
+        const isServerError = error.statusCode && error.statusCode >= 500;
+        const isAuthError = error.statusCode === 401 || error.statusCode === 403;
+        
         // Auto-retry logic with exponential backoff
         if (retryCount < maxRetries && !isRetrying) {
           console.log(`🔄 Auto-retry ${retryCount + 1}/${maxRetries} in ${Math.min(1000 * Math.pow(2, retryCount), 5000)}ms`);
@@ -149,11 +175,24 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
           return;
         }
         
+        // Set appropriate error message based on error type
         if (retryCount >= maxRetries) {
           console.log('🚫 Max auto-retries reached');
-          setError(`Failed to load products after ${maxRetries} attempts. Please check your connection and try again.`);
+          if (isNetworkError) {
+            setError('Network connection issue. Please check your internet and try again.');
+          } else if (isServerError) {
+            setError('Our servers are experiencing issues. Please try again in a few minutes.');
+          } else if (isAuthError) {
+            setError('Authentication error. Please refresh the page and try again.');
+          } else {
+            setError(`Failed to load products after ${maxRetries} attempts. Please contact support if the issue persists.`);
+          }
         } else {
-          setError('Failed to load products. Please check your connection and try again.');
+          if (isNetworkError) {
+            setError('Unable to connect. Please check your internet connection.');
+          } else {
+            setError('Failed to load products. Please try again.');
+          }
         }
         
         setFetchFailed(true);
@@ -490,10 +529,80 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
     );
   }
 
+  // Resume Dialog
+  if (showResumeDialog) {
+    return (
+      <div className="max-w-md mx-auto">
+        <Card className="p-6 text-center">
+          <div className="w-16 h-16 rounded-full bg-orange-100 mx-auto mb-4 flex items-center justify-center">
+            <HelpCircle className="w-8 h-8 text-orange-600" />
+          </div>
+          <h3 className="text-xl font-bold mb-2 text-gray-900">Resume Previous Request?</h3>
+          <p className="text-gray-600 mb-6">
+            You have an unfinished quote request. Would you like to continue where you left off?
+          </p>
+          <div className="flex gap-3 justify-center">
+            <Button
+              variant="outline"
+              onClick={() => {
+                clearCachedData();
+                setFormData({
+                  companyName: '',
+                  contactPerson: '',
+                  email: '',
+                  phone: '',
+                  country: '',
+                  products: [],
+                  quantity: '',
+                  deliveryTimeframe: '',
+                  message: '',
+                });
+                setCurrentStep(1);
+                setShowResumeDialog(false);
+              }}
+            >
+              Start Fresh
+            </Button>
+            <Button
+              className="bg-orange-500 hover:bg-orange-600"
+              onClick={() => setShowResumeDialog(false)}
+            >
+              Continue
+            </Button>
+          </div>
+        </Card>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-4xl mx-auto">
+      {/* Network Status Indicator */}
+      {!isOnline && (
+        <div className="mb-4 p-3 rounded-lg bg-yellow-50 border border-yellow-200 flex items-center gap-2">
+          <WifiOff className="w-5 h-5 text-yellow-600" />
+          <span className="text-yellow-800 text-sm font-medium">
+            You're offline. Some features may be limited.
+          </span>
+        </div>
+      )}
+      
       <Card className="overflow-hidden border-0 shadow-2xl bg-gradient-to-br from-white to-gray-50">
-        <div className="bg-gradient-to-r from-orange-500 to-orange-600 p-8 text-white">
+        <div className="bg-gradient-to-r from-orange-500 to-orange-600 p-8 text-white relative">
+          {/* Online status badge */}
+          <div className="absolute top-4 right-4 flex items-center gap-1.5">
+            {isOnline ? (
+              <span className="flex items-center gap-1 text-xs text-green-200">
+                <Wifi className="w-3.5 h-3.5" />
+                Online
+              </span>
+            ) : (
+              <span className="flex items-center gap-1 text-xs text-yellow-200">
+                <WifiOff className="w-3.5 h-3.5" />
+                Offline
+              </span>
+            )}
+          </div>
           <h2 className="text-3xl font-bold mb-2">Request a Quote</h2>
           <p className="text-orange-50">Get a customized quote for premium Egyptian products</p>
         </div>
@@ -711,13 +820,37 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
                   <p className="text-red-600 mb-4">
                     {error || 'Please check your internet connection and try again.'}
                   </p>
-                  <Button
-                    onClick={retryFetch}
-                    className="bg-red-600 hover:bg-red-700 text-white"
-                  >
-                    <Loader2 className="w-4 h-4 mr-2" />
-                    Retry
-                  </Button>
+                  {/* Error recovery instructions */}
+                  <div className="text-left bg-white rounded-lg p-4 mb-4 text-sm">
+                    <p className="font-semibold text-gray-700 mb-2">Try these steps:</p>
+                    <ul className="list-disc list-inside space-y-1 text-gray-600">
+                      <li>Check your internet connection</li>
+                      <li>Refresh the page</li>
+                      <li>Clear your browser cache</li>
+                      <li>Try again in a few minutes</li>
+                    </ul>
+                  </div>
+                  <div className="flex gap-3 justify-center flex-wrap">
+                    <Button
+                      onClick={retryFetch}
+                      className="bg-red-600 hover:bg-red-700 text-white"
+                      disabled={isRetrying}
+                    >
+                      {isRetrying ? (
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      ) : (
+                        <Loader2 className="w-4 h-4 mr-2" />
+                      )}
+                      {isRetrying ? 'Retrying...' : 'Retry'}
+                    </Button>
+                    <Button
+                      variant="outline"
+                      onClick={() => window.open('mailto:support@alsoadaa.com?subject=Product Loading Issue', '_blank')}
+                      className="border-red-300 text-red-700 hover:bg-red-50"
+                    >
+                      Contact Support
+                    </Button>
+                  </div>
                 </div>
                 {products.length > 0 && (
                   <div className="mt-4">
@@ -863,10 +996,23 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
               <Textarea
                 id="message"
                 value={formData.message}
-                onChange={(e) => updateField('message', e.target.value)}
+                onChange={(e) => {
+                  if (e.target.value.length <= 1000) {
+                    updateField('message', e.target.value);
+                  }
+                }}
                 placeholder="Any specific requirements, questions, or details you'd like to share..."
                 rows={6}
+                maxLength={1000}
               />
+              <div className="flex justify-between mt-1">
+                <span className="text-xs text-gray-500">
+                  Share any specific requirements or questions
+                </span>
+                <span className={`text-xs ${formData.message.length > 900 ? 'text-orange-600' : 'text-gray-400'}`}>
+                  {formData.message.length}/1000
+                </span>
+              </div>
             </div>
 
             <div className="p-4 rounded-lg" style={{ backgroundColor: 'var(--citrus-orange-bg)' }}>
