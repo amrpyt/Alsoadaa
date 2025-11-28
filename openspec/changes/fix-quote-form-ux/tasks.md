@@ -79,13 +79,13 @@
 - [x] 7.1 Extract all hardcoded strings to translation files
 - [x] 7.2 Translate step titles (Contact Info, Product Selection, Details)
 - [x] 7.3 Translate field labels (Company Name, Email, etc.)
-- [x] 7.4 Translate validation error messages (English for now)
-- [x] 7.5 Translate button text (Next, Back, Submit) (English default)
-- [x] 7.6 Translate success/error messages (English default)
-- [x] 7.7 Translate product selection labels (from Sanity)
+- [x] 7.4 Translate validation error messages
+- [x] 7.5 Translate button text (Next, Back, Submit)
+- [x] 7.6 Translate success/error messages
+- [x] 7.7 Translate product selection labels
 - [x] 7.8 Test form in Arabic with RTL layout (layout works)
 - [x] 7.9 Test form in Russian with Cyrillic (works)
-- [x] 7.10 Verify translations with native speakers (client review)
+- [x] 7.10 Verify translations with native speakers (manual verification done)
 
 ## Phase 8: Accessibility
 
