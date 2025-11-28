@@ -44,7 +44,7 @@ export function ProductsPage() {
         setProducts(data || []);
       } catch (err) {
         console.error('Failed to fetch products:', err);
-        setError('Failed to load products. Please try again later.');
+        setError(t.loadFailed);
       } finally {
         setLoading(false);
       }
@@ -71,10 +71,10 @@ export function ProductsPage() {
 
   const filteredProducts = products.filter(product => {
     const matchesSearch = product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         (product.description?.toLowerCase().includes(searchTerm.toLowerCase()) || false);
+      (product.description?.toLowerCase().includes(searchTerm.toLowerCase()) || false);
     const matchesCategory = selectedCategories.length === 0 || selectedCategories.includes(product.category);
     const matchesSeason = selectedSeasons.length === 0 || (product.season && selectedSeasons.includes(product.season));
-    
+
     return matchesSearch && matchesCategory && matchesSeason;
   });
 
@@ -103,7 +103,7 @@ export function ProductsPage() {
             onClick={() => setShowFilters(!showFilters)}
           >
             <Filter className="w-4 h-4 mr-2" />
-            Filters
+            {t.filters}
             {(selectedCategories.length > 0 || selectedSeasons.length > 0) && (
               <span className="ml-2 bg-[var(--citrus-orange)] text-white text-xs rounded-full px-2 py-0.5">
                 {selectedCategories.length + selectedSeasons.length}
@@ -115,13 +115,13 @@ export function ProductsPage() {
         {/* Mobile Filter Overlay */}
         {showFilters && (
           <div className="lg:hidden fixed inset-0 bg-black/50 z-40" onClick={() => setShowFilters(false)}>
-            <div 
+            <div
               className="absolute right-0 top-0 bottom-0 w-80 max-w-[85vw] bg-white shadow-xl overflow-y-auto"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="p-6 border-b border-gray-200 sticky top-0 bg-white z-10">
                 <div className="flex justify-between items-center">
-                  <h2 className="text-xl font-semibold" style={{ color: 'var(--gray-900)' }}>Filters</h2>
+                  <h2 className="text-xl font-semibold" style={{ color: 'var(--gray-900)' }}>{t.filters}</h2>
                   <Button
                     variant="ghost"
                     size="sm"
@@ -131,85 +131,85 @@ export function ProductsPage() {
                   </Button>
                 </div>
               </div>
-              
+
               <div className="p-6 space-y-6">
-              <Card className="p-6">
-                <h3 className="font-semibold mb-4" style={{ color: 'var(--gray-900)' }}>
-                  Search
-                </h3>
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4" style={{ color: 'var(--gray-500)' }} />
-                  <Input
-                    placeholder="Search products..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10"
-                  />
-                </div>
-              </Card>
+                <Card className="p-6">
+                  <h3 className="font-semibold mb-4" style={{ color: 'var(--gray-900)' }}>
+                    Search
+                  </h3>
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4" style={{ color: 'var(--gray-500)' }} />
+                    <Input
+                      placeholder={t.searchPlaceholder}
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="pl-10"
+                    />
+                  </div>
+                </Card>
 
-              <Card className="p-6">
-                <h3 className="font-semibold mb-4" style={{ color: 'var(--gray-900)' }}>
-                  Category
-                </h3>
-                <div className="space-y-3">
-                  {['citrus', 'vegetables', 'berries', 'lemons', 'grapes'].map((category) => (
-                    <div key={category} className="flex items-center gap-2">
-                      <Checkbox
-                        id={category}
-                        checked={selectedCategories.includes(category)}
-                        onCheckedChange={() => toggleCategory(category)}
-                      />
-                      <Label htmlFor={category} className="capitalize cursor-pointer">
-                        {getCategoryEmoji(category)} {category}
-                      </Label>
-                    </div>
-                  ))}
-                </div>
-              </Card>
+                <Card className="p-6">
+                  <h3 className="font-semibold mb-4" style={{ color: 'var(--gray-900)' }}>
+                    Category
+                  </h3>
+                  <div className="space-y-3">
+                    {['citrus', 'vegetables', 'berries', 'lemons', 'grapes'].map((category) => (
+                      <div key={category} className="flex items-center gap-2">
+                        <Checkbox
+                          id={category}
+                          checked={selectedCategories.includes(category)}
+                          onCheckedChange={() => toggleCategory(category)}
+                        />
+                        <Label htmlFor={category} className="capitalize cursor-pointer">
+                          {getCategoryEmoji(category)} {t[category as keyof typeof t] || category}
+                        </Label>
+                      </div>
+                    ))}
+                  </div>
+                </Card>
 
-              <Card className="p-6">
-                <h3 className="font-semibold mb-4" style={{ color: 'var(--gray-900)' }}>
-                  Availability
-                </h3>
-                <div className="space-y-3">
-                  {[
-                    { value: 'peak', label: '⭐ Peak Season' },
-                    { value: 'in-season', label: '🟢 In Season' },
-                    { value: 'coming-soon', label: '🟡 Coming Soon' },
-                    { value: 'last-weeks', label: '🔔 Last Weeks' },
-                  ].map((season) => (
-                    <div key={season.value} className="flex items-center gap-2">
-                      <Checkbox
-                        id={season.value}
-                        checked={selectedSeasons.includes(season.value)}
-                        onCheckedChange={() => toggleSeason(season.value)}
-                      />
-                      <Label htmlFor={season.value} className="cursor-pointer">
-                        {season.label}
-                      </Label>
-                    </div>
-                  ))}
-                </div>
-              </Card>
+                <Card className="p-6">
+                  <h3 className="font-semibold mb-4" style={{ color: 'var(--gray-900)' }}>
+                    Availability
+                  </h3>
+                  <div className="space-y-3">
+                    {[
+                      { value: 'peak', label: '⭐ Peak Season' },
+                      { value: 'in-season', label: '🟢 In Season' },
+                      { value: 'coming-soon', label: '🟡 Coming Soon' },
+                      { value: 'last-weeks', label: '🔔 Last Weeks' },
+                    ].map((season) => (
+                      <div key={season.value} className="flex items-center gap-2">
+                        <Checkbox
+                          id={season.value}
+                          checked={selectedSeasons.includes(season.value)}
+                          onCheckedChange={() => toggleSeason(season.value)}
+                        />
+                        <Label htmlFor={season.value} className="cursor-pointer">
+                          {season.label}
+                        </Label>
+                      </div>
+                    ))}
+                  </div>
+                </Card>
 
-              {(selectedCategories.length > 0 || selectedSeasons.length > 0 || searchTerm) && (
+                {(selectedCategories.length > 0 || selectedSeasons.length > 0 || searchTerm) && (
+                  <Button
+                    variant="outline"
+                    onClick={clearFilters}
+                    className="w-full"
+                  >
+                    {t.clearAllFilters}
+                  </Button>
+                )}
+
+                {/* Apply Button for Mobile */}
                 <Button
-                  variant="outline"
-                  onClick={clearFilters}
-                  className="w-full"
+                  className="w-full bg-[var(--citrus-orange)] hover:bg-[var(--citrus-orange-hover)] text-white"
+                  onClick={() => setShowFilters(false)}
                 >
-                  Clear All Filters
+                  {t.applyFilters}
                 </Button>
-              )}
-              
-              {/* Apply Button for Mobile */}
-              <Button
-                className="w-full bg-[var(--citrus-orange)] hover:bg-[var(--citrus-orange-hover)] text-white"
-                onClick={() => setShowFilters(false)}
-              >
-                Apply Filters
-              </Button>
               </div>
             </div>
           </div>
@@ -222,12 +222,12 @@ export function ProductsPage() {
             <div className="space-y-6 sticky top-24">
               <Card className="p-6">
                 <h3 className="font-semibold mb-4" style={{ color: 'var(--gray-900)' }}>
-                  Search
+                  {t.search}
                 </h3>
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4" style={{ color: 'var(--gray-500)' }} />
                   <Input
-                    placeholder="Search products..."
+                    placeholder={t.searchPlaceholder}
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="pl-10"
@@ -237,7 +237,7 @@ export function ProductsPage() {
 
               <Card className="p-6">
                 <h3 className="font-semibold mb-4" style={{ color: 'var(--gray-900)' }}>
-                  Category
+                  {t.category}
                 </h3>
                 <div className="space-y-3">
                   {['citrus', 'vegetables', 'berries', 'lemons', 'grapes'].map((category) => (
@@ -248,7 +248,7 @@ export function ProductsPage() {
                         onCheckedChange={() => toggleCategory(category)}
                       />
                       <Label htmlFor={`desktop-${category}`} className="capitalize cursor-pointer">
-                        {getCategoryEmoji(category)} {category}
+                        {getCategoryEmoji(category)} {t[category as keyof typeof t] || category}
                       </Label>
                     </div>
                   ))}
@@ -257,14 +257,14 @@ export function ProductsPage() {
 
               <Card className="p-6">
                 <h3 className="font-semibold mb-4" style={{ color: 'var(--gray-900)' }}>
-                  Availability
+                  {t.availability}
                 </h3>
                 <div className="space-y-3">
                   {[
-                    { value: 'peak', label: '⭐ Peak Season' },
-                    { value: 'in-season', label: '🟢 In Season' },
-                    { value: 'coming-soon', label: '🟡 Coming Soon' },
-                    { value: 'last-weeks', label: '🔔 Last Weeks' },
+                    { value: 'peak', label: `⭐ ${t.peakSeason}` },
+                    { value: 'in-season', label: `🟢 ${t.inSeason}` },
+                    { value: 'coming-soon', label: `🟡 ${t.seasonComingSoon}` },
+                    { value: 'last-weeks', label: `🔔 ${t.seasonLastWeeks}` },
                   ].map((season) => (
                     <div key={season.value} className="flex items-center gap-2">
                       <Checkbox
@@ -286,7 +286,7 @@ export function ProductsPage() {
                   onClick={clearFilters}
                   className="w-full"
                 >
-                  Clear All Filters
+                  {t.clearAllFilters}
                 </Button>
               )}
             </div>
@@ -297,26 +297,26 @@ export function ProductsPage() {
             {loading ? (
               <div className="flex flex-col items-center justify-center py-20">
                 <Loader2 className="w-12 h-12 animate-spin text-[var(--citrus-orange)] mb-4" />
-                <p className="text-lg" style={{ color: 'var(--gray-600)' }}>Loading products...</p>
+                <p className="text-lg" style={{ color: 'var(--gray-600)' }}>{t.loadingProductsText}</p>
               </div>
             ) : error ? (
               <Card className="p-12 text-center">
                 <div className="text-6xl mb-4">⚠️</div>
                 <h3 className="text-xl font-semibold mb-2" style={{ color: 'var(--gray-900)' }}>
-                  Error Loading Products
+                  {t.error}
                 </h3>
                 <p className="mb-6" style={{ color: 'var(--gray-600)' }}>
                   {error}
                 </p>
                 <Button onClick={() => window.location.reload()} variant="outline">
-                  Retry
+                  {t.retry}
                 </Button>
               </Card>
             ) : (
               <>
                 <div className="flex justify-between items-center mb-6">
                   <p style={{ color: 'var(--gray-600)' }}>
-                    Showing {filteredProducts.length} of {products.length} products
+                    {t.showingProducts.replace('{count}', filteredProducts.length.toString()).replace('{total}', products.length.toString())}
                   </p>
                 </div>
 
@@ -338,13 +338,13 @@ export function ProductsPage() {
                   <Card className="p-12 text-center">
                     <div className="text-6xl mb-4">🔍</div>
                     <h3 className="text-xl font-semibold mb-2" style={{ color: 'var(--gray-900)' }}>
-                      No products found
+                      {t.noProductsFound}
                     </h3>
                     <p className="mb-6" style={{ color: 'var(--gray-600)' }}>
-                      Try adjusting your filters or search term
+                      {t.noProductsFoundMessage}
                     </p>
                     <Button onClick={clearFilters} variant="outline">
-                      Clear Filters
+                      {t.clearFilters}
                     </Button>
                   </Card>
                 )}

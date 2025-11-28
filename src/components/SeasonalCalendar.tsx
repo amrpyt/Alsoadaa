@@ -48,7 +48,7 @@ export function SeasonalCalendar() {
       <div className="flex items-center justify-center py-12">
         <div className="text-center">
           <Loader2 className="w-12 h-12 animate-spin text-[var(--citrus-orange)] mx-auto mb-4" />
-          <p className="text-lg" style={{ color: 'var(--gray-600)' }}>Loading calendar...</p>
+          <p className="text-lg" style={{ color: 'var(--gray-600)' }}>{t.loadingCalendar}</p>
         </div>
       </div>
     );
@@ -58,7 +58,7 @@ export function SeasonalCalendar() {
     return (
       <Card className="p-12 text-center">
         <p className="text-lg text-red-600 mb-4">{error}</p>
-        <Button onClick={() => window.location.reload()}>Retry</Button>
+        <Button onClick={() => window.location.reload()}>{t.retry}</Button>
       </Card>
     );
   }
@@ -121,7 +121,7 @@ export function SeasonalCalendar() {
                     navigate('product-detail', { slug: product.slug?.current });
                   }}
                 >
-                  View Details
+                  {t.viewDetails}
                 </Button>
               </Card>
             ))}
@@ -177,7 +177,7 @@ export function SeasonalCalendar() {
           <table className="w-full min-w-max">
             <thead>
               <tr style={{ borderBottom: '2px solid var(--gray-200)' }}>
-                <th className="p-3 text-left font-semibold sticky left-0 bg-white z-10" style={{ color: 'var(--gray-900)' }}>
+                <th className="p-3 text-start font-semibold sticky start-0 bg-white z-10" style={{ color: 'var(--gray-900)' }}>
                   {t.product}
                 </th>
                 {MONTHS.map((month) => (
@@ -198,7 +198,7 @@ export function SeasonalCalendar() {
                   className="hover:bg-gray-50 transition-colors cursor-pointer"
                   onClick={() => navigate('product-detail', { slug: product.slug?.current })}
                 >
-                  <td className="p-3 font-medium sticky left-0 bg-white z-10" style={{ color: 'var(--gray-900)' }}>
+                  <td className="p-3 font-medium sticky start-0 bg-white z-10" style={{ color: 'var(--gray-900)' }}>
                     <div className="flex items-center gap-3">
                       <div className="text-2xl">{getProductEmoji(product.category)}</div>
                       <span>{product.title}</span>

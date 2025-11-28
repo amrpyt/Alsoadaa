@@ -8,14 +8,13 @@ import { useRouter } from '../lib/router';
 import { ProductCard } from '../components/ProductCard';
 import { useLanguage } from '../lib/LanguageContext';
 import { client, getImageUrl } from '../lib/sanity';
-import { productBySlugQuery, productsByCategoryQuery } from '../lib/queries';
+import { productBySlugQuery, productsByCategoryQuery, findProductTranslationQuery } from '../lib/queries';
 
-const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const MONTH_KEYS = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'] as const;
 
 export function ProductDetailPage() {
   const { navigate, params } = useRouter();
-  const { language } = useLanguage();
+  const { t, language } = useLanguage();
   const [selectedImage, setSelectedImage] = useState(0);
   const [product, setProduct] = useState<any>(null);
   const [relatedProducts, setRelatedProducts] = useState<any[]>([]);
@@ -25,26 +24,41 @@ export function ProductDetailPage() {
   useEffect(() => {
     const fetchProduct = async () => {
       console.log('🔍 ProductDetailPage: Starting fetch', { slug: params?.slug, language });
-      
+
       if (!params?.slug) {
         console.log('❌ No slug provided');
         return;
       }
-      
+
       setLoading(true);
-      
+
       try {
         setError(null);
-        
+
         console.log('📡 Fetching product data...');
-        const productData = await client.fetch(productBySlugQuery, { 
+        const productData = await client.fetch(productBySlugQuery, {
           slug: params.slug,
-          lang: language 
+          lang: language
         });
-        
-        console.log('✅ Product data received:', productData);
+
+
+
+        if (!productData) {
+          console.log('⚠️ Product not found in current language, checking for translations...');
+          const translationData = await client.fetch(findProductTranslationQuery, {
+            slug: params.slug,
+            targetLang: language
+          });
+
+          if (translationData?.target) {
+            console.log('🔄 Found translation, redirecting to:', translationData.target);
+            navigate('product-detail', { slug: translationData.target });
+            return;
+          }
+        }
+
         setProduct(productData);
-        
+
         if (productData) {
           console.log('📡 Fetching related products...');
           const relatedData = await client.fetch(productsByCategoryQuery, {
@@ -67,12 +81,19 @@ export function ProductDetailPage() {
     fetchProduct();
   }, [params?.slug, language]);
 
+  // Update SEO Title
+  useEffect(() => {
+    if (product) {
+      document.title = product.seo?.metaTitle || `${product.title} | Al Soadaa`;
+    }
+  }, [product]);
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <Loader2 className="w-12 h-12 animate-spin text-[var(--citrus-orange)] mx-auto mb-4" />
-          <p className="text-lg" style={{ color: 'var(--gray-600)' }}>Loading product...</p>
+          <p className="text-lg" style={{ color: 'var(--gray-600)' }}>{t.loadingProduct}</p>
         </div>
       </div>
     );
@@ -83,9 +104,9 @@ export function ProductDetailPage() {
       <div className="min-h-screen flex items-center justify-center">
         <Card className="p-12 text-center">
           <div className="text-6xl mb-4">❌</div>
-          <h2 className="text-2xl font-bold mb-4">Error Loading Product</h2>
-          <p className="mb-6" style={{ color: 'var(--gray-600)' }}>{error}</p>
-          <Button onClick={() => navigate('products')}>Back to Products</Button>
+          <h2 className="text-2xl font-bold mb-4">{t.error}</h2>
+          <p className="mb-6" style={{ color: 'var(--gray-600)' }}>{error || t.loadFailed}</p>
+          <Button onClick={() => navigate('products')}>{t.backToProducts}</Button>
         </Card>
       </div>
     );
@@ -96,9 +117,9 @@ export function ProductDetailPage() {
       <div className="min-h-screen flex items-center justify-center">
         <Card className="p-12 text-center">
           <div className="text-6xl mb-4">🔍</div>
-          <h2 className="text-2xl font-bold mb-4">Product Not Found</h2>
-          <p className="mb-6" style={{ color: 'var(--gray-600)' }}>The product you're looking for doesn't exist.</p>
-          <Button onClick={() => navigate('products')}>Back to Products</Button>
+          <h2 className="text-2xl font-bold mb-4">{t.productNotFound}</h2>
+          <p className="mb-6" style={{ color: 'var(--gray-600)' }}>{t.productNotFoundMessage}</p>
+          <Button onClick={() => navigate('products')}>{t.backToProducts}</Button>
         </Card>
       </div>
     );
@@ -110,20 +131,20 @@ export function ProductDetailPage() {
       <div className="min-h-screen flex items-center justify-center">
         <Card className="p-12 text-center">
           <div className="text-6xl mb-4">⚠️</div>
-          <h2 className="text-2xl font-bold mb-4">Invalid Product Data</h2>
-          <p className="mb-6" style={{ color: 'var(--gray-600)' }}>Product data is incomplete.</p>
-          <Button onClick={() => navigate('products')}>Back to Products</Button>
+          <h2 className="text-2xl font-bold mb-4">{t.invalidProductData}</h2>
+          <p className="mb-6" style={{ color: 'var(--gray-600)' }}>{t.invalidProductDataMessage}</p>
+          <Button onClick={() => navigate('products')}>{t.backToProducts}</Button>
         </Card>
       </div>
     );
   }
 
   let currentMonth, gallery;
-  
+
   try {
     currentMonth = new Date().getMonth();
-    gallery = (product.gallery && Array.isArray(product.gallery) && product.gallery.length > 0) 
-      ? product.gallery 
+    gallery = (product.gallery && Array.isArray(product.gallery) && product.gallery.length > 0)
+      ? product.gallery
       : [product.image];
     console.log('🎨 Ready to render product:', { title: product.title, galleryCount: gallery.length });
   } catch (err) {
@@ -132,24 +153,24 @@ export function ProductDetailPage() {
       <div className="min-h-screen flex items-center justify-center">
         <Card className="p-12 text-center">
           <div className="text-6xl mb-4">⚠️</div>
-          <h2 className="text-2xl font-bold mb-4">Error Preparing Data</h2>
-          <p className="mb-6" style={{ color: 'var(--gray-600)' }}>Something went wrong while preparing the product data.</p>
-          <Button onClick={() => navigate('products')}>Back to Products</Button>
+          <h2 className="text-2xl font-bold mb-4">{t.errorPreparingData}</h2>
+          <p className="mb-6" style={{ color: 'var(--gray-600)' }}>{t.errorPreparingDataMessage}</p>
+          <Button onClick={() => navigate('products')}>{t.backToProducts}</Button>
         </Card>
       </div>
     );
   }
 
   console.log('🚀 Starting render...');
-  
+
   return (
     <div className="min-h-screen bg-white">
       <div className="bg-gray-50 py-4">
         <div className="max-w-7xl mx-auto px-6 lg:px-16">
           <div className="flex items-center gap-2 text-sm" style={{ color: 'var(--gray-600)' }}>
-            <button onClick={() => navigate('home')} className="hover:text-[var(--citrus-orange)]">Home</button>
+            <button onClick={() => navigate('home')} className="hover:text-[var(--citrus-orange)]">{t.home}</button>
             <span>/</span>
-            <button onClick={() => navigate('products')} className="hover:text-[var(--citrus-orange)]">Products</button>
+            <button onClick={() => navigate('products')} className="hover:text-[var(--citrus-orange)]">{t.products}</button>
             <span>/</span>
             <span style={{ color: 'var(--gray-900)' }}>{product.title}</span>
           </div>
@@ -158,7 +179,7 @@ export function ProductDetailPage() {
 
       <div className="max-w-7xl mx-auto px-6 lg:px-16 py-12">
         <Button variant="ghost" onClick={() => navigate('products')} className="mb-6">
-          <ChevronLeft className="w-4 h-4 mr-2" />Back to Products
+          <ChevronLeft className="w-4 h-4 mr-2" />{t.backToProducts}
         </Button>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12">
@@ -184,11 +205,11 @@ export function ProductDetailPage() {
           <div>
             <div className="flex items-center gap-3 mb-4">
               <Badge variant="secondary" className="text-sm px-3 py-1" style={{ backgroundColor: getCategoryColor(product.category), color: 'white' }}>
-                {getCategoryEmoji(product.category)} {product.category}
+                {getCategoryEmoji(product.category)} {t[product.category.toLowerCase() as keyof typeof t] || product.category}
               </Badge>
               {product.season && (
                 <Badge variant="secondary" className="text-sm px-3 py-1" style={{ backgroundColor: getSeasonColor(product.season), color: product.season === 'coming-soon' ? 'var(--gray-900)' : 'white' }}>
-                  {getSeasonText(product.season)}
+                  {getSeasonText(product.season, t)}
                 </Badge>
               )}
             </div>
@@ -200,7 +221,7 @@ export function ProductDetailPage() {
               {product.certifications?.map((cert: string) => (
                 <div key={cert} className="flex items-center gap-2">
                   <Check className="w-4 h-4" style={{ color: 'var(--trust-blue)' }} />
-                  <span className="font-medium" style={{ color: 'var(--trust-blue)' }}>{cert} Certified</span>
+                  <span className="font-medium" style={{ color: 'var(--trust-blue)' }}>{cert} {t.certified}</span>
                 </div>
               ))}
             </div>
@@ -208,40 +229,40 @@ export function ProductDetailPage() {
             <p className="text-lg mb-8" style={{ color: 'var(--gray-700)' }}>{product.description}</p>
 
             <div className="flex gap-4 mb-8">
-              <Button size="lg" className="flex-1 bg-[var(--citrus-orange)] hover:bg-[var(--citrus-orange-hover)]" onClick={() => navigate('contact')}>Request Quote</Button>
-              <Button size="lg" variant="outline" className="flex-1 border-[var(--citrus-orange)] text-[var(--citrus-orange)]" onClick={() => navigate('contact')}>Schedule Callback</Button>
+              <Button size="lg" className="flex-1 bg-[var(--citrus-orange)] hover:bg-[var(--citrus-orange-hover)]" onClick={() => navigate('contact')}>{t.requestQuote}</Button>
+              <Button size="lg" variant="outline" className="flex-1 border-[var(--citrus-orange)] text-[var(--citrus-orange)]" onClick={() => navigate('contact')}>{t.scheduleCallback}</Button>
             </div>
 
             <Card className="p-6">
-              <h3 className="font-semibold mb-4" style={{ color: 'var(--gray-900)' }}>Quick Information</h3>
+              <h3 className="font-semibold mb-4" style={{ color: 'var(--gray-900)' }}>{t.quickInformation}</h3>
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <div className="flex items-center gap-2 mb-2">
                     <Package className="w-4 h-4" style={{ color: 'var(--citrus-orange)' }} />
-                    <span className="text-sm font-medium" style={{ color: 'var(--gray-700)' }}>Packaging</span>
+                    <span className="text-sm font-medium" style={{ color: 'var(--gray-700)' }}>{t.packaging}</span>
                   </div>
-                  <p className="text-sm" style={{ color: 'var(--gray-600)' }}>{product.specifications?.packaging?.[0] || 'Various options'}</p>
+                  <p className="text-sm" style={{ color: 'var(--gray-600)' }}>{product.specifications?.packaging?.[0] || t.variousOptions}</p>
                 </div>
                 <div>
                   <div className="flex items-center gap-2 mb-2">
                     <Thermometer className="w-4 h-4" style={{ color: 'var(--citrus-orange)' }} />
-                    <span className="text-sm font-medium" style={{ color: 'var(--gray-700)' }}>Storage</span>
+                    <span className="text-sm font-medium" style={{ color: 'var(--gray-700)' }}>{t.storage}</span>
                   </div>
-                  <p className="text-sm" style={{ color: 'var(--gray-600)' }}>{product.specifications?.storage || 'Cold storage'}</p>
+                  <p className="text-sm" style={{ color: 'var(--gray-600)' }}>{product.specifications?.storage || t.coldStorage}</p>
                 </div>
                 <div>
                   <div className="flex items-center gap-2 mb-2">
                     <Calendar className="w-4 h-4" style={{ color: 'var(--citrus-orange)' }} />
-                    <span className="text-sm font-medium" style={{ color: 'var(--gray-700)' }}>Shelf Life</span>
+                    <span className="text-sm font-medium" style={{ color: 'var(--gray-700)' }}>{t.shelfLife}</span>
                   </div>
-                  <p className="text-sm" style={{ color: 'var(--gray-600)' }}>{product.specifications?.shelfLife || 'Contact for details'}</p>
+                  <p className="text-sm" style={{ color: 'var(--gray-600)' }}>{product.specifications?.shelfLife || t.contactForDetails}</p>
                 </div>
                 <div>
                   <div className="flex items-center gap-2 mb-2">
                     <Truck className="w-4 h-4" style={{ color: 'var(--citrus-orange)' }} />
-                    <span className="text-sm font-medium" style={{ color: 'var(--gray-700)' }}>Delivery</span>
+                    <span className="text-sm font-medium" style={{ color: 'var(--gray-700)' }}>{t.deliveryLabel}</span>
                   </div>
-                  <p className="text-sm" style={{ color: 'var(--gray-600)' }}>48 hours to port</p>
+                  <p className="text-sm" style={{ color: 'var(--gray-600)' }}>{t.deliveryTimelineDesc}</p>
                 </div>
               </div>
             </Card>
@@ -250,17 +271,17 @@ export function ProductDetailPage() {
 
         <Tabs defaultValue="specifications" className="mb-12">
           <TabsList className="grid w-full grid-cols-2 lg:grid-cols-3">
-            <TabsTrigger value="specifications">Specifications</TabsTrigger>
-            <TabsTrigger value="availability">Availability</TabsTrigger>
-            <TabsTrigger value="shipping">Shipping</TabsTrigger>
+            <TabsTrigger value="specifications">{t.specifications}</TabsTrigger>
+            <TabsTrigger value="availability">{t.availability}</TabsTrigger>
+            <TabsTrigger value="shipping">{t.shipping}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="specifications" className="mt-6">
             <Card className="p-6">
-              <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--gray-900)' }}>Product Specifications</h3>
+              <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--gray-900)' }}>{t.productSpecifications}</h3>
               {product.specifications?.sizes && Array.isArray(product.specifications.sizes) && product.specifications.sizes.length > 0 && (
                 <div className="mb-4">
-                  <h4 className="font-semibold mb-2" style={{ color: 'var(--gray-700)' }}>Available Sizes</h4>
+                  <h4 className="font-semibold mb-2" style={{ color: 'var(--gray-700)' }}>{t.availableSizes}</h4>
                   <div className="flex flex-wrap gap-2">
                     {product.specifications.sizes.map((size: string) => <Badge key={size} variant="outline">{size}</Badge>)}
                   </div>
@@ -268,7 +289,7 @@ export function ProductDetailPage() {
               )}
               {product.specifications?.packaging && Array.isArray(product.specifications.packaging) && product.specifications.packaging.length > 0 && (
                 <div>
-                  <h4 className="font-semibold mb-2" style={{ color: 'var(--gray-700)' }}>Packaging Options</h4>
+                  <h4 className="font-semibold mb-2" style={{ color: 'var(--gray-700)' }}>{t.packagingOptions}</h4>
                   <ul className="space-y-2">
                     {product.specifications.packaging.map((pkg: string) => (
                       <li key={pkg} className="flex items-center gap-2">
@@ -284,12 +305,12 @@ export function ProductDetailPage() {
 
           <TabsContent value="availability" className="mt-6">
             <Card className="p-6">
-              <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--gray-900)' }}>Seasonal Availability</h3>
+              <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--gray-900)' }}>{t.seasonalAvailability}</h3>
               <div className="flex gap-1 mb-6">
-                {MONTHS.map((month, index) => (
-                  <div key={month} className="flex-1 h-16 flex flex-col items-center justify-center rounded text-xs font-medium" style={{ backgroundColor: product.availability?.[MONTH_KEYS[index]] ? 'var(--fresh-green)' : 'var(--gray-200)', color: product.availability?.[MONTH_KEYS[index]] ? 'white' : 'var(--gray-500)', outline: index === currentMonth ? '2px solid var(--trust-blue)' : 'none', outlineOffset: '2px' }}>
-                    <span>{month}</span>
-                    {product.availability?.[MONTH_KEYS[index]] && <Check className="w-3 h-3 mt-1" />}
+                {MONTH_KEYS.map((key, index) => (
+                  <div key={key} className="flex-1 h-16 flex flex-col items-center justify-center rounded text-xs font-medium" style={{ backgroundColor: product.availability?.[key] ? 'var(--fresh-green)' : 'var(--gray-200)', color: product.availability?.[key] ? 'white' : 'var(--gray-500)', outline: index === currentMonth ? '2px solid var(--trust-blue)' : 'none', outlineOffset: '2px' }}>
+                    <span>{t[key].slice(0, 3)}</span>
+                    {product.availability?.[key] && <Check className="w-3 h-3 mt-1" />}
                   </div>
                 ))}
               </div>
@@ -298,15 +319,15 @@ export function ProductDetailPage() {
 
           <TabsContent value="shipping" className="mt-6">
             <Card className="p-6">
-              <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--gray-900)' }}>Shipping & Storage</h3>
+              <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--gray-900)' }}>{t.shippingAndStorage}</h3>
               <div className="space-y-4">
                 <div>
-                  <h4 className="font-semibold mb-2" style={{ color: 'var(--gray-700)' }}>Storage Requirements</h4>
-                  <p style={{ color: 'var(--gray-600)' }}>{product.specifications?.storage || 'Cold storage recommended'}</p>
+                  <h4 className="font-semibold mb-2" style={{ color: 'var(--gray-700)' }}>{t.storageRequirements}</h4>
+                  <p style={{ color: 'var(--gray-600)' }}>{product.specifications?.storage || t.storageRequirementsDesc}</p>
                 </div>
                 <div>
-                  <h4 className="font-semibold mb-2" style={{ color: 'var(--gray-700)' }}>Delivery Timeline</h4>
-                  <p style={{ color: 'var(--gray-600)' }}>Fresh harvest to export in 48 hours with cold chain management.</p>
+                  <h4 className="font-semibold mb-2" style={{ color: 'var(--gray-700)' }}>{t.deliveryTimeline}</h4>
+                  <p style={{ color: 'var(--gray-600)' }}>{t.deliveryTimelineDesc}</p>
                 </div>
               </div>
             </Card>
@@ -315,7 +336,7 @@ export function ProductDetailPage() {
 
         {relatedProducts.length > 0 && (
           <div>
-            <h2 className="text-3xl font-bold mb-8" style={{ color: 'var(--gray-900)' }}>Related Products</h2>
+            <h2 className="text-3xl font-bold mb-8" style={{ color: 'var(--gray-900)' }}>{t.relatedProducts}</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {relatedProducts.map((rp) => (
                 <div key={rp._id} onClick={() => navigate('product-detail', { slug: rp.slug.current })}>
@@ -348,8 +369,8 @@ function getSeasonColor(s?: string): string {
   return col[s] || 'var(--gray-500)';
 }
 
-function getSeasonText(s?: string): string {
-  if (!s) return 'In Season';
-  const t: Record<string, string> = { peak: '⭐ Peak Season', 'in-season': '🟢 In Season', 'coming-soon': '🟡 Coming Soon', 'last-weeks': '🔔 Last Weeks' };
-  return t[s] || s;
+function getSeasonText(s: string | undefined, t: any): string {
+  if (!s) return t.inSeason;
+  const map: Record<string, string> = { peak: `⭐ ${t.peakSeason}`, 'in-season': `🟢 ${t.inSeason}`, 'coming-soon': `🟡 ${t.seasonComingSoon}`, 'last-weeks': `🔔 ${t.seasonLastWeeks}` };
+  return map[s] || s;
 }

@@ -68,9 +68,9 @@ export function Header() {
                 {item.label}
               </button>
             ))}
-            
+
             {/* Processing Dropdown */}
-            <div 
+            <div
               className="relative"
               onMouseEnter={() => setProcessingMenuOpen(true)}
               onMouseLeave={() => setProcessingMenuOpen(false)}
@@ -84,9 +84,9 @@ export function Header() {
               >
                 {t.processing}
               </button>
-              
+
               {processingMenuOpen && (
-                <div 
+                <div
                   className="absolute top-full left-0 pt-2 w-48 z-50"
                 >
                   <div className="bg-white rounded-lg shadow-lg border border-gray-200 py-2">
@@ -97,7 +97,7 @@ export function Header() {
                           navigate(item.page);
                           setProcessingMenuOpen(false);
                         }}
-                        className="w-full px-4 py-2 text-left hover:bg-gray-100 transition-colors"
+                        className="w-full px-4 py-2 text-start hover:bg-gray-100 transition-colors"
                         style={{
                           backgroundColor: currentPage === item.page ? 'var(--citrus-orange-bg)' : 'transparent',
                           color: currentPage === item.page ? 'var(--citrus-orange)' : 'var(--gray-700)',
@@ -110,7 +110,7 @@ export function Header() {
                 </div>
               )}
             </div>
-            
+
             {navItems.slice(2).map((item) => (
               <button
                 key={item.label}
@@ -137,7 +137,7 @@ export function Header() {
                 <Globe className="w-4 h-4" />
                 <span className="text-sm font-medium">{currentLanguage?.flag} {currentLanguage?.name}</span>
               </button>
-              
+
               {languageMenuOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
                   {languages.map((lang) => (
@@ -147,7 +147,7 @@ export function Header() {
                         setLanguage(lang.code);
                         setLanguageMenuOpen(false);
                       }}
-                      className="w-full px-4 py-2 text-left hover:bg-gray-100 transition-colors flex items-center gap-2"
+                      className="w-full px-4 py-2 text-start hover:bg-gray-100 transition-colors flex items-center gap-2"
                       style={{
                         backgroundColor: language === lang.code ? 'var(--citrus-orange-bg)' : 'transparent',
                         color: language === lang.code ? 'var(--citrus-orange)' : 'var(--gray-700)',
@@ -160,7 +160,7 @@ export function Header() {
                 </div>
               )}
             </div>
-            
+
             <Button
               onClick={() => navigate('contact')}
               className="bg-[var(--citrus-orange)] hover:bg-[var(--citrus-orange-hover)] text-white"
@@ -196,7 +196,7 @@ export function Header() {
                   navigate(item.page);
                   setMobileMenuOpen(false);
                 }}
-                className="font-medium py-3 transition-colors hover:text-[var(--citrus-orange)] text-left"
+                className="font-medium py-3 transition-colors hover:text-[var(--citrus-orange)] text-start"
                 style={{
                   color: currentPage === item.page ? 'var(--citrus-orange)' : 'var(--gray-700)',
                 }}
@@ -204,7 +204,7 @@ export function Header() {
                 {item.label}
               </button>
             ))}
-            
+
             {/* Processing Items - Same Level */}
             {processingItems.map((item) => (
               <button
@@ -213,7 +213,7 @@ export function Header() {
                   navigate(item.page);
                   setMobileMenuOpen(false);
                 }}
-                className="font-medium py-3 transition-colors hover:text-[var(--citrus-orange)] text-left"
+                className="font-medium py-3 transition-colors hover:text-[var(--citrus-orange)] text-start"
                 style={{
                   color: currentPage === item.page ? 'var(--citrus-orange)' : 'var(--gray-700)',
                 }}
@@ -221,7 +221,7 @@ export function Header() {
                 {item.label}
               </button>
             ))}
-            
+
             {navItems.slice(2).map((item) => (
               <button
                 key={item.label}
@@ -229,7 +229,7 @@ export function Header() {
                   navigate(item.page);
                   setMobileMenuOpen(false);
                 }}
-                className="font-medium py-3 transition-colors hover:text-[var(--citrus-orange)] text-left"
+                className="font-medium py-3 transition-colors hover:text-[var(--citrus-orange)] text-start"
                 style={{
                   color: currentPage === item.page ? 'var(--citrus-orange)' : 'var(--gray-700)',
                 }}
@@ -237,7 +237,7 @@ export function Header() {
                 {item.label}
               </button>
             ))}
-            
+
             {/* Language Selector */}
             <div className="border-t border-gray-200 pt-4 mt-2">
               <div className="flex gap-2">
@@ -259,7 +259,7 @@ export function Header() {
                 ))}
               </div>
             </div>
-            
+
             {/* CTA Button */}
             <Button
               onClick={() => {

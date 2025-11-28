@@ -145,3 +145,13 @@ export const allFormSubmissionsQuery = defineQuery(`
     notes
   }
 `)
+
+export const findProductTranslationQuery = defineQuery(`
+  *[_type == "product" && slug.current == $slug][0] {
+    "target": *[_type == "product" && language == $targetLang && (
+      originalDocument._ref == ^._id ||
+      _id == ^.originalDocument._ref ||
+      originalDocument._ref == ^.originalDocument._ref
+    )][0].slug.current
+  }
+`)

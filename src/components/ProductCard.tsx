@@ -23,26 +23,26 @@ const categoryColors = {
 export function ProductCard({ name, image, category, season, certifications = [] }: ProductCardProps) {
   const { language } = useLanguage();
   const t = translations[language];
-  
+
   const seasonBadges = {
     'in-season': { emoji: '🟢', text: t.seasonInSeason, bg: 'var(--fresh-green-bg)', color: 'var(--fresh-green)' },
     'peak': { emoji: '⭐', text: t.seasonPeak, bg: 'var(--citrus-orange-bg)', color: 'var(--citrus-orange)' },
     'coming-soon': { emoji: '🟡', text: t.seasonComingSoon, bg: 'var(--lemon-yellow-bg)', color: '#C9A000' },
     'last-weeks': { emoji: '🔔', text: t.seasonLastWeeks, bg: 'var(--berry-red-bg)', color: 'var(--berry-red)' },
   };
-  
+
   const badge = seasonBadges[season];
   const colors = categoryColors[category];
   const uniqueCertifications = Array.from(new Set(certifications.filter(Boolean)));
-  
+
   // Get optimized image URL from Sanity or use as-is if it's a string URL
-  const imageUrl = typeof image === 'string' 
-    ? image 
+  const imageUrl = typeof image === 'string'
+    ? image
     : getImageUrl(image, 800, 600) || '';
 
   return (
     <div className="group cursor-pointer h-full">
-      <div 
+      <div
         className="relative flex h-full flex-col overflow-hidden rounded-2xl border border-gray-100/80 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
       >
         {/* Image Container */}
@@ -53,15 +53,15 @@ export function ProductCard({ name, image, category, season, certifications = []
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
             loading="lazy"
           />
-          
+
           {/* Gradient overlay */}
-          <div 
+          <div
             className="absolute inset-0 bg-gradient-to-b from-black/0 via-black/0 to-black/25"
             style={{ pointerEvents: 'none' }}
           />
-          
+
           {/* Season Badge */}
-          <div 
+          <div
             className="absolute left-4 top-4 inline-flex items-center gap-1 rounded-full border border-white/60 bg-white/90 px-2.5 py-1 text-xs font-semibold shadow-sm backdrop-blur"
             style={{ color: badge.color }}
           >
@@ -77,14 +77,14 @@ export function ProductCard({ name, image, category, season, certifications = []
               className="inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold"
               style={{ backgroundColor: colors.chip, color: colors.bg }}
             >
-              {t[category as keyof typeof t] as string}
+              {t[category.toLowerCase() as keyof typeof t] as string || category}
             </span>
 
             <h3 className="text-base font-semibold leading-tight text-gray-900 transition-colors group-hover:text-gray-800 sm:text-lg">
-            {name}
-          </h3>
+              {name}
+            </h3>
           </div>
-          
+
           {uniqueCertifications.length > 0 && (
             <div className="flex flex-wrap gap-2 text-xs font-medium text-[var(--trust-blue)]">
               {uniqueCertifications.map((cert) => (
