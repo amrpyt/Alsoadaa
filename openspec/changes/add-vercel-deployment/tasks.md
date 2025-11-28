@@ -6,12 +6,14 @@
 - [x] 1.3 Configure build settings (Vite auto-detected)
 - [x] 1.4 Deploy to production
 - [x] 1.5 Verify site loads at https://alsoadaa.vercel.app
+- [x] 1.6 Add vercel.json for SPA routing (fixed 404 on direct routes)
+- [x] 1.7 Add .env.example with Sanity config documentation
 
 ## 2. Environment Variables
-- [ ] 2.1 Add VITE_SANITY_PROJECT_ID
-- [ ] 2.2 Add VITE_SANITY_DATASET
-- [ ] 2.3 Add VITE_SANITY_TOKEN (if needed)
-- [ ] 2.4 Verify env vars work in production build
+- [ ] 2.1 Add VITE_SANITY_PROJECT_ID=wptd4h7v in Vercel dashboard
+- [ ] 2.2 Add VITE_SANITY_DATASET=production in Vercel dashboard
+- [ ] 2.3 Add VITE_SANITY_TOKEN (if needed for form submissions)
+- [ ] 2.4 Redeploy after adding env vars
 - [ ] 2.5 Test Sanity content loads correctly
 
 ## 3. Domain Configuration
