@@ -17,11 +17,11 @@
 
 - [x] 2.1 Create reusable error message component
 - [x] 2.2 Implement auto-retry with exponential backoff (3 attempts)
-- [ ] 2.3 Show network status indicator
-- [ ] 2.4 Add contact support button for persistent errors
+- [x] 2.3 Show network status indicator
+- [x] 2.4 Add contact support button for persistent errors
 - [ ] 2.5 Log errors to monitoring service (Sentry/similar)
-- [ ] 2.6 Display different messages for network vs. server errors
-- [ ] 2.7 Add error recovery instructions
+- [x] 2.6 Display different messages for network vs. server errors
+- [x] 2.7 Add error recovery instructions
 - [ ] 2.8 Test error scenarios (offline, slow network, 500 errors)
 
 ## Phase 3: Form State Management
@@ -30,10 +30,10 @@
 - [x] 3.2 Save form data to localStorage on field change (debounced)
 - [x] 3.3 Restore form data from localStorage on mount
 - [x] 3.4 Clear localStorage on successful submission
-- [ ] 3.5 Show "Resume previous request?" dialog if data exists
+- [x] 3.5 Show "Resume previous request?" dialog if data exists
 - [x] 3.6 Save current step number in localStorage
 - [x] 3.7 Add "Clear form" button with confirmation
-- [ ] 3.8 Handle localStorage quota exceeded gracefully
+- [x] 3.8 Handle localStorage quota exceeded gracefully
 - [x] 3.9 Add expiry timestamp to cached form data (24 hours)
 - [ ] 3.10 Test form persistence across browser refresh
 
@@ -54,7 +54,7 @@
 - [x] 5.2 Highlight required fields with red border when empty
 - [ ] 5.3 Show field requirements on focus (tooltips)
 - [ ] 5.4 Display validation errors in real-time (on blur)
-- [ ] 5.5 Add character count for text areas
+- [x] 5.5 Add character count for text areas
 - [ ] 5.6 Show password strength indicator (if applicable)
 - [ ] 5.7 Enable Next button with tooltip explaining why it's disabled
 - [ ] 5.8 Add form completion progress bar
