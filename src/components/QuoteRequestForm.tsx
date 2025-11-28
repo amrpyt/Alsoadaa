@@ -665,6 +665,10 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
                   onChange={(e) => updateField('companyName', e.target.value)}
                   onBlur={() => handleFieldBlur('companyName')}
                   placeholder="Your company name"
+                  aria-label="Company Name"
+                  aria-required="true"
+                  aria-invalid={touched.companyName && !!validationErrors.companyName}
+                  aria-describedby={validationErrors.companyName ? 'companyName-error' : undefined}
                   className={`h-12 px-4 rounded-lg border-2 transition-all duration-200 ${
                     touched.companyName && validationErrors.companyName
                       ? 'border-red-400 bg-red-50 focus:border-red-500 focus:ring-4 focus:ring-red-100'
@@ -672,8 +676,8 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
                   }`}
                 />
                 {touched.companyName && validationErrors.companyName && (
-                  <p className="text-red-600 text-xs mt-1 flex items-center gap-1 font-medium">
-                    <AlertCircle className="w-3.5 h-3.5" />
+                  <p id="companyName-error" role="alert" className="text-red-600 text-xs mt-1 flex items-center gap-1 font-medium">
+                    <AlertCircle className="w-3.5 h-3.5" aria-hidden="true" />
                     {validationErrors.companyName}
                   </p>
                 )}
@@ -687,6 +691,10 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
                   onChange={(e) => updateField('contactPerson', e.target.value)}
                   onBlur={() => handleFieldBlur('contactPerson')}
                   placeholder="Your full name"
+                  aria-label="Contact Person"
+                  aria-required="true"
+                  aria-invalid={touched.contactPerson && !!validationErrors.contactPerson}
+                  aria-describedby={validationErrors.contactPerson ? 'contactPerson-error' : undefined}
                   className={`h-12 px-4 rounded-lg border-2 transition-all duration-200 ${
                     touched.contactPerson && validationErrors.contactPerson
                       ? 'border-red-400 bg-red-50 focus:border-red-500 focus:ring-4 focus:ring-red-100'
@@ -694,8 +702,8 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
                   }`}
                 />
                 {touched.contactPerson && validationErrors.contactPerson && (
-                  <p className="text-red-600 text-xs mt-1 flex items-center gap-1 font-medium">
-                    <AlertCircle className="w-3.5 h-3.5" />
+                  <p id="contactPerson-error" role="alert" className="text-red-600 text-xs mt-1 flex items-center gap-1 font-medium">
+                    <AlertCircle className="w-3.5 h-3.5" aria-hidden="true" />
                     {validationErrors.contactPerson}
                   </p>
                 )}
@@ -712,6 +720,10 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
                   onChange={(e) => updateField('email', e.target.value)}
                   onBlur={() => handleFieldBlur('email')}
                   placeholder="your.email@company.com"
+                  aria-label="Email Address"
+                  aria-required="true"
+                  aria-invalid={touched.email && !!validationErrors.email}
+                  aria-describedby={validationErrors.email ? 'email-error' : undefined}
                   className={`h-12 px-4 rounded-lg border-2 transition-all duration-200 ${
                     touched.email && validationErrors.email
                       ? 'border-red-400 bg-red-50 focus:border-red-500 focus:ring-4 focus:ring-red-100'
@@ -719,8 +731,8 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
                   }`}
                 />
                 {touched.email && validationErrors.email && (
-                  <p className="text-red-600 text-xs mt-1 flex items-center gap-1 font-medium">
-                    <AlertCircle className="w-3.5 h-3.5" />
+                  <p id="email-error" role="alert" className="text-red-600 text-xs mt-1 flex items-center gap-1 font-medium">
+                    <AlertCircle className="w-3.5 h-3.5" aria-hidden="true" />
                     {validationErrors.email}
                   </p>
                 )}
@@ -735,6 +747,10 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
                   onChange={(e) => updateField('phone', e.target.value)}
                   onBlur={() => handleFieldBlur('phone')}
                   placeholder="+20 123 456 7890"
+                  aria-label="Phone Number"
+                  aria-required="true"
+                  aria-invalid={touched.phone && !!validationErrors.phone}
+                  aria-describedby={validationErrors.phone ? 'phone-error' : undefined}
                   className={`h-12 px-4 rounded-lg border-2 transition-all duration-200 ${
                     touched.phone && validationErrors.phone
                       ? 'border-red-400 bg-red-50 focus:border-red-500 focus:ring-4 focus:ring-red-100'
@@ -742,8 +758,8 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
                   }`}
                 />
                 {touched.phone && validationErrors.phone && (
-                  <p className="text-red-600 text-xs mt-1 flex items-center gap-1 font-medium">
-                    <AlertCircle className="w-3.5 h-3.5" />
+                  <p id="phone-error" role="alert" className="text-red-600 text-xs mt-1 flex items-center gap-1 font-medium">
+                    <AlertCircle className="w-3.5 h-3.5" aria-hidden="true" />
                     {validationErrors.phone}
                   </p>
                 )}
