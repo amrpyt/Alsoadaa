@@ -40,9 +40,9 @@
 ## Phase 4: Enhanced UX - Loading States
 
 - [x] 4.1 Create skeleton loader components for product cards
-- [ ] 4.2 Add spinner with text for form submission
-- [ ] 4.3 Disable submit button during submission
-- [ ] 4.4 Change button text to "Submitting..." during submission
+- [x] 4.2 Add spinner with text for form submission
+- [x] 4.3 Disable submit button during submission
+- [x] 4.4 Change button text to "Submitting..." during submission
 - [ ] 4.5 Add progress percentage for multi-step upload
 - [ ] 4.6 Show optimistic UI updates
 - [ ] 4.7 Add transition animations between steps
@@ -53,11 +53,11 @@
 - [x] 5.1 Add inline error messages below invalid fields
 - [x] 5.2 Highlight required fields with red border when empty
 - [ ] 5.3 Show field requirements on focus (tooltips)
-- [ ] 5.4 Display validation errors in real-time (on blur)
+- [x] 5.4 Display validation errors in real-time (on blur)
 - [x] 5.5 Add character count for text areas
 - [ ] 5.6 Show password strength indicator (if applicable)
 - [ ] 5.7 Enable Next button with tooltip explaining why it's disabled
-- [ ] 5.8 Add form completion progress bar
+- [x] 5.8 Add form completion progress bar
 - [x] 5.9 Validate email format with regex
 - [ ] 5.10 Validate phone number format by country
 
@@ -89,11 +89,11 @@
 
 ## Phase 8: Accessibility
 
-- [ ] 8.1 Add `aria-label` to all form inputs
-- [ ] 8.2 Add `aria-describedby` linking labels to inputs
-- [ ] 8.3 Add `aria-invalid` to fields with validation errors
-- [ ] 8.4 Create `aria-live` region for dynamic error messages
-- [ ] 8.5 Add `aria-required` to required fields
+- [x] 8.1 Add `aria-label` to all form inputs
+- [x] 8.2 Add `aria-describedby` linking labels to inputs
+- [x] 8.3 Add `aria-invalid` to fields with validation errors
+- [x] 8.4 Create `aria-live` region for dynamic error messages
+- [x] 8.5 Add `aria-required` to required fields
 - [ ] 8.6 Ensure proper heading hierarchy (h1, h2, h3)
 - [ ] 8.7 Test tab order follows visual flow
 - [ ] 8.8 Enable Enter key to submit form
