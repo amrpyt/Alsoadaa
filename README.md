@@ -8,7 +8,7 @@ A modern, responsive website built with React, TypeScript, Vite, and Tailwind CS
 - ⚡ Fast development with Vite
 - 📱 Fully responsive design
 - 🎯 TypeScript for type safety
-- 🚀 Git-based deployment with Dokploy
+- 🚀 Git-based deployment with Vercel
 - 🌐 Multi-language support (Arabic, English, Russian)
 - 📝 Sanity.io CMS for content management
 - 🖼️ Optimized image delivery via Sanity CDN
@@ -48,9 +48,11 @@ npm run dev
 
 ## Production Deployment
 
-### Dokploy Deployment (Recommended)
+### Vercel Deployment (Recommended)
 
-This project is configured for Git-based deployment using Dokploy (similar to Vercel workflow).
+This project is deployed on Vercel with automatic deployments from GitHub.
+
+**Live URL:** https://alsoadaa.vercel.app
 
 #### Quick Start
 
@@ -58,23 +60,25 @@ This project is configured for Git-based deployment using Dokploy (similar to Ve
 ```bash
 git push origin main
 ```
+Vercel will automatically build and deploy.
 
-2. **Deploy on Dokploy:**
-   - See complete guide: [docs/DOKPLOY_SETUP.md](./docs/DOKPLOY_SETUP.md)
-   - Build Command: `npm install && npm run build`
-   - Output Directory: `dist`
-   - Node.js Version: 18.x or 20.x
+2. **Manual Deploy (if needed):**
+```bash
+npm install -g vercel
+vercel --prod
+```
 
-3. **Add Environment Variables in Dokploy:**
-   - `VITE_SANITY_PROJECT_ID`
-   - `VITE_SANITY_DATASET`
-   - `VITE_SANITY_API_VERSION`
-   - `VITE_SANITY_USE_CDN`
-   - `VITE_SANITY_TOKEN`
+#### Environment Variables (Vercel Dashboard)
+
+| Variable | Value |
+|----------|-------|
+| `VITE_SANITY_PROJECT_ID` | `wptd4h7v` |
+| `VITE_SANITY_DATASET` | `production` |
+| `VITE_SANITY_TOKEN` | (your token) |
 
 #### Auto-Deploy
 
-Enable auto-deploy in Dokploy settings to automatically deploy on every push to main branch.
+Auto-deploy is enabled. Every push to `main` branch triggers a new deployment.
 
 ### Building for Production
 
