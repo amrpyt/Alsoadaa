@@ -162,6 +162,47 @@ export interface Translations {
   deliveryQuarter: string;
   deliveryFlexible: string;
   
+  // New Keys
+  resumeRequestTitle: string;
+  resumeRequestMessage: string;
+  startFreshButton: string;
+  continueButton: string;
+  step: string;
+  of: string;
+  complete: string;
+  offlineMessage: string;
+  online: string;
+  offline: string;
+  requestQuoteTitle: string;
+  requestQuoteSubtitle: string;
+  summaryTitle: string;
+  shareRequirements: string;
+  submitting: string;
+  submitQuoteRequest: string;
+  otherCountry: string;
+  validationRequired: string;
+  validationEmail: string;
+  validationPhone: string;
+  validationCompany: string;
+  validationContact: string;
+  validationCountry: string;
+  validationQuantity: string;
+  validationDelivery: string;
+  noProductsFound: string;
+  fillAllFields: string;
+  networkError: string;
+  serverError: string;
+  authError: string;
+  maxRetriesError: string;
+  connectionError: string;
+  loadFailed: string;
+  tryTheseSteps: string;
+  refreshPage: string;
+  clearCache: string;
+  tryLater: string;
+  contactSupport: string;
+  showingCached: string;
+
   // Months
   january: string;
   february: string;
@@ -356,6 +397,47 @@ export const translations: Record<Language, Translations> = {
     deliveryQuarter: 'Within 3 months',
     deliveryFlexible: 'Flexible',
     
+    // New Keys
+    resumeRequestTitle: 'Resume Previous Request?',
+    resumeRequestMessage: 'You have an unfinished quote request. Would you like to continue where you left off?',
+    startFreshButton: 'Start Fresh',
+    continueButton: 'Continue',
+    step: 'Step',
+    of: 'of',
+    complete: 'Complete',
+    offlineMessage: "You're offline. Some features may be limited.",
+    online: 'Online',
+    offline: 'Offline',
+    requestQuoteTitle: 'Request a Quote',
+    requestQuoteSubtitle: 'Get a customized quote for premium Egyptian products',
+    summaryTitle: 'Summary',
+    shareRequirements: 'Share any specific requirements or questions',
+    submitting: 'Submitting...',
+    submitQuoteRequest: 'Submit Quote Request',
+    otherCountry: 'Other',
+    validationRequired: 'is required',
+    validationEmail: 'Please enter a valid email address',
+    validationPhone: 'Please enter a valid phone number',
+    validationCompany: 'Company name must be at least 2 characters',
+    validationContact: 'Contact person name must be at least 2 characters',
+    validationCountry: 'Please select a country',
+    validationQuantity: 'Please select a quantity range',
+    validationDelivery: 'Please select a delivery timeframe',
+    noProductsFound: 'No products found. Please select products again.',
+    fillAllFields: 'Please fill in all required fields before submitting.',
+    networkError: 'Network connection issue. Please check your internet and try again.',
+    serverError: 'Our servers are experiencing issues. Please try again in a few minutes.',
+    authError: 'Authentication error. Please refresh the page and try again.',
+    maxRetriesError: 'Failed to load products after multiple attempts.',
+    connectionError: 'Unable to connect. Please check your internet connection.',
+    loadFailed: 'Failed to load products. Please try again.',
+    tryTheseSteps: 'Try these steps:',
+    refreshPage: 'Refresh the page',
+    clearCache: 'Clear your browser cache',
+    tryLater: 'Try again in a few minutes',
+    contactSupport: 'Contact Support',
+    showingCached: 'Showing Cached Products (Limited)',
+
     // Months
     january: 'January',
     february: 'February',
@@ -519,6 +601,47 @@ export const translations: Record<Language, Translations> = {
     
     // Common
     viewDetails: 'عرض التفاصيل',
+    
+    // New Keys (Arabic)
+    resumeRequestTitle: 'استكمال الطلب السابق؟',
+    resumeRequestMessage: 'لديك طلب عرض سعر غير مكتمل. هل ترغب في المتابعة من حيث توقفت؟',
+    startFreshButton: 'بدء جديد',
+    continueButton: 'متابعة',
+    step: 'خطوة',
+    of: 'من',
+    complete: 'مكتمل',
+    offlineMessage: "أنت غير متصل بالإنترنت. قد تكون بعض الميزات محدودة.",
+    online: 'متصل',
+    offline: 'غير متصل',
+    requestQuoteTitle: 'طلب عرض سعر',
+    requestQuoteSubtitle: 'احصل على عرض سعر مخصص للمنتجات المصرية المميزة',
+    summaryTitle: 'الملخص',
+    shareRequirements: 'شارك أي متطلبات أو أسئلة محددة',
+    submitting: 'جاري الإرسال...',
+    submitQuoteRequest: 'إرسال طلب العرض',
+    otherCountry: 'أخرى',
+    validationRequired: 'مطلوب',
+    validationEmail: 'يرجى إدخال عنوان بريد إلكتروني صالح',
+    validationPhone: 'يرجى إدخال رقم هاتف صالح',
+    validationCompany: 'يجب أن يكون اسم الشركة حرفين على الأقل',
+    validationContact: 'يجب أن يكون اسم الشخص المسؤول حرفين على الأقل',
+    validationCountry: 'يرجى اختيار دولة',
+    validationQuantity: 'يرجى اختيار نطاق الكمية',
+    validationDelivery: 'يرجى اختيار إطار زمني للتسليم',
+    noProductsFound: 'لم يتم العثور على منتجات. يرجى اختيار المنتجات مرة أخرى.',
+    fillAllFields: 'يرجى ملء جميع الحقول المطلوبة قبل الإرسال.',
+    networkError: 'مشكلة في الاتصال بالشبكة. يرجى التحقق من الإنترنت والمحاولة مرة أخرى.',
+    serverError: 'تواجه خوادمنا مشاكل. يرجى المحاولة مرة أخرى بعد بضع دقائق.',
+    authError: 'خطأ في المصادقة. يرجى تحديث الصفحة والمحاولة مرة أخرى.',
+    maxRetriesError: 'فشل تحميل المنتجات بعد عدة محاولات.',
+    connectionError: 'تعذر الاتصال. يرجى التحقق من اتصال الإنترنت الخاص بك.',
+    loadFailed: 'فشل تحميل المنتجات. يرجى المحاولة مرة أخرى.',
+    tryTheseSteps: 'جرب هذه الخطوات:',
+    refreshPage: 'تحديث الصفحة',
+    clearCache: 'مسح ذاكرة التخزين المؤقت للمتصفح',
+    tryLater: 'حاول مرة أخرى بعد بضع دقائق',
+    contactSupport: 'اتصل بالدعم',
+    showingCached: 'عرض المنتجات المحفوظة (محدود)',
     
     // Quote Form (missing from ar)
     contactInformationStep: 'معلومات الاتصال',

@@ -29,7 +29,7 @@ interface FormData {
 }
 
 export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
-  const { language } = useLanguage();
+  const { language, t } = useLanguage();
   const { 
     cachedData, 
     saveFormData, 
@@ -179,19 +179,19 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
         if (retryCount >= maxRetries) {
           console.log('🚫 Max auto-retries reached');
           if (isNetworkError) {
-            setError('Network connection issue. Please check your internet and try again.');
+            setError(t.networkError);
           } else if (isServerError) {
-            setError('Our servers are experiencing issues. Please try again in a few minutes.');
+            setError(t.serverError);
           } else if (isAuthError) {
-            setError('Authentication error. Please refresh the page and try again.');
+            setError(t.authError);
           } else {
-            setError(`Failed to load products after ${maxRetries} attempts. Please contact support if the issue persists.`);
+            setError(t.maxRetriesError);
           }
         } else {
           if (isNetworkError) {
-            setError('Unable to connect. Please check your internet connection.');
+            setError(t.connectionError);
           } else {
-            setError('Failed to load products. Please try again.');
+            setError(t.loadFailed);
           }
         }
         
@@ -206,7 +206,7 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
             const parsed = JSON.parse(cachedProducts);
             if (parsed && parsed.length > 0) {
               setProducts(parsed);
-              setError('Showing cached products. Some features may be limited.');
+              setError(t.showingCached);
             }
           } catch (parseError) {
             console.error('❌ Failed to parse cached products:', parseError);
@@ -239,41 +239,41 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
     switch (field) {
       case 'companyName':
         if (!value || value.trim().length < 2) {
-          return 'Company name must be at least 2 characters';
+          return t.validationCompany;
         }
         break;
       case 'contactPerson':
         if (!value || value.trim().length < 2) {
-          return 'Contact person name must be at least 2 characters';
+          return t.validationContact;
         }
         break;
       case 'email':
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!value) {
-          return 'Email is required';
+          return `${t.emailAddressLabel} ${t.validationRequired}`;
         }
         if (!emailRegex.test(value)) {
-          return 'Please enter a valid email address';
+          return t.validationEmail;
         }
         break;
       case 'phone':
         if (!value || value.trim().length < 5) {
-          return 'Please enter a valid phone number';
+          return t.validationPhone;
         }
         break;
       case 'country':
         if (!value) {
-          return 'Please select a country';
+          return t.validationCountry;
         }
         break;
       case 'quantity':
         if (!value) {
-          return 'Please select a quantity range';
+          return t.validationQuantity;
         }
         break;
       case 'deliveryTimeframe':
         if (!value) {
-          return 'Please select a delivery timeframe';
+          return t.validationDelivery;
         }
         break;
       default:
@@ -362,7 +362,7 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
       const step2Error = formData.products.length === 0 || !formData.quantity || !formData.deliveryTimeframe;
       
       if (step1Error || step2Error) {
-        setError('Please fill in all required fields before submitting.');
+        setError(t.fillAllFields);
         setSubmitting(false);
         return;
       }
@@ -373,7 +373,7 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
         .map(p => p.title);
 
       if (selectedProducts.length === 0) {
-        setError('No products found. Please select products again.');
+        setError(t.noProductsFound);
         setSubmitting(false);
         return;
       }
@@ -431,52 +431,52 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
         
         {/* Success Title */}
         <h2 className="text-3xl font-bold mb-2" style={{ color: 'var(--gray-900)' }}>
-          Quote Request Submitted!
+          {t.quoteSubmittedTitle}
         </h2>
         <p className="text-lg mb-8" style={{ color: 'var(--gray-600)' }}>
-          Thank you for your interest in our products. We've received your request and will review it shortly.
+          {t.quoteSubmittedMessage}
         </p>
 
         {/* Reference Number */}
         {referenceNumber && (
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8">
-            <p className="text-sm text-blue-600 mb-2">Reference Number</p>
+            <p className="text-sm text-blue-600 mb-2">{t.referenceNumberLabel}</p>
             <p className="text-2xl font-bold text-blue-900 font-mono">{referenceNumber}</p>
-            <p className="text-xs text-blue-600 mt-2">Save this number for your records</p>
+            <p className="text-xs text-blue-600 mt-2">{t.saveReferenceText}</p>
           </div>
         )}
 
         {/* Confirmation Details */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 text-left">
           <div className="p-4 rounded-lg" style={{ backgroundColor: 'var(--citrus-orange-bg)' }}>
-            <p className="text-sm font-semibold mb-1" style={{ color: 'var(--gray-900)' }}>Confirmation Email</p>
+            <p className="text-sm font-semibold mb-1" style={{ color: 'var(--gray-900)' }}>{t.confirmationEmailLabel}</p>
             <p className="text-sm" style={{ color: 'var(--gray-700)' }}>
-              A confirmation email has been sent to <strong>{formData.email}</strong>
+              {t.confirmationEmailMessage} <strong>{formData.email}</strong>
             </p>
           </div>
           <div className="p-4 rounded-lg" style={{ backgroundColor: 'var(--fresh-green-bg)' }}>
-            <p className="text-sm font-semibold mb-1" style={{ color: 'var(--gray-900)' }}>Response Time</p>
+            <p className="text-sm font-semibold mb-1" style={{ color: 'var(--gray-900)' }}>{t.responseTimeLabel}</p>
             <p className="text-sm" style={{ color: 'var(--gray-700)' }}>
-              Our team will respond within <strong>24-48 hours</strong>
+              {t.responseTimeMessage}
             </p>
           </div>
         </div>
 
         {/* Selected Products Summary */}
         <div className="mb-8 text-left">
-          <h3 className="font-semibold mb-3" style={{ color: 'var(--gray-900)' }}>Your Selection</h3>
+          <h3 className="font-semibold mb-3" style={{ color: 'var(--gray-900)' }}>{t.yourSelectionLabel}</h3>
           <div className="space-y-2">
             <p className="text-sm" style={{ color: 'var(--gray-700)' }}>
-              <strong>Products:</strong> {products.filter(p => formData.products.includes(p._id)).map(p => p.title).join(', ')}
+              <strong>{t.productsLabel}:</strong> {products.filter(p => formData.products.includes(p._id)).map(p => p.title).join(', ')}
             </p>
             <p className="text-sm" style={{ color: 'var(--gray-700)' }}>
-              <strong>Quantity:</strong> {formData.quantity}
+              <strong>{t.quantityLabel}:</strong> {formData.quantity}
             </p>
             <p className="text-sm" style={{ color: 'var(--gray-700)' }}>
-              <strong>Delivery:</strong> {formData.deliveryTimeframe}
+              <strong>{t.deliveryLabel}:</strong> {formData.deliveryTimeframe}
             </p>
             <p className="text-sm" style={{ color: 'var(--gray-700)' }}>
-              <strong>Country:</strong> {formData.country}
+              <strong>{t.country}:</strong> {formData.country}
             </p>
           </div>
         </div>
@@ -487,7 +487,7 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
             onClick={onClose}
             className="bg-[var(--citrus-orange)] hover:bg-[var(--citrus-orange-hover)]"
           >
-            Back to Home
+            {t.backToHomeButton}
           </Button>
           <Button
             onClick={() => {
@@ -508,20 +508,20 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
             }}
             variant="outline"
           >
-            Submit Another Request
+            {t.submitAnotherButton}
           </Button>
         </div>
 
         {/* Support Link */}
         <div className="mt-8 pt-6 border-t" style={{ borderColor: 'var(--gray-300)' }}>
           <p className="text-sm" style={{ color: 'var(--gray-600)' }}>
-            Need immediate assistance?{' '}
+            {t.needHelpText}{' '}
             <a
               href="mailto:sales@alsoadaa.com"
               className="font-semibold hover:underline"
               style={{ color: 'var(--trust-blue)' }}
             >
-              Contact our sales team
+              {t.contactSalesLink}
             </a>
           </p>
         </div>
@@ -537,9 +537,9 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
           <div className="w-16 h-16 rounded-full bg-orange-100 mx-auto mb-4 flex items-center justify-center">
             <HelpCircle className="w-8 h-8 text-orange-600" />
           </div>
-          <h3 className="text-xl font-bold mb-2 text-gray-900">Resume Previous Request?</h3>
+          <h3 className="text-xl font-bold mb-2 text-gray-900">{t.resumeRequestTitle}</h3>
           <p className="text-gray-600 mb-6">
-            You have an unfinished quote request. Would you like to continue where you left off?
+            {t.resumeRequestMessage}
           </p>
           <div className="flex gap-3 justify-center">
             <Button
@@ -561,13 +561,13 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
                 setShowResumeDialog(false);
               }}
             >
-              Start Fresh
+              {t.startFreshButton}
             </Button>
             <Button
               className="bg-orange-500 hover:bg-orange-600"
               onClick={() => setShowResumeDialog(false)}
             >
-              Continue
+              {t.continueButton}
             </Button>
           </div>
         </Card>
@@ -582,7 +582,7 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
         <div className="mb-4 p-3 rounded-lg bg-yellow-50 border border-yellow-200 flex items-center gap-2">
           <WifiOff className="w-5 h-5 text-yellow-600" />
           <span className="text-yellow-800 text-sm font-medium">
-            You're offline. Some features may be limited.
+            {t.offlineMessage}
           </span>
         </div>
       )}
@@ -594,17 +594,17 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
             {isOnline ? (
               <span className="flex items-center gap-1 text-xs text-green-200">
                 <Wifi className="w-3.5 h-3.5" />
-                Online
+                {t.online}
               </span>
             ) : (
               <span className="flex items-center gap-1 text-xs text-yellow-200">
                 <WifiOff className="w-3.5 h-3.5" />
-                Offline
+                {t.offline}
               </span>
             )}
           </div>
-          <h2 className="text-3xl font-bold mb-2">Request a Quote</h2>
-          <p className="text-orange-50">Get a customized quote for premium Egyptian products</p>
+          <h2 className="text-3xl font-bold mb-2">{t.requestQuoteTitle}</h2>
+          <p className="text-orange-50">{t.requestQuoteSubtitle}</p>
         </div>
         
         <div className="p-8 md:p-12">
@@ -616,11 +616,11 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
                   {currentStep}
                 </div>
                 <span className="text-sm font-semibold text-gray-900">
-                  Step {currentStep} of 3
+                  {t.step} {currentStep} {t.of} 3
                 </span>
               </div>
               <span className="text-sm font-medium text-gray-500">
-                {Math.round((currentStep / 3) * 100)}% Complete
+                {Math.round((currentStep / 3) * 100)}% {t.complete}
               </span>
             </div>
             <div className="relative w-full h-3 rounded-full bg-gray-100 overflow-hidden shadow-inner">
@@ -637,13 +637,13 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
             {/* Step Labels */}
             <div className="flex justify-between mt-4 text-xs font-medium">
               <span className={currentStep >= 1 ? 'text-orange-600' : 'text-gray-400'}>
-                Contact Info
+                {t.contactInformationStep}
               </span>
               <span className={currentStep >= 2 ? 'text-orange-600' : 'text-gray-400'}>
-                Product Selection
+                {t.productSelectionStep}
               </span>
               <span className={currentStep >= 3 ? 'text-orange-600' : 'text-gray-400'}>
-                Final Details
+                {t.additionalDetailsStep}
               </span>
             </div>
           </div>
@@ -652,19 +652,19 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
         {currentStep === 1 && (
           <div className="space-y-6 animate-in fade-in-50 duration-500">
             <div className="border-l-4 border-orange-500 pl-4 mb-6">
-              <h3 className="text-2xl font-bold text-gray-900 mb-1">Contact Information</h3>
-              <p className="text-sm text-gray-600">Let us know how to reach you</p>
+              <h3 className="text-2xl font-bold text-gray-900 mb-1">{t.contactInformationStep}</h3>
+              <p className="text-sm text-gray-600">{t.contactDescription}</p>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <Label htmlFor="companyName" className="text-sm font-semibold text-gray-700">Company Name *</Label>
+                <Label htmlFor="companyName" className="text-sm font-semibold text-gray-700">{t.companyNameLabel}</Label>
                 <Input
                   id="companyName"
                   value={formData.companyName}
                   onChange={(e) => updateField('companyName', e.target.value)}
                   onBlur={() => handleFieldBlur('companyName')}
-                  placeholder="Your company name"
+                  placeholder={t.companyNameLabel.replace('*', '')}
                   aria-label="Company Name"
                   aria-required="true"
                   aria-invalid={touched.companyName && !!validationErrors.companyName}
@@ -684,13 +684,13 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="contactPerson" className="text-sm font-semibold text-gray-700">Contact Person *</Label>
+                <Label htmlFor="contactPerson" className="text-sm font-semibold text-gray-700">{t.contactPersonLabel}</Label>
                 <Input
                   id="contactPerson"
                   value={formData.contactPerson}
                   onChange={(e) => updateField('contactPerson', e.target.value)}
                   onBlur={() => handleFieldBlur('contactPerson')}
-                  placeholder="Your full name"
+                  placeholder={t.contactPersonLabel.replace('*', '')}
                   aria-label="Contact Person"
                   aria-required="true"
                   aria-invalid={touched.contactPerson && !!validationErrors.contactPerson}
@@ -712,14 +712,14 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-sm font-semibold text-gray-700">Email Address *</Label>
+                <Label htmlFor="email" className="text-sm font-semibold text-gray-700">{t.emailAddressLabel}</Label>
                 <Input
                   id="email"
                   type="email"
                   value={formData.email}
                   onChange={(e) => updateField('email', e.target.value)}
                   onBlur={() => handleFieldBlur('email')}
-                  placeholder="your.email@company.com"
+                  placeholder={t.emailAddressLabel.replace('*', '')}
                   aria-label="Email Address"
                   aria-required="true"
                   aria-invalid={touched.email && !!validationErrors.email}
@@ -739,14 +739,14 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="phone" className="text-sm font-semibold text-gray-700">Phone Number *</Label>
+                <Label htmlFor="phone" className="text-sm font-semibold text-gray-700">{t.phoneNumberLabel}</Label>
                 <Input
                   id="phone"
                   type="tel"
                   value={formData.phone}
                   onChange={(e) => updateField('phone', e.target.value)}
                   onBlur={() => handleFieldBlur('phone')}
-                  placeholder="+20 123 456 7890"
+                  placeholder={t.phoneNumberLabel.replace('*', '')}
                   aria-label="Phone Number"
                   aria-required="true"
                   aria-invalid={touched.phone && !!validationErrors.phone}
@@ -767,13 +767,13 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="country" className="text-sm font-semibold text-gray-700">Country *</Label>
+              <Label htmlFor="country" className="text-sm font-semibold text-gray-700">{t.country} *</Label>
               <Select 
                 value={formData.country} 
                 onValueChange={(value) => updateField('country', value)}
               >
                 <SelectTrigger className="h-12 rounded-lg border-2 border-gray-200 hover:border-gray-300 focus:border-orange-500 focus:ring-4 focus:ring-orange-100">
-                  <SelectValue placeholder="Select your country" />
+                  <SelectValue placeholder={t.selectCountryPlaceholder} />
                 </SelectTrigger>
                 <SelectContent className="z-[100] bg-white rounded-lg shadow-2xl border-2">
                   <SelectItem value="saudi" className="cursor-pointer hover:bg-orange-50">Saudi Arabia</SelectItem>
@@ -784,7 +784,7 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
                   <SelectItem value="france" className="cursor-pointer hover:bg-orange-50">France</SelectItem>
                   <SelectItem value="italy" className="cursor-pointer hover:bg-orange-50">Italy</SelectItem>
                   <SelectItem value="uae" className="cursor-pointer hover:bg-orange-50">UAE</SelectItem>
-                  <SelectItem value="other" className="cursor-pointer hover:bg-orange-50">Other</SelectItem>
+                  <SelectItem value="other" className="cursor-pointer hover:bg-orange-50">{t.otherCountry}</SelectItem>
                 </SelectContent>
               </Select>
               {touched.country && validationErrors.country && (
@@ -801,12 +801,12 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
         {currentStep === 2 && (
           <div className="space-y-4">
             <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--gray-900)' }}>
-              Product Selection
+              {t.productSelectionStep}
             </h3>
 
             {loading ? (
               <div className="space-y-4">
-                <Label>Loading Products...</Label>
+                <Label>{t.loadingProductsText}</Label>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2">
                   {[1, 2, 3, 4, 5, 6].map((skeleton) => (
                     <div
@@ -831,19 +831,19 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
                     <span className="text-2xl">⚠️</span>
                   </div>
                   <h4 className="text-lg font-semibold text-red-800 mb-2">
-                    Unable to Load Products
+                    {t.unableToLoadProductsTitle}
                   </h4>
                   <p className="text-red-600 mb-4">
-                    {error || 'Please check your internet connection and try again.'}
+                    {error || t.unableToLoadProductsMessage}
                   </p>
                   {/* Error recovery instructions */}
                   <div className="text-left bg-white rounded-lg p-4 mb-4 text-sm">
-                    <p className="font-semibold text-gray-700 mb-2">Try these steps:</p>
+                    <p className="font-semibold text-gray-700 mb-2">{t.tryTheseSteps}</p>
                     <ul className="list-disc list-inside space-y-1 text-gray-600">
-                      <li>Check your internet connection</li>
-                      <li>Refresh the page</li>
-                      <li>Clear your browser cache</li>
-                      <li>Try again in a few minutes</li>
+                      <li>{t.errorCheckConnection}</li>
+                      <li>{t.refreshPage}</li>
+                      <li>{t.clearCache}</li>
+                      <li>{t.tryLater}</li>
                     </ul>
                   </div>
                   <div className="flex gap-3 justify-center flex-wrap">
@@ -857,20 +857,20 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
                       ) : (
                         <Loader2 className="w-4 h-4 mr-2" />
                       )}
-                      {isRetrying ? 'Retrying...' : 'Retry'}
+                      {isRetrying ? t.retryButton : t.retryButton}
                     </Button>
                     <Button
                       variant="outline"
                       onClick={() => window.open('mailto:support@alsoadaa.com?subject=Product Loading Issue', '_blank')}
                       className="border-red-300 text-red-700 hover:bg-red-50"
                     >
-                      Contact Support
+                      {t.contactSupport}
                     </Button>
                   </div>
                 </div>
                 {products.length > 0 && (
                   <div className="mt-4">
-                    <Label className="text-amber-600">Showing Cached Products (Limited)</Label>
+                    <Label className="text-amber-600">{t.showingCached}</Label>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2">
                       {products.map((product) => (
                         <button
@@ -906,21 +906,21 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
                   <span className="text-2xl">📦</span>
                 </div>
                 <h4 className="text-lg font-semibold text-gray-800 mb-2">
-                  No Products Available
+                  {t.noProductsTitle}
                 </h4>
                 <p className="text-gray-600 mb-4">
-                  There are currently no products available for your language selection.
+                  {t.noProductsMessage}
                 </p>
                 <Button
                   onClick={retryFetch}
                   variant="outline"
                 >
-                  Refresh
+                  {t.refreshButton}
                 </Button>
               </div>
             ) : (
               <div>
-                <Label>Select Products of Interest *</Label>
+                <Label>{t.selectProductsLabel}</Label>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2">
                   {products.map((product) => (
                     <button
@@ -951,19 +951,19 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
             )}
 
             <div>
-              <Label htmlFor="quantity" className="text-sm font-medium mb-2 block">Estimated Quantity *</Label>
+              <Label htmlFor="quantity" className="text-sm font-medium mb-2 block">{t.estimatedQuantityLabel}</Label>
               <Select 
                 value={formData.quantity} 
                 onValueChange={(value) => updateField('quantity', value)}
               >
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select quantity range" />
+                  <SelectValue placeholder={t.selectQuantityPlaceholder} />
                 </SelectTrigger>
                 <SelectContent className="z-[100] bg-white">
-                  <SelectItem value="small">1-5 containers</SelectItem>
-                  <SelectItem value="medium">5-20 containers</SelectItem>
-                  <SelectItem value="large">20-50 containers</SelectItem>
-                  <SelectItem value="xlarge">50+ containers</SelectItem>
+                  <SelectItem value="small">{t.containers1to5}</SelectItem>
+                  <SelectItem value="medium">{t.containers5to20}</SelectItem>
+                  <SelectItem value="large">{t.containers20to50}</SelectItem>
+                  <SelectItem value="xlarge">{t.containers50plus}</SelectItem>
                 </SelectContent>
               </Select>
               {touched.quantity && validationErrors.quantity && (
@@ -975,19 +975,19 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
             </div>
 
             <div>
-              <Label htmlFor="deliveryTimeframe" className="text-sm font-medium mb-2 block">Preferred Delivery Timeframe *</Label>
+              <Label htmlFor="deliveryTimeframe" className="text-sm font-medium mb-2 block">{t.deliveryTimeframeLabel}</Label>
               <Select 
                 value={formData.deliveryTimeframe} 
                 onValueChange={(value) => updateField('deliveryTimeframe', value)}
               >
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="When do you need delivery?" />
+                  <SelectValue placeholder={t.deliveryTimeframePlaceholder} />
                 </SelectTrigger>
                 <SelectContent className="z-[100] bg-white">
-                  <SelectItem value="immediate">Immediate (within 2 weeks)</SelectItem>
-                  <SelectItem value="month">Within 1 month</SelectItem>
-                  <SelectItem value="quarter">Within 3 months</SelectItem>
-                  <SelectItem value="flexible">Flexible</SelectItem>
+                  <SelectItem value="immediate">{t.deliveryImmediate}</SelectItem>
+                  <SelectItem value="month">{t.deliveryMonth}</SelectItem>
+                  <SelectItem value="quarter">{t.deliveryQuarter}</SelectItem>
+                  <SelectItem value="flexible">{t.deliveryFlexible}</SelectItem>
                 </SelectContent>
               </Select>
               {touched.deliveryTimeframe && validationErrors.deliveryTimeframe && (
@@ -1004,11 +1004,11 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
         {currentStep === 3 && (
           <div className="space-y-4">
             <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--gray-900)' }}>
-              Additional Details
+              {t.additionalDetailsStep}
             </h3>
 
             <div>
-              <Label htmlFor="message">Additional Message (Optional)</Label>
+              <Label htmlFor="message">{t.additionalMessageLabel}</Label>
               <Textarea
                 id="message"
                 value={formData.message}
@@ -1017,13 +1017,13 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
                     updateField('message', e.target.value);
                   }
                 }}
-                placeholder="Any specific requirements, questions, or details you'd like to share..."
+                placeholder={t.shareRequirements}
                 rows={6}
                 maxLength={1000}
               />
               <div className="flex justify-between mt-1">
                 <span className="text-xs text-gray-500">
-                  Share any specific requirements or questions
+                  {t.shareRequirements}
                 </span>
                 <span className={`text-xs ${formData.message.length > 900 ? 'text-orange-600' : 'text-gray-400'}`}>
                   {formData.message.length}/1000
@@ -1032,13 +1032,13 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
             </div>
 
             <div className="p-4 rounded-lg" style={{ backgroundColor: 'var(--citrus-orange-bg)' }}>
-              <h4 className="font-semibold mb-2" style={{ color: 'var(--gray-900)' }}>Summary</h4>
+              <h4 className="font-semibold mb-2" style={{ color: 'var(--gray-900)' }}>{t.summaryTitle}</h4>
               <div className="text-sm space-y-1" style={{ color: 'var(--gray-700)' }}>
-                <p><strong>Company:</strong> {formData.companyName}</p>
-                <p><strong>Contact:</strong> {formData.contactPerson}</p>
-                <p><strong>Email:</strong> {formData.email}</p>
-                <p><strong>Products:</strong> {formData.products.length} selected</p>
-                <p><strong>Quantity:</strong> {formData.quantity}</p>
+                <p><strong>{t.company}:</strong> {formData.companyName}</p>
+                <p><strong>{t.contact}:</strong> {formData.contactPerson}</p>
+                <p><strong>{t.email}:</strong> {formData.email}</p>
+                <p><strong>{t.productsLabel}:</strong> {formData.products.length} selected</p>
+                <p><strong>{t.quantityLabel}:</strong> {formData.quantity}</p>
               </div>
             </div>
           </div>
@@ -1054,7 +1054,7 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
               className="h-12 px-6 rounded-lg border-2 border-gray-300 hover:border-gray-400 hover:bg-gray-50 transition-all duration-200 font-semibold disabled:opacity-40"
             >
               <ChevronLeft className="w-5 h-5 mr-2" />
-              Back
+              {t.backButton}
             </Button>
             {cachedData && (
               <Button
@@ -1062,7 +1062,7 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
                 onClick={clearForm}
                 className="h-12 px-4 rounded-lg font-medium"
               >
-                Clear Form
+                {t.clearFormButton}
               </Button>
             )}
           </div>
@@ -1073,7 +1073,7 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
               disabled={!canProceed()}
               className="h-12 px-8 rounded-lg bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Next Step
+              {t.nextButton}
               <ChevronRight className="w-5 h-5 ml-2" />
             </Button>
           ) : (
@@ -1085,11 +1085,11 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
               {submitting ? (
                 <>
                   <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                  Submitting...
+                  {t.submitting}
                 </>
               ) : (
                 <>
-                  Submit Quote Request
+                  {t.submitQuoteRequest}
                   <Check className="w-5 h-5 ml-2" />
                 </>
               )}
@@ -1105,15 +1105,15 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
                 <AlertCircle className="w-5 h-5 text-white" />
               </div>
               <div className="flex-1">
-                <p className="font-bold text-red-900 mb-2 text-lg">Error</p>
+                <p className="font-bold text-red-900 mb-2 text-lg">{t.errorTitle}</p>
                 <p className="text-red-800 text-sm mb-3 font-medium">{error}</p>
                 <div className="space-y-1.5 text-xs text-red-700">
-                  <p className="font-semibold">What to do:</p>
+                  <p className="font-semibold">{t.errorWhatToDo}</p>
                   <ul className="list-disc list-inside space-y-1 ml-2">
-                    <li>Check your internet connection</li>
-                    <li>Verify all required fields are filled</li>
-                    <li>Try submitting again</li>
-                    <li>If the problem persists, contact support</li>
+                    <li>{t.errorCheckConnection}</li>
+                    <li>{t.errorVerifyFields}</li>
+                    <li>{t.errorTryAgain}</li>
+                    <li>{t.errorContactSupport}</li>
                   </ul>
                 </div>
               </div>
