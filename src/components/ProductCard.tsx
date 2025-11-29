@@ -12,13 +12,15 @@ interface ProductCardProps {
   certifications?: string[];
 }
 
-const categoryColors = {
+const categoryColors: Record<string, { bg: string; chip: string }> = {
   citrus: { bg: 'var(--citrus-orange)', chip: 'rgba(255, 140, 66, 0.12)' },
   vegetables: { bg: 'var(--fresh-green)', chip: 'rgba(76, 175, 80, 0.12)' },
   berries: { bg: 'var(--berry-red)', chip: 'rgba(229, 57, 53, 0.12)' },
   lemons: { bg: 'var(--lemon-yellow)', chip: 'rgba(253, 216, 53, 0.18)' },
   grapes: { bg: 'var(--grape-purple)', chip: 'rgba(142, 36, 170, 0.12)' },
 };
+
+const defaultColors = { bg: 'var(--gray-500)', chip: 'rgba(107, 114, 128, 0.12)' };
 
 export function ProductCard({ name, image, category, season, certifications = [] }: ProductCardProps) {
   const { language } = useLanguage();
@@ -31,8 +33,8 @@ export function ProductCard({ name, image, category, season, certifications = []
     'last-weeks': { emoji: '🔔', text: t.seasonLastWeeks, bg: 'var(--berry-red-bg)', color: 'var(--berry-red)' },
   };
 
-  const badge = seasonBadges[season];
-  const colors = categoryColors[category];
+  const badge = seasonBadges[season] || seasonBadges['in-season'];
+  const colors = categoryColors[category] || defaultColors;
   const uniqueCertifications = Array.from(new Set(certifications.filter(Boolean)));
 
   // Get optimized image URL from Sanity or use as-is if it's a string URL
