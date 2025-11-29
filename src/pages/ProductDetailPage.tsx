@@ -163,6 +163,18 @@ export function ProductDetailPage() {
 
   console.log('🚀 Starting render...');
 
+  const normalizedPackaging = typeof product.specifications?.packaging === 'string'
+    ? product.specifications.packaging.split(/,|،/).map((s: string) => s.trim()).filter(Boolean)
+    : Array.isArray(product.specifications?.packaging)
+      ? product.specifications.packaging
+      : [];
+
+  const normalizedSizes = typeof product.specifications?.sizes === 'string'
+    ? product.specifications.sizes.split(/,|،/).map((s: string) => s.trim()).filter(Boolean)
+    : Array.isArray(product.specifications?.sizes)
+      ? product.specifications.sizes
+      : [];
+
   return (
     <div className="min-h-screen bg-white">
       <div className="bg-gray-50 py-4">
@@ -241,7 +253,7 @@ export function ProductDetailPage() {
                     <Package className="w-4 h-4" style={{ color: 'var(--citrus-orange)' }} />
                     <span className="text-sm font-medium" style={{ color: 'var(--gray-700)' }}>{t.packaging}</span>
                   </div>
-                  <p className="text-sm" style={{ color: 'var(--gray-600)' }}>{product.specifications?.packaging?.[0] || t.variousOptions}</p>
+                  <p className="text-sm" style={{ color: 'var(--gray-600)' }}>{normalizedPackaging?.[0] || t.variousOptions}</p>
                 </div>
                 <div>
                   <div className="flex items-center gap-2 mb-2">
@@ -294,19 +306,19 @@ export function ProductDetailPage() {
           <TabsContent value="specifications" className="mt-6">
             <Card className="p-6 border-none shadow-md bg-white">
               <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--gray-900)' }}>{t.productSpecifications}</h3>
-              {product.specifications?.sizes && Array.isArray(product.specifications.sizes) && product.specifications.sizes.length > 0 && (
+              {normalizedSizes.length > 0 && (
                 <div className="mb-4">
                   <h4 className="font-semibold mb-2" style={{ color: 'var(--gray-700)' }}>{t.availableSizes}</h4>
                   <div className="flex flex-wrap gap-2">
-                    {product.specifications.sizes.map((size: string) => <Badge key={size} variant="outline">{size}</Badge>)}
+                    {normalizedSizes.map((size: string) => <Badge key={size} variant="outline">{size}</Badge>)}
                   </div>
                 </div>
               )}
-              {product.specifications?.packaging && Array.isArray(product.specifications.packaging) && product.specifications.packaging.length > 0 && (
+              {normalizedPackaging.length > 0 && (
                 <div>
                   <h4 className="font-semibold mb-2" style={{ color: 'var(--gray-700)' }}>{t.packagingOptions}</h4>
                   <ul className="space-y-2">
-                    {product.specifications.packaging.map((pkg: string) => (
+                    {normalizedPackaging.map((pkg: string) => (
                       <li key={pkg} className="flex items-center gap-2">
                         <Check className="w-4 h-4" style={{ color: 'var(--fresh-green)' }} />
                         <span style={{ color: 'var(--gray-700)' }}>{pkg}</span>
