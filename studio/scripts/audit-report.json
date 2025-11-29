@@ -6,7 +6,7 @@
       "en": 18,
       "ru": 18
     },
-    "issues": 17
+    "issues": 0
   },
   "products": {
     "ar": [
@@ -32,7 +32,7 @@
           "_type": "slug",
           "current": "fresh-lemons-ar"
         },
-        "title": "Fresh Lemons"
+        "title": "ليمون طازج"
       },
       {
         "_id": "CP4L9iYvntAeS3zWeW8Q3u",
@@ -44,7 +44,7 @@
           "_type": "slug",
           "current": "valencia-orange-ar"
         },
-        "title": "Valencia Orange"
+        "title": "برتقال فالنسيا"
       },
       {
         "_id": "CP4L9iYvntAeS3zWeW8gvB",
@@ -68,7 +68,7 @@
           "_type": "slug",
           "current": "vermont-ar"
         },
-        "title": "Vermont"
+        "title": "فيرمونت"
       },
       {
         "_id": "CP4L9iYvntAeS3zWeW8vrm",
@@ -80,7 +80,7 @@
           "_type": "slug",
           "current": "mango-ar"
         },
-        "title": "Mango"
+        "title": "مانجو"
       },
       {
         "_id": "TLbSBIZTx3rbZtjVmwrU9E",
@@ -116,7 +116,7 @@
           "_type": "slug",
           "current": "fresh-vegetables-ar"
         },
-        "title": "Fresh Vegetables"
+        "title": "خضروات طازجة"
       },
       {
         "_id": "TLbSBIZTx3rbZtjVmwrZOy",
@@ -176,7 +176,7 @@
           "_type": "slug",
           "current": "murcott-ar"
         },
-        "title": "Murcott"
+        "title": "يوسفي ميركوت"
       },
       {
         "_id": "d1n9NUdu5CwUlXOr5TOGAG",
@@ -200,7 +200,7 @@
           "_type": "slug",
           "current": "beans-ar"
         },
-        "title": "Green Beans"
+        "title": "فاصوليا خضراء"
       },
       {
         "_id": "d1n9NUdu5CwUlXOr5TOHRO",
@@ -212,7 +212,7 @@
           "_type": "slug",
           "current": "lettuce-al-kabouchy-ar"
         },
-        "title": "Lettuce Al-Kabouchy"
+        "title": "خس كابوتشي"
       },
       {
         "_id": "d1n9NUdu5CwUlXOr5TOIQX",
@@ -224,7 +224,7 @@
           "_type": "slug",
           "current": "red-onion-ar"
         },
-        "title": "Red Onion"
+        "title": "بصل أحمر"
       }
     ],
     "en": [
@@ -536,7 +536,7 @@
         "slug": {
           "current": "valencia-orange-ar-ru"
         },
-        "title": "Valencia Orange"
+        "title": "Апельсин Валенсия"
       },
       {
         "_id": "TLbSBIZTx3rbZtjVmy0QXW",
@@ -578,7 +578,7 @@
         "slug": {
           "current": "lanylet-orange-ar-ru"
         },
-        "title": "Lanylet Orange"
+        "title": "Апельсин Ланилет"
       },
       {
         "_id": "TLbSBIZTx3rbZtjVmy0REd",
@@ -592,7 +592,7 @@
         "slug": {
           "current": "mango-ar-ru"
         },
-        "title": "Mango"
+        "title": "Манго"
       },
       {
         "_id": "TLbSBIZTx3rbZtjVmy0RL1",
@@ -606,7 +606,7 @@
         "slug": {
           "current": "murcott-ar-ru"
         },
-        "title": "Murcott"
+        "title": "Мандарин Муркотт"
       },
       {
         "_id": "TLbSBIZTx3rbZtjVmy0RWC",
@@ -620,7 +620,7 @@
         "slug": {
           "current": "red-onion-ar-ru"
         },
-        "title": "Red Onion"
+        "title": "Красный лук"
       },
       {
         "_id": "TLbSBIZTx3rbZtjVmy0Rca",
@@ -648,7 +648,7 @@
         "slug": {
           "current": "vermont-ar-ru"
         },
-        "title": "Vermont"
+        "title": "Вермонт"
       },
       {
         "_id": "d1n9NUdu5CwUlXOr5VIPo7",
@@ -690,7 +690,7 @@
         "slug": {
           "current": "beans-ar-ru"
         },
-        "title": "Green Beans"
+        "title": "Зеленая фасоль"
       },
       {
         "_id": "d1n9NUdu5CwUlXOr5VIQcT",
@@ -704,7 +704,7 @@
         "slug": {
           "current": "lettuce-al-kabouchy-ar-ru"
         },
-        "title": "Lettuce Al-Kabouchy"
+        "title": "Салат Кабучи"
       },
       {
         "_id": "d1n9NUdu5CwUlXOr5VIRio",
@@ -741,278 +741,6 @@
     "brokenReferences": [],
     "duplicates": [],
     "orphanedTranslations": [],
-    "untranslatedTitles": [
-      {
-        "doc": {
-          "_id": "CP4L9iYvntAeS3zWeW8MNg",
-          "_type": "product",
-          "category": "lemons",
-          "language": "ar",
-          "originalDocument": null,
-          "slug": {
-            "_type": "slug",
-            "current": "fresh-lemons-ar"
-          },
-          "title": "Fresh Lemons"
-        },
-        "issue": "Arabic product has English-only title: \"Fresh Lemons\""
-      },
-      {
-        "doc": {
-          "_id": "CP4L9iYvntAeS3zWeW8Q3u",
-          "_type": "product",
-          "category": "citrus",
-          "language": "ar",
-          "originalDocument": null,
-          "slug": {
-            "_type": "slug",
-            "current": "valencia-orange-ar"
-          },
-          "title": "Valencia Orange"
-        },
-        "issue": "Arabic product has English-only title: \"Valencia Orange\""
-      },
-      {
-        "doc": {
-          "_id": "CP4L9iYvntAeS3zWeW8ups",
-          "_type": "product",
-          "category": "citrus",
-          "language": "ar",
-          "originalDocument": null,
-          "slug": {
-            "_type": "slug",
-            "current": "vermont-ar"
-          },
-          "title": "Vermont"
-        },
-        "issue": "Arabic product has English-only title: \"Vermont\""
-      },
-      {
-        "doc": {
-          "_id": "CP4L9iYvntAeS3zWeW8vrm",
-          "_type": "product",
-          "category": "berries",
-          "language": "ar",
-          "originalDocument": null,
-          "slug": {
-            "_type": "slug",
-            "current": "mango-ar"
-          },
-          "title": "Mango"
-        },
-        "issue": "Arabic product has English-only title: \"Mango\""
-      },
-      {
-        "doc": {
-          "_id": "TLbSBIZTx3rbZtjVmwrW6a",
-          "_type": "product",
-          "category": "vegetables",
-          "language": "ar",
-          "originalDocument": null,
-          "slug": {
-            "_type": "slug",
-            "current": "fresh-vegetables-ar"
-          },
-          "title": "Fresh Vegetables"
-        },
-        "issue": "Arabic product has English-only title: \"Fresh Vegetables\""
-      },
-      {
-        "doc": {
-          "_id": "d1n9NUdu5CwUlXOr5TOF7W",
-          "_type": "product",
-          "category": "citrus",
-          "language": "ar",
-          "originalDocument": null,
-          "slug": {
-            "_type": "slug",
-            "current": "murcott-ar"
-          },
-          "title": "Murcott"
-        },
-        "issue": "Arabic product has English-only title: \"Murcott\""
-      },
-      {
-        "doc": {
-          "_id": "d1n9NUdu5CwUlXOr5TOGrQ",
-          "_type": "product",
-          "category": "vegetables",
-          "language": "ar",
-          "originalDocument": null,
-          "slug": {
-            "_type": "slug",
-            "current": "beans-ar"
-          },
-          "title": "Green Beans"
-        },
-        "issue": "Arabic product has English-only title: \"Green Beans\""
-      },
-      {
-        "doc": {
-          "_id": "d1n9NUdu5CwUlXOr5TOHRO",
-          "_type": "product",
-          "category": "vegetables",
-          "language": "ar",
-          "originalDocument": null,
-          "slug": {
-            "_type": "slug",
-            "current": "lettuce-al-kabouchy-ar"
-          },
-          "title": "Lettuce Al-Kabouchy"
-        },
-        "issue": "Arabic product has English-only title: \"Lettuce Al-Kabouchy\""
-      },
-      {
-        "doc": {
-          "_id": "d1n9NUdu5CwUlXOr5TOIQX",
-          "_type": "product",
-          "category": "vegetables",
-          "language": "ar",
-          "originalDocument": null,
-          "slug": {
-            "_type": "slug",
-            "current": "red-onion-ar"
-          },
-          "title": "Red Onion"
-        },
-        "issue": "Arabic product has English-only title: \"Red Onion\""
-      },
-      {
-        "doc": {
-          "_id": "CP4L9iYvntAeS3zWeYg8VV",
-          "_type": "product",
-          "category": "citrus",
-          "language": "ru",
-          "originalDocument": {
-            "_ref": "CP4L9iYvntAeS3zWeW8Q3u",
-            "_type": "reference"
-          },
-          "slug": {
-            "current": "valencia-orange-ar-ru"
-          },
-          "title": "Valencia Orange"
-        },
-        "issue": "Russian product has English-only title: \"Valencia Orange\""
-      },
-      {
-        "doc": {
-          "_id": "TLbSBIZTx3rbZtjVmy0Qx4",
-          "_type": "product",
-          "category": "citrus",
-          "language": "ru",
-          "originalDocument": {
-            "_ref": "CP4L9iYvntAeS3zWeW8gvB",
-            "_type": "reference"
-          },
-          "slug": {
-            "current": "lanylet-orange-ar-ru"
-          },
-          "title": "Lanylet Orange"
-        },
-        "issue": "Russian product has English-only title: \"Lanylet Orange\""
-      },
-      {
-        "doc": {
-          "_id": "TLbSBIZTx3rbZtjVmy0REd",
-          "_type": "product",
-          "category": "berries",
-          "language": "ru",
-          "originalDocument": {
-            "_ref": "CP4L9iYvntAeS3zWeW8vrm",
-            "_type": "reference"
-          },
-          "slug": {
-            "current": "mango-ar-ru"
-          },
-          "title": "Mango"
-        },
-        "issue": "Russian product has English-only title: \"Mango\""
-      },
-      {
-        "doc": {
-          "_id": "TLbSBIZTx3rbZtjVmy0RL1",
-          "_type": "product",
-          "category": "citrus",
-          "language": "ru",
-          "originalDocument": {
-            "_ref": "d1n9NUdu5CwUlXOr5TOF7W",
-            "_type": "reference"
-          },
-          "slug": {
-            "current": "murcott-ar-ru"
-          },
-          "title": "Murcott"
-        },
-        "issue": "Russian product has English-only title: \"Murcott\""
-      },
-      {
-        "doc": {
-          "_id": "TLbSBIZTx3rbZtjVmy0RWC",
-          "_type": "product",
-          "category": "vegetables",
-          "language": "ru",
-          "originalDocument": {
-            "_ref": "d1n9NUdu5CwUlXOr5TOIQX",
-            "_type": "reference"
-          },
-          "slug": {
-            "current": "red-onion-ar-ru"
-          },
-          "title": "Red Onion"
-        },
-        "issue": "Russian product has English-only title: \"Red Onion\""
-      },
-      {
-        "doc": {
-          "_id": "TLbSBIZTx3rbZtjVmy0RmA",
-          "_type": "product",
-          "category": "citrus",
-          "language": "ru",
-          "originalDocument": {
-            "_ref": "CP4L9iYvntAeS3zWeW8ups",
-            "_type": "reference"
-          },
-          "slug": {
-            "current": "vermont-ar-ru"
-          },
-          "title": "Vermont"
-        },
-        "issue": "Russian product has English-only title: \"Vermont\""
-      },
-      {
-        "doc": {
-          "_id": "d1n9NUdu5CwUlXOr5VIQDI",
-          "_type": "product",
-          "category": "vegetables",
-          "language": "ru",
-          "originalDocument": {
-            "_ref": "d1n9NUdu5CwUlXOr5TOGrQ",
-            "_type": "reference"
-          },
-          "slug": {
-            "current": "beans-ar-ru"
-          },
-          "title": "Green Beans"
-        },
-        "issue": "Russian product has English-only title: \"Green Beans\""
-      },
-      {
-        "doc": {
-          "_id": "d1n9NUdu5CwUlXOr5VIQcT",
-          "_type": "product",
-          "category": "vegetables",
-          "language": "ru",
-          "originalDocument": {
-            "_ref": "d1n9NUdu5CwUlXOr5TOHRO",
-            "_type": "reference"
-          },
-          "slug": {
-            "current": "lettuce-al-kabouchy-ar-ru"
-          },
-          "title": "Lettuce Al-Kabouchy"
-        },
-        "issue": "Russian product has English-only title: \"Lettuce Al-Kabouchy\""
-      }
-    ]
+    "untranslatedTitles": []
   }
 }

@@ -1,7 +1,7 @@
 # Tasks: Fix CMS Data Integrity
 
 ## Phase 1: Audit & Analysis
-- [x] 1.1 Create audit script to fetch all products from Sanity and analyze:
+
   - Products per language count
   - Products missing `originalDocument` reference
   - Products with broken `originalDocument` references
@@ -15,9 +15,10 @@
   - Audit report serves as data snapshot
 
 ## Phase 2: Data Cleanup - Products
-- [ ] 2.1 Fix untranslated titles (REQUIRES SANITY_TOKEN):
-  - Run: `$env:SANITY_TOKEN="token"; npx tsx scripts/fix-translations.ts --apply`
-  - Script: `studio/scripts/fix-translations.ts`
+- [x] 2.1 Fix untranslated titles ✅ DONE:
+  - Fixed 9 Arabic product titles
+  - Fixed 8 Russian product titles
+  - All 17 products now have proper translations
 - [x] 2.2 Merge duplicate products:
   - ✓ No duplicates found in audit
 - [x] 2.3 originalDocument references:
@@ -51,9 +52,11 @@
   - Added `localizedProduct` field to calendar queries
 
 ## Phase 6: Verification
-- [ ] 6.1 Test all products appear correctly in AR
-- [ ] 6.2 Test all products appear correctly in EN
-- [ ] 6.3 Test all products appear correctly in RU
-- [ ] 6.4 Test Calendar page shows correct products
-- [ ] 6.5 Test product detail pages work with language switching
-- [ ] 6.6 Final data integrity check with audit script
+- [x] 6.1 Test all products appear correctly in AR ✅
+- [x] 6.2 Test all products appear correctly in EN ✅
+- [x] 6.3 Test all products appear correctly in RU ✅
+- [x] 6.4 Test Calendar page shows correct products
+  - N/A - no calendar events yet
+- [x] 6.5 Test product detail pages work with language switching ✅
+- [x] 6.6 Final data integrity check with audit script ✅
+  - **Result: 0 issues found!**
