@@ -172,8 +172,19 @@ export function SeasonalCalendar() {
       </Card>
 
       {/* Calendar Table */}
-      <Card className="p-6">
-        <div className="overflow-x-auto -mx-6 px-6">
+      <Card className="p-6 overflow-hidden">
+        <div 
+          className="overflow-x-auto -mx-6 px-6 pb-4"
+          style={{ 
+            scrollbarWidth: 'none',  /* Firefox */
+            msOverflowStyle: 'none'  /* IE and Edge */
+          }}
+        >
+          <style dangerouslySetInnerHTML={{__html: `
+            .overflow-x-auto::-webkit-scrollbar {
+              display: none;
+            }
+          `}} />
           <table className="w-full min-w-max">
             <thead>
               <tr style={{ borderBottom: '2px solid var(--gray-200)' }}>
@@ -198,10 +209,22 @@ export function SeasonalCalendar() {
                   className="hover:bg-gray-50 transition-colors cursor-pointer"
                   onClick={() => navigate('product-detail', { slug: product.slug?.current })}
                 >
-                  <td className="p-3 font-medium sticky start-0 bg-white z-10" style={{ color: 'var(--gray-900)' }}>
+                  <td className="p-3 font-medium sticky start-0 bg-white z-10 min-w-[200px] shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]" style={{ color: 'var(--gray-900)' }}>
                     <div className="flex items-center gap-3">
-                      <div className="text-2xl">{getProductEmoji(product.category)}</div>
-                      <span>{product.title}</span>
+                      <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-100 flex-shrink-0 border border-gray-200">
+                        {product.image ? (
+                          <img 
+                            src={getImageUrl(product.image, 100, 100)} 
+                            alt={product.title}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-xl">
+                            {getProductEmoji(product.category)}
+                          </div>
+                        )}
+                      </div>
+                      <span className="whitespace-nowrap">{product.title}</span>
                     </div>
                   </td>
                   {MONTH_KEYS.map((monthKey) => (
