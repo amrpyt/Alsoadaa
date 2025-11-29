@@ -17,8 +17,19 @@ export default defineConfig({
         S.list()
           .title('Content')
           .items([
+            // ✨ NEW: Centralized Products (recommended!)
             S.listItem()
-              .title('Products')
+              .title('🍊 Products')
+              .schemaType('productCentralized')
+              .child(
+                S.documentTypeList('productCentralized')
+                  .title('All Products')
+                  .defaultOrdering([{field: 'titleEn', direction: 'asc'}])
+              ),
+            S.divider(),
+            // 📦 OLD: Per-language products (legacy - will be removed)
+            S.listItem()
+              .title('📦 Products (Old - Legacy)')
               .child(
                 S.list()
                   .title('Products by Language')

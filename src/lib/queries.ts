@@ -1,5 +1,125 @@
 import { defineQuery } from 'groq'
 
+// ============================================
+// CENTRALIZED PRODUCT QUERIES (NEW - RECOMMENDED)
+// ============================================
+
+// Get all products with localized fields
+export const allProductsCentralizedQuery = defineQuery(`
+  *[_type == "productCentralized"] | order(titleEn asc) {
+    _id,
+    slug,
+    scientificName,
+    category,
+    season,
+    image,
+    availability,
+    certifications,
+    packaging,
+    sizes,
+    "title": select(
+      $lang == "ar" => titleAr,
+      $lang == "ru" => coalesce(titleRu, titleEn),
+      titleEn
+    ),
+    "description": select(
+      $lang == "ar" => descriptionAr,
+      $lang == "ru" => coalesce(descriptionRu, descriptionEn),
+      descriptionEn
+    )
+  }
+`)
+
+// Get single product by slug with localized fields
+export const productBySlugCentralizedQuery = defineQuery(`
+  *[_type == "productCentralized" && slug.current == $slug][0] {
+    _id,
+    slug,
+    scientificName,
+    category,
+    season,
+    image,
+    gallery,
+    availability,
+    packaging,
+    sizes,
+    storage,
+    shelfLife,
+    certifications,
+    titleAr,
+    titleEn,
+    titleRu,
+    descriptionAr,
+    descriptionEn,
+    descriptionRu,
+    "title": select(
+      $lang == "ar" => titleAr,
+      $lang == "ru" => coalesce(titleRu, titleEn),
+      titleEn
+    ),
+    "description": select(
+      $lang == "ar" => descriptionAr,
+      $lang == "ru" => coalesce(descriptionRu, descriptionEn),
+      descriptionEn
+    ),
+    "seo": select(
+      $lang == "ar" => seoAr,
+      $lang == "ru" => coalesce(seoRu, seoEn),
+      seoEn
+    )
+  }
+`)
+
+// Get products by category (centralized)
+export const productsByCategoryCentralizedQuery = defineQuery(`
+  *[_type == "productCentralized" && category == $category] | order(titleEn asc) {
+    _id,
+    slug,
+    scientificName,
+    category,
+    season,
+    image,
+    availability,
+    "title": select(
+      $lang == "ar" => titleAr,
+      $lang == "ru" => coalesce(titleRu, titleEn),
+      titleEn
+    ),
+    "description": select(
+      $lang == "ar" => descriptionAr,
+      $lang == "ru" => coalesce(descriptionRu, descriptionEn),
+      descriptionEn
+    )
+  }
+`)
+
+// Get products by season (centralized)
+export const productsBySeasonCentralizedQuery = defineQuery(`
+  *[_type == "productCentralized" && season == $season] | order(titleEn asc) {
+    _id,
+    slug,
+    scientificName,
+    category,
+    season,
+    image,
+    availability,
+    "title": select(
+      $lang == "ar" => titleAr,
+      $lang == "ru" => coalesce(titleRu, titleEn),
+      titleEn
+    ),
+    "description": select(
+      $lang == "ar" => descriptionAr,
+      $lang == "ru" => coalesce(descriptionRu, descriptionEn),
+      descriptionEn
+    )
+  }
+`)
+
+// ============================================
+// OLD PRODUCT QUERIES (LEGACY - will be removed)
+// ============================================
+
 // Product Queries
 export const allProductsQuery = defineQuery(`
   *[_type == "product" && language == $lang] | order(title asc) {
