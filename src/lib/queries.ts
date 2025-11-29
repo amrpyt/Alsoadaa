@@ -41,11 +41,13 @@ export const productBySlugCentralizedQuery = defineQuery(`
     image,
     gallery,
     availability,
-    packaging,
-    sizes,
-    storage,
-    shelfLife,
     certifications,
+    "specifications": {
+      "packaging": packaging,
+      "sizes": sizes,
+      "storage": storage,
+      "shelfLife": shelfLife
+    },
     titleAr,
     titleEn,
     titleRu,
