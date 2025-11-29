@@ -46,6 +46,9 @@ export function RouterProvider({ children }: { children: ReactNode }) {
       } else {
         setParams({});
       }
+      
+      // Scroll to top on page change
+      window.scrollTo({ top: 0, behavior: 'instant' });
     };
 
     window.addEventListener('hashchange', handleHashChange);
