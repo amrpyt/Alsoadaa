@@ -214,7 +214,7 @@ export function SeasonalCalendar() {
                       <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-100 flex-shrink-0 border border-gray-200">
                         {product.image ? (
                           <img 
-                            src={getImageUrl(product.image, 100, 100)} 
+                            src={getImageUrl(product.image, 100, 100) || undefined} 
                             alt={product.title || ''}
                             className="w-full h-full object-cover"
                           />
