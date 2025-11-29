@@ -1,7 +1,7 @@
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { RouterProvider, useRouter } from './lib/router';
-import { LanguageProvider } from './lib/LanguageContext';
+import { LanguageProvider, useLanguage } from './lib/LanguageContext';
 import { HomePage } from './pages/HomePage';
 import { ProductsPage } from './pages/ProductsPage';
 import { ProductDetailPage } from './pages/ProductDetailPage';
@@ -14,6 +14,7 @@ import { ExportingPage } from './pages/ExportingPage';
 
 function AppContent() {
   const { currentPage } = useRouter();
+  const { dir } = useLanguage();
 
   const renderPage = () => {
     switch (currentPage) {
@@ -41,7 +42,7 @@ function AppContent() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div dir={dir} className="min-h-screen flex flex-col">
       <Header />
       <main className="flex-1">
         {renderPage()}

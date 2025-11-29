@@ -307,8 +307,8 @@ export function HomePage() {
                       </CarouselItem>
                     ))}
                   </CarouselContent>
-                  <CarouselPrevious className="hidden md:flex -left-12 border-[var(--citrus-orange)] text-[var(--citrus-orange)] hover:bg-[var(--citrus-orange-bg)] hover:text-[var(--citrus-orange)]" />
-                  <CarouselNext className="hidden md:flex -right-12 border-[var(--citrus-orange)] text-[var(--citrus-orange)] hover:bg-[var(--citrus-orange-bg)] hover:text-[var(--citrus-orange)]" />
+                  <CarouselPrevious className="hidden md:flex -left-12 rtl:-left-auto rtl:-right-12 border-[var(--citrus-orange)] text-[var(--citrus-orange)] hover:bg-[var(--citrus-orange-bg)] hover:text-[var(--citrus-orange)]" />
+                  <CarouselNext className="hidden md:flex -right-12 rtl:-right-auto rtl:-left-12 border-[var(--citrus-orange)] text-[var(--citrus-orange)] hover:bg-[var(--citrus-orange-bg)] hover:text-[var(--citrus-orange)]" />
                 </Carousel>
                 <div className="py-2 text-center text-sm text-muted-foreground md:hidden">
                   <div className="flex justify-center gap-2 mt-6">
@@ -323,8 +323,8 @@ export function HomePage() {
                     ))}
                   </div>
                   <div className="flex items-center justify-center gap-2 mt-3 text-xs font-medium text-[var(--citrus-orange)] opacity-80 animate-pulse">
-                    <span>Swipe to explore</span>
-                    <ChevronRight className="w-3 h-3" />
+                    <span>{t.swipeToExplore}</span>
+                    <ChevronRight className="w-3 h-3 rtl:rotate-180" />
                   </div>
                 </div>
               </FadeIn>
@@ -472,7 +472,7 @@ export function HomePage() {
       </section>
 
       {/* Testimonials */}
-      < section className="py-16 md:py-24 bg-[var(--gray-50)]" >
+      <section className="py-16 md:py-24 bg-[var(--gray-50)]">
         <div className="max-w-7xl mx-auto px-6 lg:px-16">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{ color: 'var(--gray-900)' }}>
@@ -507,11 +507,11 @@ export function HomePage() {
               <div className="flex items-center justify-center gap-4">
                 <button
                   onClick={prevTestimonial}
-                  className="w-10 h-10 rounded-full flex items-center justify-center transition-colors"
+                  className="w-10 h-10 rounded-full flex items-center justify-center transition-colors hover:bg-[var(--gray-300)]"
                   style={{ backgroundColor: 'var(--gray-200)' }}
                   aria-label="Previous testimonial"
                 >
-                  <ChevronLeft className="w-5 h-5" />
+                  <ChevronLeft className="w-5 h-5 rtl:rotate-180" />
                 </button>
 
                 <div className="flex gap-2">
@@ -530,20 +530,20 @@ export function HomePage() {
 
                 <button
                   onClick={nextTestimonial}
-                  className="w-10 h-10 rounded-full flex items-center justify-center transition-colors"
+                  className="w-10 h-10 rounded-full flex items-center justify-center transition-colors hover:bg-[var(--gray-300)]"
                   style={{ backgroundColor: 'var(--gray-200)' }}
                   aria-label="Next testimonial"
                 >
-                  <ChevronRight className="w-5 h-5" />
+                  <ChevronRight className="w-5 h-5 rtl:rotate-180" />
                 </button>
               </div>
             </Card>
           </div>
         </div>
-      </section >
+      </section>
 
       {/* CTA Section */}
-      < section className="py-16 md:py-24 relative overflow-hidden" >
+      <section className="py-16 md:py-24 relative overflow-hidden">
         <div
           className="absolute inset-0"
           style={{
@@ -567,7 +567,7 @@ export function HomePage() {
             {t.getYourQuoteToday}
           </Button>
         </div>
-      </section >
-    </div >
+      </section>
+    </div>
   );
 }

@@ -87,7 +87,7 @@ export function Header() {
 
               {processingMenuOpen && (
                 <div
-                  className="absolute top-full left-0 pt-2 w-48 z-50"
+                  className="absolute top-full start-0 pt-2 w-48 z-50"
                 >
                   <div className="bg-white rounded-lg shadow-lg border border-gray-200 py-2">
                     {processingItems.map((item) => (
@@ -139,7 +139,7 @@ export function Header() {
               </button>
 
               {languageMenuOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
+                <div className="absolute end-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
                   {languages.map((lang) => (
                     <button
                       key={lang.code}

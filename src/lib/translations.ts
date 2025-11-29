@@ -243,6 +243,7 @@ export interface Translations {
 
   // Common
   viewDetails: string;
+  swipeToExplore: string;
   // New Keys for Phase 2
   loadingCalendar: string;
   loadingProduct: string;
@@ -580,6 +581,7 @@ export const translations: Record<Language, Translations> = {
 
     // Common
     viewDetails: 'View Details',
+    swipeToExplore: 'Swipe to explore',
 
 
     // New Keys for Phase 2
@@ -828,6 +830,7 @@ export const translations: Record<Language, Translations> = {
 
     // Common
     viewDetails: 'عرض التفاصيل',
+    swipeToExplore: 'اسحب لاستكشاف',
 
     // New Keys (Arabic)
     resumeRequestTitle: 'استكمال الطلب السابق؟',
@@ -1175,6 +1178,7 @@ export const translations: Record<Language, Translations> = {
 
     // Common
     viewDetails: 'Посмотреть детали',
+    swipeToExplore: 'Проведите, чтобы изучить',
 
     // Quote Form (missing from ru)
     contactInformationStep: 'Контактная информация',

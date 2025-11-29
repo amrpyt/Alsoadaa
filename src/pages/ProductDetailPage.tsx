@@ -179,7 +179,7 @@ export function ProductDetailPage() {
 
       <div className="max-w-7xl mx-auto px-6 lg:px-16 py-12">
         <Button variant="ghost" onClick={() => navigate('products')} className="mb-6">
-          <ChevronLeft className="w-4 h-4 mr-2" />{t.backToProducts}
+          <ChevronLeft className="w-4 h-4 me-2 rtl:rotate-180" />{t.backToProducts}
         </Button>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12">
@@ -270,14 +270,29 @@ export function ProductDetailPage() {
         </div>
 
         <Tabs defaultValue="specifications" className="mb-12">
-          <TabsList className="grid w-full grid-cols-2 lg:grid-cols-3">
-            <TabsTrigger value="specifications">{t.specifications}</TabsTrigger>
-            <TabsTrigger value="availability">{t.availability}</TabsTrigger>
-            <TabsTrigger value="shipping">{t.shipping}</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-3 gap-2 bg-transparent p-0 h-auto">
+            <TabsTrigger 
+              value="specifications" 
+              className="data-[state=active]:bg-[var(--citrus-orange)] data-[state=active]:text-white data-[state=inactive]:bg-white data-[state=inactive]:border data-[state=inactive]:border-gray-200 data-[state=inactive]:text-gray-600 data-[state=inactive]:hover:bg-gray-50 rounded-xl py-3 px-4 font-medium transition-all duration-200 shadow-sm"
+            >
+              {t.specifications}
+            </TabsTrigger>
+            <TabsTrigger 
+              value="availability"
+              className="data-[state=active]:bg-[var(--citrus-orange)] data-[state=active]:text-white data-[state=inactive]:bg-white data-[state=inactive]:border data-[state=inactive]:border-gray-200 data-[state=inactive]:text-gray-600 data-[state=inactive]:hover:bg-gray-50 rounded-xl py-3 px-4 font-medium transition-all duration-200 shadow-sm"
+            >
+              {t.availability}
+            </TabsTrigger>
+            <TabsTrigger 
+              value="shipping"
+              className="data-[state=active]:bg-[var(--citrus-orange)] data-[state=active]:text-white data-[state=inactive]:bg-white data-[state=inactive]:border data-[state=inactive]:border-gray-200 data-[state=inactive]:text-gray-600 data-[state=inactive]:hover:bg-gray-50 rounded-xl py-3 px-4 font-medium transition-all duration-200 shadow-sm"
+            >
+              {t.shipping}
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="specifications" className="mt-6">
-            <Card className="p-6">
+            <Card className="p-6 border-none shadow-md bg-white">
               <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--gray-900)' }}>{t.productSpecifications}</h3>
               {product.specifications?.sizes && Array.isArray(product.specifications.sizes) && product.specifications.sizes.length > 0 && (
                 <div className="mb-4">
@@ -304,7 +319,7 @@ export function ProductDetailPage() {
           </TabsContent>
 
           <TabsContent value="availability" className="mt-6">
-            <Card className="p-6">
+            <Card className="p-6 border-none shadow-md bg-white">
               <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--gray-900)' }}>{t.seasonalAvailability}</h3>
               <div className="flex gap-1 mb-6">
                 {MONTH_KEYS.map((key, index) => (
@@ -318,7 +333,7 @@ export function ProductDetailPage() {
           </TabsContent>
 
           <TabsContent value="shipping" className="mt-6">
-            <Card className="p-6">
+            <Card className="p-6 border-none shadow-md bg-white">
               <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--gray-900)' }}>{t.shippingAndStorage}</h3>
               <div className="space-y-4">
                 <div>

@@ -103,7 +103,7 @@ export function ProductCard({ name, image, category, season, certifications = []
             className="mt-auto inline-flex items-center gap-2 text-sm font-semibold text-[var(--gray-700)] transition-colors group-hover:text-[var(--gray-900)]"
           >
             {t.viewDetails}
-            <span style={{ color: colors.bg }}>→</span>
+            <span className="rtl:rotate-180" style={{ color: colors.bg }}>→</span>
           </span>
         </div>
       </div>
