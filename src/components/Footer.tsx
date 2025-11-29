@@ -12,9 +12,13 @@ export function Footer() {
           <div className="space-y-8 text-center lg:text-start">
             {/* Company Info */}
             <div>
-              <div className="flex items-center gap-2 mb-4 justify-center lg:justify-start">
-                <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: 'var(--citrus-orange)' }}>
-                  <span className="text-xl">🍊</span>
+              <div className="flex items-center gap-3 mb-4 justify-center lg:justify-start">
+                <div className="bg-white p-1.5 rounded-lg">
+                  <img 
+                    src="/logo.png" 
+                    alt="Al Soadaa" 
+                    className="h-10 w-auto object-contain"
+                  />
                 </div>
                 <h3 className="text-lg font-semibold text-white">{t.companyName || 'Al Soadaa'}</h3>
               </div>
