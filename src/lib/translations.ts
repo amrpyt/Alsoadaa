@@ -344,7 +344,55 @@ export interface Translations {
   copyright: string;
   privacyPolicy: string;
   termsOfService: string;
-  errorLoadingImage: string;
+  // Processing Pages
+  sortingDesc: string;
+  sortingStage1Title: string;
+  sortingStage1Desc: string;
+  sortingStage2Title: string;
+  sortingStage2Desc: string;
+  sortingStage3Title: string;
+  sortingStage3Desc: string;
+  sortingKeyBenefits: string;
+  sortingBenefit1: string;
+  sortingBenefit2: string;
+  sortingBenefit3: string;
+  sortingBenefit4: string;
+  sortingImageCaption: string;
+
+  packingDesc1: string;
+  packingDesc2: string;
+  packingDesc3: string;
+  packingFeature1Title: string;
+  packingFeature1Desc: string;
+  packingFeature2Title: string;
+  packingFeature2Desc: string;
+  packingFeature3Title: string;
+  packingFeature3Desc: string;
+  packingStandards: string;
+  packingStandard1: string;
+  packingStandard2: string;
+  packingStandard3: string;
+  packingStandard4: string;
+  packingImageCaption: string;
+
+  exportingDesc1: string;
+  exportingDesc2: string;
+  exportingDesc3: string;
+  exportingFeature1Title: string;
+  exportingFeature1Desc: string;
+  exportingFeature2Title: string;
+  exportingFeature2Desc: string;
+  exportingFeature3Title: string;
+  exportingFeature3Desc: string;
+  exportingFeature4Title: string;
+  exportingFeature4Desc: string;
+  exportingCapabilities: string;
+  exportingCap1: string;
+  exportingCap2: string;
+  exportingCap3: string;
+  exportingCap4: string;
+  exportingCap5: string;
+  exportingImageCaption: string;
 }
 
 export const translations: Record<Language, Translations> = {
@@ -695,6 +743,58 @@ export const translations: Record<Language, Translations> = {
     france: 'France',
     italy: 'Italy',
     uae: 'UAE',
+
+    // Processing Pages - Sorting
+    sortingDesc: 'Sorting process is done through several stages.',
+    sortingStage1Title: 'The First stage:',
+    sortingStage1Desc: 'At this stage, broken and damaged fruits are excluded.',
+    sortingStage2Title: 'The Second stage:',
+    sortingStage2Desc: 'This stage comes after washing the fruits using drinking water. In this stage, all physiological and mechanical defects are excluded.',
+    sortingStage3Title: 'The Third stage:',
+    sortingStage3Desc: 'This stage is after the waxing process. In this stage, a checking of all the previously mentioned steps is done. The sorting process is executed by a group of skillful workers highly experienced in the field of sorting agricultural crops.',
+    sortingKeyBenefits: 'Key Benefits',
+    sortingBenefit1: 'Multi-stage quality control process',
+    sortingBenefit2: 'Highly experienced sorting team',
+    sortingBenefit3: 'Ensures only premium quality fruits',
+    sortingBenefit4: 'Advanced washing and waxing process',
+    sortingImageCaption: 'Advanced sorting line ensuring premium quality',
+
+    // Processing Pages - Packing
+    packingDesc1: 'The packing process is preceded by the sizing process, which is made by the sizing machine (Caesar). This machine distributes the fruits according to sizes in its appropriate packing basin.',
+    packingDesc2: 'In order to perform the final packaging of the fruits inside the carton in a way that insures the accuracy and quality of packing required for markets.',
+    packingDesc3: 'The cartons are closed mechanically by a sticking machine, which is used to close the carton tightly and to ensure its safe arrival to the customer.',
+    packingFeature1Title: 'Automated Sizing',
+    packingFeature1Desc: 'Caesar machine for precise sizing',
+    packingFeature2Title: 'Quality Packing',
+    packingFeature2Desc: 'Accurate carton packaging',
+    packingFeature3Title: 'Secure Sealing',
+    packingFeature3Desc: 'Mechanical sticking machine',
+    packingStandards: 'Packing Standards',
+    packingStandard1: 'Automated sizing for consistency',
+    packingStandard2: 'Size-appropriate packing basins',
+    packingStandard3: 'Mechanical carton sealing',
+    packingStandard4: 'Market-ready packaging quality',
+    packingImageCaption: 'Modern packing facility with automated systems',
+
+    // Processing Pages - Exporting
+    exportingDesc1: 'Al Soadaa Import and Export Company offers high-quality services from the finest Egyptian agricultural crops.',
+    exportingDesc2: 'Al Soadaa Company relies on exporting all types of fruits and vegetables. By your contact with us, we promise you the best services, the finest and highest-quality products of all.',
+    exportingDesc3: "We are ready to export our products to any place in the world, in collaboration with the world's greatest shipping lines.",
+    exportingFeature1Title: 'Global Reach',
+    exportingFeature1Desc: 'Export to 50+ countries worldwide',
+    exportingFeature2Title: 'Top Shipping Lines',
+    exportingFeature2Desc: 'Partnership with leading carriers',
+    exportingFeature3Title: 'Premium Quality',
+    exportingFeature3Desc: 'Finest Egyptian agricultural crops',
+    exportingFeature4Title: 'Reliable Service',
+    exportingFeature4Desc: 'Trusted by international clients',
+    exportingCapabilities: 'Export Capabilities',
+    exportingCap1: 'All types of fruits and vegetables',
+    exportingCap2: 'Worldwide shipping coverage',
+    exportingCap3: 'Collaboration with top shipping lines',
+    exportingCap4: 'ISO 9001 & Global G.A.P certified',
+    exportingCap5: '15+ years of export experience',
+    exportingImageCaption: 'Global export operations with world-class shipping partners',
   },
   ar: {
     // Header
@@ -864,11 +964,11 @@ export const translations: Record<Language, Translations> = {
     serverError: 'تواجه خوادمنا مشاكل. يرجى المحاولة مرة أخرى بعد بضع دقائق.',
     authError: 'خطأ في المصادقة. يرجى تحديث الصفحة والمحاولة مرة أخرى.',
     maxRetriesError: 'فشل تحميل المنتجات بعد عدة محاولات.',
-    connectionError: 'تعذر الاتصال. يرجى التحقق من اتصال الإنترنت الخاص بك.',
-    loadFailed: 'فشل تحميل المنتجات. يرجى المحاولة مرة أخرى.',
+    connectionError: 'غير قادر على الاتصال. يرجى التحقق من اتصال الإنترنت الخاص بك.',
+    loadFailed: 'فشل تحميل المنتجات. حاول مرة اخرى.',
     tryTheseSteps: 'جرب هذه الخطوات:',
-    refreshPage: 'تحديث الصفحة',
-    clearCache: 'مسح ذاكرة التخزين المؤقت للمتصفح',
+    refreshPage: 'حدث الصفحة',
+    clearCache: 'امسح ذاكرة التخزين المؤقت للمتصفح',
     tryLater: 'حاول مرة أخرى بعد بضع دقائق',
     contactSupport: 'اتصل بالدعم',
     showingCached: 'عرض المنتجات المحفوظة (محدود)',

@@ -25,15 +25,15 @@ export function PackingPage() {
             
             <Card className="p-6 mb-6">
               <p className="text-lg mb-4" style={{ color: 'var(--gray-700)' }}>
-                The packing process is preceded by the sizing process, which is made by the sizing machine (Caesar). This machine distributes the fruits according to sizes in its appropriate packing basin.
+                {t.packingDesc1}
               </p>
 
               <p className="text-lg mb-4" style={{ color: 'var(--gray-700)' }}>
-                In order to perform the final packaging of the fruits inside the carton in a way that insures the accuracy and quality of packing required for markets.
+                {t.packingDesc2}
               </p>
 
               <p className="text-lg" style={{ color: 'var(--gray-700)' }}>
-                The cartons are closed mechanically by a sticking machine, which is used to close the carton tightly and to ensure its safe arrival to the customer.
+                {t.packingDesc3}
               </p>
             </Card>
 
@@ -43,10 +43,10 @@ export function PackingPage() {
                   <Package className="w-6 h-6" style={{ color: 'var(--fresh-green)' }} />
                 </div>
                 <h4 className="font-semibold mb-1" style={{ color: 'var(--gray-900)' }}>
-                  Automated Sizing
+                  {t.packingFeature1Title}
                 </h4>
                 <p className="text-sm" style={{ color: 'var(--gray-600)' }}>
-                  Caesar machine for precise sizing
+                  {t.packingFeature1Desc}
                 </p>
               </Card>
 
@@ -55,10 +55,10 @@ export function PackingPage() {
                   <Shield className="w-6 h-6" style={{ color: 'var(--citrus-orange)' }} />
                 </div>
                 <h4 className="font-semibold mb-1" style={{ color: 'var(--gray-900)' }}>
-                  Quality Packing
+                  {t.packingFeature2Title}
                 </h4>
                 <p className="text-sm" style={{ color: 'var(--gray-600)' }}>
-                  Accurate carton packaging
+                  {t.packingFeature2Desc}
                 </p>
               </Card>
 
@@ -67,34 +67,34 @@ export function PackingPage() {
                   <Truck className="w-6 h-6" style={{ color: 'var(--trust-blue)' }} />
                 </div>
                 <h4 className="font-semibold mb-1" style={{ color: 'var(--gray-900)' }}>
-                  Secure Sealing
+                  {t.packingFeature3Title}
                 </h4>
                 <p className="text-sm" style={{ color: 'var(--gray-600)' }}>
-                  Mechanical sticking machine
+                  {t.packingFeature3Desc}
                 </p>
               </Card>
             </div>
 
             <Card className="p-6 bg-[var(--fresh-green-bg)]">
               <h3 className="font-semibold text-lg mb-3" style={{ color: 'var(--gray-900)' }}>
-                Packing Standards
+                {t.packingStandards}
               </h3>
               <ul className="space-y-2">
                 <li className="flex items-start gap-2">
                   <span style={{ color: 'var(--fresh-green)' }}>✓</span>
-                  <span style={{ color: 'var(--gray-700)' }}>Automated sizing for consistency</span>
+                  <span style={{ color: 'var(--gray-700)' }}>{t.packingStandard1}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span style={{ color: 'var(--fresh-green)' }}>✓</span>
-                  <span style={{ color: 'var(--gray-700)' }}>Size-appropriate packing basins</span>
+                  <span style={{ color: 'var(--gray-700)' }}>{t.packingStandard2}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span style={{ color: 'var(--fresh-green)' }}>✓</span>
-                  <span style={{ color: 'var(--gray-700)' }}>Mechanical carton sealing</span>
+                  <span style={{ color: 'var(--gray-700)' }}>{t.packingStandard3}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span style={{ color: 'var(--fresh-green)' }}>✓</span>
-                  <span style={{ color: 'var(--gray-700)' }}>Market-ready packaging quality</span>
+                  <span style={{ color: 'var(--gray-700)' }}>{t.packingStandard4}</span>
                 </li>
               </ul>
             </Card>
@@ -110,7 +110,7 @@ export function PackingPage() {
               />
               <div className="p-4 bg-[var(--gray-50)]">
                 <p className="text-sm text-center" style={{ color: 'var(--gray-600)' }}>
-                  Modern packing facility with automated systems
+                  {t.packingImageCaption}
                 </p>
               </div>
             </Card>

@@ -25,15 +25,15 @@ export function ExportingPage() {
             
             <Card className="p-6 mb-6">
               <p className="text-lg mb-4" style={{ color: 'var(--gray-700)' }}>
-                Al Soadaa Import and Export Company offers high-quality services from the finest Egyptian agricultural crops.
+                {t.exportingDesc1}
               </p>
 
               <p className="text-lg mb-4" style={{ color: 'var(--gray-700)' }}>
-                Al Soadaa Company relies on exporting all types of fruits and vegetables. By your contact with us, we promise you the best services, the finest and highest-quality products of all.
+                {t.exportingDesc2}
               </p>
 
               <p className="text-lg font-semibold" style={{ color: 'var(--trust-blue)' }}>
-                We are ready to export our products to any place in the world, in collaboration with the world's greatest shipping lines.
+                {t.exportingDesc3}
               </p>
             </Card>
 
@@ -45,10 +45,10 @@ export function ExportingPage() {
                   </div>
                   <div>
                     <h4 className="font-semibold mb-1" style={{ color: 'var(--gray-900)' }}>
-                      Global Reach
+                      {t.exportingFeature1Title}
                     </h4>
                     <p className="text-sm" style={{ color: 'var(--gray-600)' }}>
-                      Export to 50+ countries worldwide
+                      {t.exportingFeature1Desc}
                     </p>
                   </div>
                 </div>
@@ -61,10 +61,10 @@ export function ExportingPage() {
                   </div>
                   <div>
                     <h4 className="font-semibold mb-1" style={{ color: 'var(--gray-900)' }}>
-                      Top Shipping Lines
+                      {t.exportingFeature2Title}
                     </h4>
                     <p className="text-sm" style={{ color: 'var(--gray-600)' }}>
-                      Partnership with leading carriers
+                      {t.exportingFeature2Desc}
                     </p>
                   </div>
                 </div>
@@ -77,10 +77,10 @@ export function ExportingPage() {
                   </div>
                   <div>
                     <h4 className="font-semibold mb-1" style={{ color: 'var(--gray-900)' }}>
-                      Premium Quality
+                      {t.exportingFeature3Title}
                     </h4>
                     <p className="text-sm" style={{ color: 'var(--gray-600)' }}>
-                      Finest Egyptian agricultural crops
+                      {t.exportingFeature3Desc}
                     </p>
                   </div>
                 </div>
@@ -93,10 +93,10 @@ export function ExportingPage() {
                   </div>
                   <div>
                     <h4 className="font-semibold mb-1" style={{ color: 'var(--gray-900)' }}>
-                      Reliable Service
+                      {t.exportingFeature4Title}
                     </h4>
                     <p className="text-sm" style={{ color: 'var(--gray-600)' }}>
-                      Trusted by international clients
+                      {t.exportingFeature4Desc}
                     </p>
                   </div>
                 </div>
@@ -105,28 +105,28 @@ export function ExportingPage() {
 
             <Card className="p-6 bg-[var(--trust-blue-bg)]">
               <h3 className="font-semibold text-lg mb-3" style={{ color: 'var(--gray-900)' }}>
-                Export Capabilities
+                {t.exportingCapabilities}
               </h3>
               <ul className="space-y-2">
                 <li className="flex items-start gap-2">
                   <span style={{ color: 'var(--trust-blue)' }}>✓</span>
-                  <span style={{ color: 'var(--gray-700)' }}>All types of fruits and vegetables</span>
+                  <span style={{ color: 'var(--gray-700)' }}>{t.exportingCap1}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span style={{ color: 'var(--trust-blue)' }}>✓</span>
-                  <span style={{ color: 'var(--gray-700)' }}>Worldwide shipping coverage</span>
+                  <span style={{ color: 'var(--gray-700)' }}>{t.exportingCap2}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span style={{ color: 'var(--trust-blue)' }}>✓</span>
-                  <span style={{ color: 'var(--gray-700)' }}>Collaboration with top shipping lines</span>
+                  <span style={{ color: 'var(--gray-700)' }}>{t.exportingCap3}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span style={{ color: 'var(--trust-blue)' }}>✓</span>
-                  <span style={{ color: 'var(--gray-700)' }}>ISO 9001 & Global G.A.P certified</span>
+                  <span style={{ color: 'var(--gray-700)' }}>{t.exportingCap4}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span style={{ color: 'var(--trust-blue)' }}>✓</span>
-                  <span style={{ color: 'var(--gray-700)' }}>15+ years of export experience</span>
+                  <span style={{ color: 'var(--gray-700)' }}>{t.exportingCap5}</span>
                 </li>
               </ul>
             </Card>
@@ -142,7 +142,7 @@ export function ExportingPage() {
               />
               <div className="p-4 bg-[var(--gray-50)]">
                 <p className="text-sm text-center" style={{ color: 'var(--gray-600)' }}>
-                  Global export operations with world-class shipping partners
+                  {t.exportingImageCaption}
                 </p>
               </div>
             </Card>

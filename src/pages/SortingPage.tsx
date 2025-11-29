@@ -24,34 +24,34 @@ export function SortingPage() {
             
             <Card className="p-6 mb-6">
               <p className="text-lg mb-4" style={{ color: 'var(--gray-700)' }}>
-                Sorting process is done through several stages.
+                {t.sortingDesc}
               </p>
 
               <div className="space-y-4">
                 <div>
                   <h3 className="font-bold text-lg mb-2" style={{ color: 'var(--citrus-orange)' }}>
-                    The First stage:
+                    {t.sortingStage1Title}
                   </h3>
                   <p style={{ color: 'var(--gray-600)' }}>
-                    At this stage, broken and damaged fruits are excluded.
+                    {t.sortingStage1Desc}
                   </p>
                 </div>
 
                 <div>
                   <h3 className="font-bold text-lg mb-2" style={{ color: 'var(--citrus-orange)' }}>
-                    The Second stage:
+                    {t.sortingStage2Title}
                   </h3>
                   <p style={{ color: 'var(--gray-600)' }}>
-                    This stage comes after washing the fruits using drinking water. In this stage, all physiological and mechanical defects are excluded.
+                    {t.sortingStage2Desc}
                   </p>
                 </div>
 
                 <div>
                   <h3 className="font-bold text-lg mb-2" style={{ color: 'var(--citrus-orange)' }}>
-                    The Third stage:
+                    {t.sortingStage3Title}
                   </h3>
                   <p style={{ color: 'var(--gray-600)' }}>
-                    This stage is after the waxing process. In this stage, a checking of all the previously mentioned steps is done. The sorting process is executed by a group of skillful workers highly experienced in the field of sorting agricultural crops.
+                    {t.sortingStage3Desc}
                   </p>
                 </div>
               </div>
@@ -59,24 +59,24 @@ export function SortingPage() {
 
             <Card className="p-6 bg-[var(--citrus-orange-bg)]">
               <h3 className="font-semibold text-lg mb-3" style={{ color: 'var(--gray-900)' }}>
-                Key Benefits
+                {t.sortingKeyBenefits}
               </h3>
               <ul className="space-y-2">
                 <li className="flex items-start gap-2">
                   <span style={{ color: 'var(--fresh-green)' }}>✓</span>
-                  <span style={{ color: 'var(--gray-700)' }}>Multi-stage quality control process</span>
+                  <span style={{ color: 'var(--gray-700)' }}>{t.sortingBenefit1}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span style={{ color: 'var(--fresh-green)' }}>✓</span>
-                  <span style={{ color: 'var(--gray-700)' }}>Highly experienced sorting team</span>
+                  <span style={{ color: 'var(--gray-700)' }}>{t.sortingBenefit2}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span style={{ color: 'var(--fresh-green)' }}>✓</span>
-                  <span style={{ color: 'var(--gray-700)' }}>Ensures only premium quality fruits</span>
+                  <span style={{ color: 'var(--gray-700)' }}>{t.sortingBenefit3}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span style={{ color: 'var(--fresh-green)' }}>✓</span>
-                  <span style={{ color: 'var(--gray-700)' }}>Advanced washing and waxing process</span>
+                  <span style={{ color: 'var(--gray-700)' }}>{t.sortingBenefit4}</span>
                 </li>
               </ul>
             </Card>
@@ -92,7 +92,7 @@ export function SortingPage() {
               />
               <div className="p-4 bg-[var(--gray-50)]">
                 <p className="text-sm text-center" style={{ color: 'var(--gray-600)' }}>
-                  Advanced sorting line ensuring premium quality
+                  {t.sortingImageCaption}
                 </p>
               </div>
             </Card>
