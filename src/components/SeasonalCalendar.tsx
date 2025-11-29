@@ -215,7 +215,7 @@ export function SeasonalCalendar() {
                         {product.image ? (
                           <img 
                             src={getImageUrl(product.image, 100, 100)} 
-                            alt={product.title}
+                            alt={product.title || ''}
                             className="w-full h-full object-cover"
                           />
                         ) : (
