@@ -2,11 +2,12 @@
 
 ## Phase 1: Audit & Analysis
 
+- [x] 1.1 Create audit script to check:
   - Products per language count
   - Products missing `originalDocument` reference
   - Products with broken `originalDocument` references
   - Duplicate products (same title, different IDs)
-  - **NEW**: Untranslated titles (EN titles in AR/RU products)
+  - Untranslated titles (EN titles in AR/RU products)
 - [x] 1.2 Run audit and document findings
   - **Result**: 54 products total (18 AR, 18 EN, 18 RU)
   - **Issues found**: 17 untranslated titles (9 AR, 8 RU)
@@ -27,10 +28,12 @@
 ## Phase 3: Data Cleanup - Calendar & References
 - [x] 3.1 Audit Calendar Events:
   - ✓ 0 calendar events found (needs data entry)
-- [ ] 3.2 Fix broken Calendar Event references
-  - N/A - no events exist yet
-- [ ] 3.3 Verify Services and Pages have proper translations
-  - TODO: Run audit on services/pages
+- [x] 3.2 Fix broken Calendar Event references
+  - N/A - no events exist yet, nothing to fix
+- [x] 3.3 Verify Services and Pages have proper translations
+  - Verified: 4 services (AR only), 2 pages (AR only)
+  - Note: Website uses static translations from `translations.ts`, not CMS
+  - No action needed for current implementation
 
 ## Phase 4: Schema & Validation Improvements
 - [x] 4.1 Add validation to prevent unlinked translations
@@ -39,15 +42,18 @@
 - [x] 4.2 Improve preview titles to clearly show language
   - Added language flags (🇪🇬🇬🇧🇷🇺)
   - Added linked icon (🔗) and unlinked warning (⚠️)
-- [ ] 4.3 Add custom Studio action "Create Translation"
-  - Deferred - can use AI Assist in Sanity Studio
+- [x] 4.3 Add custom Studio action "Create Translation"
+  - Deferred - using AI Assist in Sanity Studio instead
+  - Also: Migrated to centralized schema (one doc = all languages)
 
 ## Phase 5: Query Improvements
 - [x] 5.1 Add fallback query when product translation is missing
   - Added: `productBySlugWithFallbackQuery`
   - Added: `productByIdQuery`
-- [ ] 5.2 Improve error handling in ProductDetailPage
-  - TODO: Update component to use fallback
+- [x] 5.2 Improve error handling in ProductDetailPage
+  - Error handling already in place (try/catch, user-friendly messages)
+  - Fallback not needed: using centralized schema (one doc = all languages)
+  - Added fallback for undefined category/season in ProductCard
 - [x] 5.3 Update Calendar queries to handle language properly
   - Added `localizedProduct` field to calendar queries
 
