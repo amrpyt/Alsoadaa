@@ -21,11 +21,22 @@ export const productType = defineType({
     }),
     defineField({
       name: 'originalDocument',
-      title: 'Original Document',
+      title: 'Original Document (Arabic)',
       type: 'reference',
       to: [{type: 'product'}],
-      description: 'Reference to the original language version (usually Arabic)',
+      description: 'Link to the Arabic original. Required for EN/RU translations.',
       hidden: ({document}) => document?.language === 'ar',
+      options: {
+        filter: '_type == "product" && language == "ar"',
+        disableNew: true,
+      },
+      validation: (rule) => rule.custom((value, context) => {
+        const doc = context.document as any
+        if (doc?.language !== 'ar' && !value) {
+          return 'Translations must be linked to an Arabic original'
+        }
+        return true
+      }),
     }),
     defineField({
       name: 'title',
@@ -165,13 +176,41 @@ export const productType = defineType({
       language: 'language',
       media: 'image',
       category: 'category',
+      hasOriginal: 'originalDocument._ref',
     },
-    prepare({title, language, media, category}) {
+    prepare({title, language, media, category, hasOriginal}) {
+      const langFlags: Record<string, string> = {
+        ar: '🇪🇬',
+        en: '🇬🇧',
+        ru: '🇷🇺',
+      }
+      const flag = langFlags[language] || '🌐'
+      const linkedIcon = language !== 'ar' && hasOriginal ? '🔗' : ''
+      const unlinkedWarning = language !== 'ar' && !hasOriginal ? '⚠️' : ''
+      
       return {
-        title: `${title} (${language.toUpperCase()})`,
-        subtitle: category,
+        title: `${flag} ${title} ${linkedIcon}${unlinkedWarning}`,
+        subtitle: `${language.toUpperCase()} • ${category || 'No category'}`,
         media,
       }
     },
   },
+  orderings: [
+    {
+      title: 'Language, then Title',
+      name: 'languageTitleAsc',
+      by: [
+        {field: 'language', direction: 'asc'},
+        {field: 'title', direction: 'asc'},
+      ],
+    },
+    {
+      title: 'Category, then Title',
+      name: 'categoryTitleAsc',
+      by: [
+        {field: 'category', direction: 'asc'},
+        {field: 'title', direction: 'asc'},
+      ],
+    },
+  ],
 })

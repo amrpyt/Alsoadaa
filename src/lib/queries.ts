@@ -96,6 +96,7 @@ export const allServicesQuery = defineQuery(`
 `)
 
 // Calendar Event Queries
+// Note: Calendar events reference Arabic products. We fetch the localized version.
 export const calendarEventsByMonthQuery = defineQuery(`
   *[_type == "calendarEvent" && month == $month] {
     _id,
@@ -107,7 +108,16 @@ export const calendarEventsByMonthQuery = defineQuery(`
       title,
       slug,
       image,
-      category
+      category,
+      language
+    },
+    "localizedProduct": *[_type == "product" && language == $lang && originalDocument._ref == ^.product._ref][0]{
+      _id,
+      title,
+      slug,
+      image,
+      category,
+      language
     }
   }
 `)
@@ -123,7 +133,16 @@ export const allCalendarEventsQuery = defineQuery(`
       title,
       slug,
       image,
-      category
+      category,
+      language
+    },
+    "localizedProduct": *[_type == "product" && language == $lang && originalDocument._ref == ^.product._ref][0]{
+      _id,
+      title,
+      slug,
+      image,
+      category,
+      language
     }
   }
 `)
@@ -153,5 +172,73 @@ export const findProductTranslationQuery = defineQuery(`
       _id == ^.originalDocument._ref ||
       originalDocument._ref == ^.originalDocument._ref
     )][0].slug.current
+  }
+`)
+
+// Fallback query: Get product in requested language, or fallback to Arabic
+export const productBySlugWithFallbackQuery = defineQuery(`
+  {
+    "product": *[_type == "product" && slug.current == $slug && language == $lang][0] {
+      _id,
+      title,
+      slug,
+      scientificName,
+      category,
+      description,
+      season,
+      image,
+      gallery,
+      availability,
+      specifications,
+      certifications,
+      seo,
+      language
+    },
+    "fallback": *[_type == "product" && slug.current == $slug][0] {
+      _id,
+      title,
+      slug,
+      scientificName,
+      category,
+      description,
+      season,
+      image,
+      gallery,
+      availability,
+      specifications,
+      certifications,
+      seo,
+      language,
+      "arOriginal": *[_type == "product" && language == "ar" && (
+        _id == ^.originalDocument._ref ||
+        ^._id == originalDocument._ref
+      )][0] {
+        _id,
+        title,
+        slug,
+        language
+      }
+    }
+  }
+`)
+
+// Get product by ID with all fields
+export const productByIdQuery = defineQuery(`
+  *[_type == "product" && _id == $id][0] {
+    _id,
+    title,
+    slug,
+    scientificName,
+    category,
+    description,
+    season,
+    image,
+    gallery,
+    availability,
+    specifications,
+    certifications,
+    seo,
+    language,
+    originalDocument
   }
 `)
