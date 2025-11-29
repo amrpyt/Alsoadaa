@@ -117,11 +117,22 @@ export const productsBySeasonCentralizedQuery = defineQuery(`
 `)
 
 // ============================================
-// OLD PRODUCT QUERIES (LEGACY - will be removed)
+// MAIN EXPORTS (use centralized queries)
 // ============================================
 
-// Product Queries
-export const allProductsQuery = defineQuery(`
+// These are the main exports used by the frontend
+// They now use the centralized schema (one document per product)
+export const allProductsQuery = allProductsCentralizedQuery
+export const productBySlugQuery = productBySlugCentralizedQuery
+export const productsByCategoryQuery = productsByCategoryCentralizedQuery
+export const productsBySeasonQuery = productsBySeasonCentralizedQuery
+
+// ============================================
+// OLD PRODUCT QUERIES (LEGACY - kept for reference)
+// ============================================
+
+// Legacy Product Queries (per-language documents)
+export const allProductsLegacyQuery = defineQuery(`
   *[_type == "product" && language == $lang] | order(title asc) {
     _id,
     title,
@@ -136,7 +147,7 @@ export const allProductsQuery = defineQuery(`
   }
 `)
 
-export const productBySlugQuery = defineQuery(`
+export const productBySlugLegacyQuery = defineQuery(`
   *[_type == "product" && slug.current == $slug && language == $lang][0] {
     _id,
     title,
@@ -154,7 +165,7 @@ export const productBySlugQuery = defineQuery(`
   }
 `)
 
-export const productsByCategoryQuery = defineQuery(`
+export const productsByCategoryLegacyQuery = defineQuery(`
   *[_type == "product" && category == $category && language == $lang] | order(title asc) {
     _id,
     title,
@@ -169,7 +180,7 @@ export const productsByCategoryQuery = defineQuery(`
   }
 `)
 
-export const productsBySeasonQuery = defineQuery(`
+export const productsBySeasonLegacyQuery = defineQuery(`
   *[_type == "product" && season == $season && language == $lang] | order(title asc) {
     _id,
     title,
