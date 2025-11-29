@@ -42,15 +42,11 @@ export function Header() {
             onClick={() => navigate('home')}
             className="flex items-center"
           >
-            <div className="flex items-center gap-2">
-              <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ background: 'var(--citrus-orange)' }}>
-                <span className="text-2xl">🍊</span>
-              </div>
-              <div>
-                <h1 className="text-xl font-semibold" style={{ color: 'var(--gray-900)' }}>Al Soadaa</h1>
-                <p className="text-xs" style={{ color: 'var(--gray-500)' }}>Premium Egyptian Exports</p>
-              </div>
-            </div>
+            <img 
+              src="/logo.png" 
+              alt="Al Soadaa - Import & Export" 
+              className="h-14 w-auto object-contain"
+            />
           </button>
 
           {/* Desktop Navigation */}
