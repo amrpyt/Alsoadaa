@@ -54,9 +54,14 @@ export function Footer() {
                 </li>
                 <li className="flex items-start gap-3 justify-center lg:justify-start">
                   <Phone className="w-5 h-5 mt-0.5 flex-shrink-0 text-[var(--citrus-orange)]" />
-                  <a href="tel:+20123456789" className="hover:text-[var(--citrus-orange)] transition-colors font-medium">
-                    +20 123 456 789
-                  </a>
+                  <div className="flex flex-col">
+                    <a href="tel:+201007478669" dir="ltr" className="hover:text-[var(--citrus-orange)] transition-colors font-medium">
+                      +20 100 747 8669
+                    </a>
+                    <a href="tel:+20482667764" dir="ltr" className="hover:text-[var(--citrus-orange)] transition-colors font-medium">
+                      +20 48 266 7764
+                    </a>
+                  </div>
                 </li>
                 <li className="flex items-start gap-3 justify-center lg:justify-start">
                   <Mail className="w-5 h-5 mt-0.5 flex-shrink-0 text-[var(--citrus-orange)]" />
@@ -71,12 +76,13 @@ export function Footer() {
           {/* Right Column - Map */}
           <div className="h-full min-h-[300px] rounded-2xl overflow-hidden shadow-md border border-gray-200 bg-white">
             <iframe 
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3453.225449939156!2d31.2357!3d30.0444!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzDCsDAyJzM5LjgiTiAzMcKwMTQnMDguNSJF!5e0!3m2!1sen!2seg!4v1635000000000!5m2!1sen!2seg" 
+              src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d55026.24534800622!2d30.757870999999998!3d30.460463!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x145897556d1c1ef1%3A0x26036a1309babc65!2z2LTYsdmD2Ycg2KfZhNiz2LnYr9in2KEg2YTZhNin2LPYqtmK2LHYp9ivINmI2KfZhNiq2LXYr9mK2LEgQWxzb2FkYWEgY29tcGFueSBmb3IgaW1wb3J0IGFuZCBleHBvcnQ!5e0!3m2!1sar!2seg!4v1764759592322!5m2!1sar!2seg" 
               width="100%" 
               height="100%" 
               style={{ border: 0 }} 
               allowFullScreen 
               loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
             ></iframe>
           </div>
         </div>

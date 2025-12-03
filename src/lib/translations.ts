@@ -98,6 +98,20 @@ export interface Translations {
   emailAddresses: string;
   businessHours: string;
   backToContactOptions: string;
+  whatsappAvailable: string;
+  locationMenoufia: string;
+  exportProcessingZone: string;
+  viewOnGoogleMaps: string;
+  contactAssistMessage: string;
+  businessHoursValue: string;
+  cairoTimeZone: string;
+  globalReachTitle: string;
+  serving50Countries: string;
+  worldwideLogistics: string;
+  experience15Years: string;
+  isoCertified: string;
+  harvestToExport48: string;
+  reliableColdChain: string;
 
   // Countries
   saudiArabia: string;
@@ -727,7 +741,7 @@ export const translations: Record<Language, Translations> = {
 
     // Footer
     footerDescription: 'Premium Egyptian agricultural exporter since 2009. Delivering fresh, certified products to markets worldwide.',
-    cairoEgypt: 'Cairo, Egypt',
+    cairoEgypt: 'Plot 21 - Developers Zone - Sadat City, Menoufia - Egypt',
     ourLocation: 'Our Location',
     companyLocationTitle: 'Al Soadaa Company Location',
     copyright: '© 2025 Al Soadaa Export. All rights reserved.',
@@ -796,6 +810,22 @@ export const translations: Record<Language, Translations> = {
     exportingCap4: 'ISO 9001 & Global G.A.P certified',
     exportingCap5: '15+ years of export experience',
     exportingImageCaption: 'Global export operations with world-class shipping partners',
+
+    // Contact Page
+    whatsappAvailable: 'WhatsApp Available',
+    locationMenoufia: 'Menoufia, Egypt',
+    exportProcessingZone: 'Export Processing Zone',
+    viewOnGoogleMaps: 'View on Google Maps',
+    contactAssistMessage: 'We are available to assist you with all your agricultural export needs. Our team of experts is ready to provide you with the best solutions.',
+    businessHoursValue: 'Sun - Thu: 9:00 AM - 6:00 PM',
+    cairoTimeZone: '(Cairo Time)',
+    globalReachTitle: 'Global Reach',
+    serving50Countries: 'Serving 50+ Countries',
+    worldwideLogistics: 'Worldwide Logistics',
+    experience15Years: '15+ years of export experience',
+    isoCertified: 'ISO 9001 & Global G.A.P certified',
+    harvestToExport48: '48-hour harvest to export',
+    reliableColdChain: 'Reliable cold chain logistics',
   },
   ar: {
     // Header
@@ -808,7 +838,7 @@ export const translations: Record<Language, Translations> = {
     aboutUs: 'من نحن',
     contact: 'اتصل بنا',
     requestQuote: 'طلب عرض سعر',
-    companyName: 'الصعداء',
+    companyName: 'السعداء',
 
     // Hero Section
     heroTitle: 'حمضيات مصرية طازجة إلى سوقك في 48 ساعة',
@@ -827,7 +857,7 @@ export const translations: Record<Language, Translations> = {
     viewAllProducts: 'عرض جميع المنتجات',
 
     // Why Choose Us
-    whyChooseUs: 'لماذا تختار الصعداء؟',
+    whyChooseUs: 'لماذا تختار السعداء؟',
     qualityCertified: 'جودة معتمدة',
     qualityCertifiedDesc: 'مرافق معتمدة بشهادة ISO 9001 و Global G.A.P تضمن أن كل منتج يلبي معايير الجودة الدولية.',
     reliableDelivery: 'توصيل موثوق',
@@ -897,7 +927,7 @@ export const translations: Record<Language, Translations> = {
     backToContactOptions: '→ العودة إلى خيارات الاتصال',
 
     // About
-    aboutAlSoadaa: 'عن الصعداء',
+    aboutAlSoadaa: 'عن السعداء',
     ourStory: 'قصتنا',
     ourMission: 'مهمتنا',
     ourVision: 'رؤيتنا',
@@ -1096,7 +1126,7 @@ export const translations: Record<Language, Translations> = {
     ourCertifications: 'شهاداتنا',
     ourJourney: 'رحلتنا',
     journey2009Title: 'تأسيس الشركة',
-    journey2009Desc: 'بدأت الصعداء للتصدير عملياتها بالتركيز على الحمضيات.',
+    journey2009Desc: 'بدأت السعداء للتصدير عملياتها بالتركيز على الحمضيات.',
     journey2012Title: 'شهادة ISO 9001',
     journey2012Desc: 'الحصول على شهادة ISO 9001، وتأسيس أنظمة إدارة الجودة.',
     journey2015Title: 'شهادة Global G.A.P',
@@ -1112,7 +1142,7 @@ export const translations: Record<Language, Translations> = {
     haccpDesc: 'شهادة تحليل المخاطر ونقاط التحكم الحرجة لإدارة سلامة الغذاء.',
 
     // Testimonials
-    testimonial1Quote: "كانت الصعداء موردنا الموثوق لأكثر من 5 سنوات. التزامهم بالجودة والتسليم الموثوق لا مثيل له.",
+    testimonial1Quote: "كانت السعداء موردنا الموثوق لأكثر من 5 سنوات. التزامهم بالجودة والتسليم الموثوق لا مثيل له.",
     testimonial1Author: "محمد الراشد",
     testimonial1Company: "توزيع الأغذية المميزة",
     testimonial1Country: "المملكة العربية السعودية",
@@ -1120,17 +1150,17 @@ export const translations: Record<Language, Translations> = {
     testimonial2Author: "إيلينا بوبوف",
     testimonial2Company: "يورو فريش للاستيراد",
     testimonial2Country: "روسيا",
-    testimonial3Quote: "خدمة احترافية من البداية للنهاية. تفهم الصعداء احتياجات الأسواق الدولية.",
+    testimonial3Quote: "خدمة احترافية من البداية للنهاية. تفهم السعداء احتياجات الأسواق الدولية.",
     testimonial3Author: "ديفيد تشين",
     testimonial3Company: "مجموعة الأسواق الآسيوية",
     testimonial3Country: "الصين",
 
     // Footer
     footerDescription: 'مُصدّر زراعي مصري متميز منذ عام 2009. نقدم منتجات طازجة ومعتمدة للأسواق العالمية.',
-    cairoEgypt: 'القاهرة، مصر',
+    cairoEgypt: 'قطعة رقم 21 - منطقة المطورين - مدينة السادات، منوفية - مصر',
     ourLocation: 'موقعنا',
-    companyLocationTitle: 'موقع شركة الصعداء',
-    copyright: '© 2025 الصعداء للتصدير. جميع الحقوق محفوظة.',
+    companyLocationTitle: 'موقع شركة السعداء',
+    copyright: '© 2025 السعداء للتصدير. جميع الحقوق محفوظة.',
     privacyPolicy: 'سياسة الخصوصية',
     termsOfService: 'شروط الخدمة',
     errorLoadingImage: 'خطأ في تحميل الصورة',
@@ -1178,8 +1208,8 @@ export const translations: Record<Language, Translations> = {
     packingImageCaption: 'منشأة تعبئة حديثة بأنظمة آلية',
 
     // Processing Pages - Exporting
-    exportingDesc1: 'تقدم شركة الصعداء للاستيراد والتصدير خدمات عالية الجودة من أجود المحاصيل الزراعية المصرية.',
-    exportingDesc2: 'تعتمد شركة الصعداء على تصدير جميع أنواع الفواكه والخضروات. من خلال تواصلك معنا، نعدك بأفضل الخدمات، وأجود المنتجات وأعلاها جودة على الإطلاق.',
+    exportingDesc1: 'تقدم شركة السعداء للاستيراد والتصدير خدمات عالية الجودة من أجود المحاصيل الزراعية المصرية.',
+    exportingDesc2: 'تعتمد شركة السعداء على تصدير جميع أنواع الفواكه والخضروات. من خلال تواصلك معنا، نعدك بأفضل الخدمات، وأجود المنتجات وأعلاها جودة على الإطلاق.',
     exportingDesc3: 'نحن مستعدون لتصدير منتجاتنا إلى أي مكان في العالم، بالتعاون مع أعظم خطوط الشحن في العالم.',
     exportingFeature1Title: 'انتشار عالمي',
     exportingFeature1Desc: 'تصدير لأكثر من 50 دولة حول العالم',
@@ -1196,6 +1226,22 @@ export const translations: Record<Language, Translations> = {
     exportingCap4: 'حاصلون على شهادات ISO 9001 و Global G.A.P',
     exportingCap5: 'أكثر من 15 عاماً من الخبرة في التصدير',
     exportingImageCaption: 'عمليات تصدير عالمية مع شركاء شحن عالميين',
+
+    // Contact Page
+    whatsappAvailable: 'واتساب متاح',
+    locationMenoufia: 'المنوفية، مصر',
+    exportProcessingZone: 'منطقة معالجة التصدير',
+    viewOnGoogleMaps: 'عرض على خرائط جوجل',
+    contactAssistMessage: 'نحن متاحون لمساعدتك في جميع احتياجات التصدير الزراعي. فريق خبرائنا جاهز لتقديم أفضل الحلول لك.',
+    businessHoursValue: 'الأحد - الخميس: 9:00 ص - 6:00 م',
+    cairoTimeZone: '(توقيت القاهرة)',
+    globalReachTitle: 'انتشار عالمي',
+    serving50Countries: 'نخدم أكثر من 50 دولة',
+    worldwideLogistics: 'خدمات لوجستية عالمية',
+    experience15Years: 'أكثر من 15 عاماً من الخبرة في التصدير',
+    isoCertified: 'معتمدون بشهادات ISO 9001 و Global G.A.P',
+    harvestToExport48: 'من الحصاد للتصدير في 48 ساعة',
+    reliableColdChain: 'خدمات سلسلة تبريد موثوقة',
   },
   ru: {
     // Header
@@ -1525,7 +1571,7 @@ export const translations: Record<Language, Translations> = {
 
     // Footer
     footerDescription: 'Премиальный египетский сельскохозяйственный экспортер с 2009 года. Поставка свежих сертифицированных продуктов на мировые рынки.',
-    cairoEgypt: 'Каир, Египет',
+    cairoEgypt: 'Участок 21 - Зона разработчиков - Садат Сити, Менуфия - Египет',
     ourLocation: 'Наше местоположение',
     companyLocationTitle: 'Местоположение компании Al Soadaa',
     copyright: '© 2025 Al Soadaa Export. Все права защищены.',
@@ -1592,5 +1638,21 @@ export const translations: Record<Language, Translations> = {
     exportingCap4: 'ISO 9001 & Global G.A.P certified',
     exportingCap5: '15+ years of export experience',
     exportingImageCaption: 'Global export operations with world-class shipping partners',
+
+    // Contact Page
+    whatsappAvailable: 'WhatsApp доступен',
+    locationMenoufia: 'Менуфия, Египет',
+    exportProcessingZone: 'Зона обработки экспорта',
+    viewOnGoogleMaps: 'Посмотреть на Google Maps',
+    contactAssistMessage: 'Мы готовы помочь вам со всеми вашими потребностями в сельскохозяйственном экспорте. Наша команда экспертов готова предоставить вам лучшие решения.',
+    businessHoursValue: 'Вс - Чт: 9:00 - 18:00',
+    cairoTimeZone: '(Каирское время)',
+    globalReachTitle: 'Глобальный охват',
+    serving50Countries: 'Обслуживаем 50+ стран',
+    worldwideLogistics: 'Мировая логистика',
+    experience15Years: '15+ лет опыта экспорта',
+    isoCertified: 'Сертификаты ISO 9001 и Global G.A.P',
+    harvestToExport48: 'От сбора до экспорта за 48 часов',
+    reliableColdChain: 'Надежная холодильная логистика',
   },
 };

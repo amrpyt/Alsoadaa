@@ -48,11 +48,11 @@ const translations = {
         }
     },
     ar: {
-        titleSuffix: '| الصعداء للتصدير',
+        titleSuffix: '| السعداء للتصدير',
         buy: 'شراء',
         premium: 'مصري فاخر',
         import: 'استورد',
-        from: 'عالي الجودة من مصر. تقدم الصعداء',
+        from: 'عالي الجودة من مصر. تقدم السعداء',
         delivery: 'معتمد مع شحن عالمي.',
         season: 'الموسم:',
         cta: 'اطلب عرض سعر اليوم.',
@@ -151,7 +151,7 @@ async function updateSEO() {
 
             // Simple description generation for pages
             if (lang === 'ar') {
-                metaDescription = `اكتشف المزيد عن ${page.title} مع الصعداء. نحن نقدم أفضل المنتجات الزراعية المصرية للعالم.`;
+                metaDescription = `اكتشف المزيد عن ${page.title} مع السعداء. نحن نقدم أفضل المنتجات الزراعية المصرية للعالم.`;
             } else if (lang === 'ru') {
                 metaDescription = `Узнайте больше о ${page.title} с Al Soadaa. Мы поставляем лучшие египетские сельскохозяйственные продукты по всему миру.`;
             } else {

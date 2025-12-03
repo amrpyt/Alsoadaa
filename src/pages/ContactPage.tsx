@@ -85,11 +85,14 @@ export function ContactPage() {
                   <p className="text-slate-600 mb-6 leading-relaxed">
                     {t.speakWithSpecialists}
                   </p>
-                  <a href="tel:+201234567890" className="text-lg font-bold text-slate-900 hover:text-[var(--fresh-green)] transition-colors block">
-                    +20 123 456 7890
+                  <a href="tel:+201007478669" dir="ltr" className="text-lg font-bold text-slate-900 hover:text-[var(--fresh-green)] transition-colors block">
+                    +20 100 747 8669
+                  </a>
+                  <a href="tel:+20482667764" dir="ltr" className="text-lg font-bold text-slate-900 hover:text-[var(--fresh-green)] transition-colors block mt-1">
+                    +20 48 266 7764
                   </a>
                   <a href="https://wa.me/201007478669" className="text-sm font-medium text-slate-500 hover:text-[var(--fresh-green)] transition-colors mt-2 block">
-                    WhatsApp Available
+                    {t.whatsappAvailable}
                   </a>
                 </div>
               </div>
@@ -135,11 +138,11 @@ export function ContactPage() {
                       <MapPin className="w-10 h-10 text-[var(--citrus-orange)]" />
                     </div>
                     <h3 className="text-3xl font-bold text-white mb-2">{t.headOffice}</h3>
-                    <p className="text-xl text-slate-300">Menoufia, Egypt</p>
-                    <p className="text-slate-400 mt-2">Export Processing Zone</p>
+                    <p className="text-xl text-slate-300">{t.locationMenoufia}</p>
+                    <p className="text-slate-400 mt-2">{t.exportProcessingZone}</p>
 
                     <Button className="mt-8 bg-white text-slate-900 hover:bg-slate-100 border-0">
-                      View on Google Maps
+                      {t.viewOnGoogleMaps}
                     </Button>
                   </div>
                 </div>
@@ -150,7 +153,7 @@ export function ContactPage() {
                 <div>
                   <h2 className="text-3xl font-bold text-slate-900 mb-6">{t.contactInformation}</h2>
                   <p className="text-lg text-slate-600 mb-8 leading-relaxed">
-                    We are available to assist you with all your agricultural export needs. Our team of experts is ready to provide you with the best solutions.
+                    {t.contactAssistMessage}
                   </p>
                 </div>
 
@@ -158,15 +161,15 @@ export function ContactPage() {
                   <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
                     <Clock className="w-8 h-8 text-[var(--trust-blue)] mb-4" />
                     <h4 className="font-bold text-slate-900 mb-2">{t.businessHours}</h4>
-                    <p className="text-sm text-slate-600">Sun - Thu: 9:00 AM - 6:00 PM</p>
-                    <p className="text-xs text-slate-400 mt-1">(Cairo Time)</p>
+                    <p className="text-sm text-slate-600">{t.businessHoursValue}</p>
+                    <p className="text-xs text-slate-400 mt-1">{t.cairoTimeZone}</p>
                   </div>
 
                   <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
                     <Globe className="w-8 h-8 text-[var(--fresh-green)] mb-4" />
-                    <h4 className="font-bold text-slate-900 mb-2">Global Reach</h4>
-                    <p className="text-sm text-slate-600">Serving 50+ Countries</p>
-                    <p className="text-xs text-slate-400 mt-1">Worldwide Logistics</p>
+                    <h4 className="font-bold text-slate-900 mb-2">{t.globalReachTitle}</h4>
+                    <p className="text-sm text-slate-600">{t.serving50Countries}</p>
+                    <p className="text-xs text-slate-400 mt-1">{t.worldwideLogistics}</p>
                   </div>
                 </div>
 
@@ -174,10 +177,10 @@ export function ContactPage() {
                   <h3 className="text-xl font-bold text-slate-900 mb-4">{t.whyChooseUs}</h3>
                   <ul className="space-y-4">
                     {[
-                      "15+ years of export experience",
-                      "ISO 9001 & Global G.A.P certified",
-                      "48-hour harvest to export",
-                      "Reliable cold chain logistics"
+                      t.experience15Years,
+                      t.isoCertified,
+                      t.harvestToExport48,
+                      t.reliableColdChain
                     ].map((item, index) => (
                       <li key={index} className="flex items-start gap-3">
                         <div className="mt-1 w-5 h-5 rounded-full bg-[var(--fresh-green-bg)] flex items-center justify-center flex-shrink-0">

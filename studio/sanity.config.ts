@@ -6,7 +6,7 @@ import {schemaTypes} from './schemaTypes'
 
 export default defineConfig({
   name: 'default',
-  title: 'Alsoodaa',
+  title: 'السعداء - CMS',
 
   projectId: 'wptd4h7v',
   dataset: 'production',
@@ -15,9 +15,11 @@ export default defineConfig({
     structureTool({
       structure: (S) =>
         S.list()
-          .title('Content')
+          .title('📂 Content Management')
           .items([
-            // ✨ NEW: Centralized Products (recommended!)
+            // ============================================
+            // ✅ NEW CENTRALIZED SCHEMAS
+            // ============================================
             S.listItem()
               .title('🍊 Products')
               .schemaType('productCentralized')
@@ -26,140 +28,141 @@ export default defineConfig({
                   .title('All Products')
                   .defaultOrdering([{field: 'titleEn', direction: 'asc'}])
               ),
-            S.divider(),
-            // 📦 OLD: Per-language products (legacy - will be removed)
             S.listItem()
-              .title('📦 Products (Old - Legacy)')
+              .title('⚙️ Services')
+              .schemaType('serviceCentralized')
+              .child(
+                S.documentTypeList('serviceCentralized')
+                  .title('All Services')
+                  .defaultOrdering([{field: 'order', direction: 'asc'}])
+              ),
+            S.listItem()
+              .title('📄 Pages')
+              .schemaType('pageCentralized')
+              .child(
+                S.documentTypeList('pageCentralized')
+                  .title('All Pages')
+                  .defaultOrdering([{field: 'order', direction: 'asc'}])
+              ),
+            S.divider(),
+
+            // ============================================
+            // 🌍 TRANSLATIONS & CALENDAR
+            // ============================================
+            S.listItem()
+              .title('🌍 Translations')
+              .schemaType('siteTranslationCentralized')
+              .child(
+                S.documentTypeList('siteTranslationCentralized')
+                  .title('All Translations')
+                  .defaultOrdering([{field: 'category', direction: 'asc'}, {field: 'key', direction: 'asc'}])
+              ),
+            S.listItem()
+              .title('📅 Calendar Events')
+              .schemaType('calendarEventCentralized')
+              .child(
+                S.documentTypeList('calendarEventCentralized')
+                  .title('Calendar Events')
+                  .defaultOrdering([{field: 'month', direction: 'asc'}])
+              ),
+            S.divider(),
+
+            // ============================================
+            // 📥 FORM SUBMISSIONS
+            // ============================================
+            S.listItem()
+              .title('📥 Form Submissions')
+              .schemaType('formSubmission')
               .child(
                 S.list()
-                  .title('Products by Language')
+                  .title('Form Submissions')
                   .items([
                     S.listItem()
-                      .title('Arabic (العربية)')
+                      .title('🆕 New')
                       .child(
-                        S.documentTypeList('product')
-                          .title('Arabic Products')
-                          .filter('_type == "product" && language == "ar"')
+                        S.documentTypeList('formSubmission')
+                          .title('New Submissions')
+                          .filter('_type == "formSubmission" && status == "new"')
+                          .defaultOrdering([{field: 'submittedAt', direction: 'desc'}])
                       ),
                     S.listItem()
-                      .title('English')
+                      .title('👀 Reviewed')
                       .child(
-                        S.documentTypeList('product')
-                          .title('English Products')
-                          .filter('_type == "product" && language == "en"')
+                        S.documentTypeList('formSubmission')
+                          .title('Reviewed')
+                          .filter('_type == "formSubmission" && status == "reviewed"')
                       ),
                     S.listItem()
-                      .title('Russian (Русский)')
+                      .title('✅ Responded')
                       .child(
-                        S.documentTypeList('product')
-                          .title('Russian Products')
-                          .filter('_type == "product" && language == "ru"')
+                        S.documentTypeList('formSubmission')
+                          .title('Responded')
+                          .filter('_type == "formSubmission" && status == "responded"')
+                      ),
+                    S.listItem()
+                      .title('📁 Archived')
+                      .child(
+                        S.documentTypeList('formSubmission')
+                          .title('Archived')
+                          .filter('_type == "formSubmission" && status == "archived"')
+                      ),
+                    S.divider(),
+                    S.listItem()
+                      .title('📋 All Submissions')
+                      .child(
+                        S.documentTypeList('formSubmission')
+                          .title('All Form Submissions')
+                          .defaultOrdering([{field: 'submittedAt', direction: 'desc'}])
                       ),
                   ])
               ),
+            S.divider(),
+
+            // ============================================
+            // ⚠️ LEGACY (Old Schemas - for migration)
+            // ============================================
             S.listItem()
-              .title('Pages')
+              .title('⚠️ Legacy (Old)')
               .child(
                 S.list()
-                  .title('Pages by Language')
+                  .title('Legacy Schemas')
                   .items([
                     S.listItem()
-                      .title('Arabic (العربية)')
+                      .title('📦 Products (Old)')
+                      .child(
+                        S.documentTypeList('product')
+                          .title('Old Products')
+                      ),
+                    S.listItem()
+                      .title('📄 Pages (Old)')
                       .child(
                         S.documentTypeList('page')
-                          .title('Arabic Pages')
-                          .filter('_type == "page" && language == "ar"')
+                          .title('Old Pages')
                       ),
                     S.listItem()
-                      .title('English')
-                      .child(
-                        S.documentTypeList('page')
-                          .title('English Pages')
-                          .filter('_type == "page" && language == "en"')
-                      ),
-                    S.listItem()
-                      .title('Russian (Русский)')
-                      .child(
-                        S.documentTypeList('page')
-                          .title('Russian Pages')
-                          .filter('_type == "page" && language == "ru"')
-                      ),
-                  ])
-              ),
-            S.listItem()
-              .title('Services')
-              .child(
-                S.list()
-                  .title('Services by Language')
-                  .items([
-                    S.listItem()
-                      .title('Arabic (العربية)')
+                      .title('⚙️ Services (Old)')
                       .child(
                         S.documentTypeList('service')
-                          .title('Arabic Services')
-                          .filter('_type == "service" && language == "ar"')
+                          .title('Old Services')
                       ),
                     S.listItem()
-                      .title('English')
+                      .title('📅 Calendar (Old)')
                       .child(
-                        S.documentTypeList('service')
-                          .title('English Services')
-                          .filter('_type == "service" && language == "en"')
+                        S.documentTypeList('calendarEvent')
+                          .title('Old Calendar Events')
                       ),
                     S.listItem()
-                      .title('Russian (Русский)')
-                      .child(
-                        S.documentTypeList('service')
-                          .title('Russian Services')
-                          .filter('_type == "service" && language == "ru"')
-                      ),
-                  ])
-              ),
-            S.divider(),
-            S.documentTypeListItem('calendarEvent').title('Calendar Events'),
-            S.divider(),
-            S.documentTypeListItem('formSubmission').title('Form Submissions'),
-            S.divider(),
-            S.listItem()
-              .title('Site Translations')
-              .child(
-                S.list()
-                  .title('Translations by Language')
-                  .items([
-                    S.listItem()
-                      .title('Arabic (العربية)')
+                      .title('🌍 Translations (Old)')
                       .child(
                         S.documentTypeList('siteTranslation')
-                          .title('Arabic Translations')
-                          .filter('_type == "siteTranslation" && language == "ar"')
-                      ),
-                    S.listItem()
-                      .title('English')
-                      .child(
-                        S.documentTypeList('siteTranslation')
-                          .title('English Translations')
-                          .filter('_type == "siteTranslation" && language == "en"')
-                      ),
-                    S.listItem()
-                      .title('Russian (Русский)')
-                      .child(
-                        S.documentTypeList('siteTranslation')
-                          .title('Russian Translations')
-                          .filter('_type == "siteTranslation" && language == "ru"')
+                          .title('Old Translations')
                       ),
                   ])
               ),
           ])
     }),
     visionTool(),
-    assist({
-      translate: {
-        document: {
-          languageField: 'language',
-          documentTypes: ['product', 'page', 'service', 'siteTranslation'],
-        },
-      },
-    }),
+    assist(),
   ],
 
   schema: {
