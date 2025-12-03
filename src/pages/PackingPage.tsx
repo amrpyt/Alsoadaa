@@ -31,7 +31,7 @@ export function PackingPage() {
 
   const imageUrl = service?.image 
     ? getImageUrl(service.image) 
-    : 'https://images.unsplash.com/photo-1553413077-190dd305871c?w=800&q=80';
+    : 'https://images.unsplash.com/photo-1553413077-190dd305871c?w=800&q=80' as string;
 
   return (
     <div className="min-h-screen bg-white">

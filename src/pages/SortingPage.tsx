@@ -15,7 +15,7 @@ interface ServiceData {
 export function SortingPage() {
   const { t, language } = useLanguage();
   const [service, setService] = useState<ServiceData | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchService = async () => {
@@ -34,7 +34,7 @@ export function SortingPage() {
   // Fallback image
   const imageUrl = service?.image 
     ? getImageUrl(service.image) 
-    : 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=80';
+    : 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=80' as string;
 
   return (
     <div className="min-h-screen bg-white">
