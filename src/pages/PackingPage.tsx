@@ -1,9 +1,37 @@
+import { useEffect, useState } from 'react';
 import { Card } from '../components/ui/card';
 import { useLanguage } from '../lib/LanguageContext';
 import { Package, Shield, Truck } from 'lucide-react';
+import { client, getImageUrl } from '../lib/sanity';
+import { serviceBySlugQuery } from '../lib/queries';
+
+interface ServiceData {
+  _id: string;
+  name: string;
+  description: string;
+  features: string[];
+  image?: any;
+}
 
 export function PackingPage() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const [service, setService] = useState<ServiceData | null>(null);
+
+  useEffect(() => {
+    const fetchService = async () => {
+      try {
+        const data = await client.fetch(serviceBySlugQuery, { slug: 'packing', lang: language });
+        setService(data);
+      } catch (error) {
+        console.error('Failed to fetch service:', error);
+      }
+    };
+    fetchService();
+  }, [language]);
+
+  const imageUrl = service?.image 
+    ? getImageUrl(service.image) 
+    : 'https://images.unsplash.com/photo-1553413077-190dd305871c?w=800&q=80';
 
   return (
     <div className="min-h-screen bg-white">
@@ -104,8 +132,8 @@ export function PackingPage() {
           <div className="lg:sticky lg:top-24">
             <Card className="overflow-hidden">
               <img
-                src="https://images.unsplash.com/photo-1553413077-190dd305871c?w=800&q=80"
-                alt="Packing Process"
+                src={imageUrl}
+                alt={service?.name || 'Packing Process'}
                 className="w-full h-auto object-cover"
               />
               <div className="p-4 bg-[var(--gray-50)]">

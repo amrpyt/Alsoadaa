@@ -119,6 +119,68 @@ export const productsBySeasonCentralizedQuery = defineQuery(`
 `)
 
 // ============================================
+// CENTRALIZED SERVICE QUERIES
+// ============================================
+
+export const allServicesCentralizedQuery = defineQuery(`
+  *[_type == "serviceCentralized" && !(_id in path("drafts.**")) && isActive == true] | order(order asc) {
+    _id,
+    slug,
+    icon,
+    order,
+    image,
+    "name": select(
+      $lang == "ar" => nameAr,
+      $lang == "ru" => coalesce(nameRu, nameEn),
+      nameEn
+    ),
+    "description": select(
+      $lang == "ar" => descriptionAr,
+      $lang == "ru" => coalesce(descriptionRu, descriptionEn),
+      descriptionEn
+    ),
+    "features": select(
+      $lang == "ar" => featuresAr,
+      $lang == "ru" => coalesce(featuresRu, featuresEn),
+      featuresEn
+    )
+  }
+`)
+
+export const serviceBySlugQuery = defineQuery(`
+  *[_type == "serviceCentralized" && !(_id in path("drafts.**")) && slug.current == $slug][0] {
+    _id,
+    slug,
+    icon,
+    image,
+    nameAr,
+    nameEn,
+    nameRu,
+    descriptionAr,
+    descriptionEn,
+    descriptionRu,
+    featuresAr,
+    featuresEn,
+    featuresRu,
+    "name": select(
+      $lang == "ar" => nameAr,
+      $lang == "ru" => coalesce(nameRu, nameEn),
+      nameEn
+    ),
+    "description": select(
+      $lang == "ar" => descriptionAr,
+      $lang == "ru" => coalesce(descriptionRu, descriptionEn),
+      descriptionEn
+    ),
+    "features": select(
+      $lang == "ar" => featuresAr,
+      $lang == "ru" => coalesce(featuresRu, featuresEn),
+      featuresEn
+    )
+  }
+`)
+
+// ============================================
 // MAIN EXPORTS (use centralized queries)
 // ============================================
 
@@ -128,6 +190,7 @@ export const allProductsQuery = allProductsCentralizedQuery
 export const productBySlugQuery = productBySlugCentralizedQuery
 export const productsByCategoryQuery = productsByCategoryCentralizedQuery
 export const productsBySeasonQuery = productsBySeasonCentralizedQuery
+export const allServicesQuery = allServicesCentralizedQuery
 
 // ============================================
 // OLD PRODUCT QUERIES (LEGACY - kept for reference)
@@ -216,8 +279,8 @@ export const allPagesQuery = defineQuery(`
   }
 `)
 
-// Service Queries
-export const allServicesQuery = defineQuery(`
+// Service Queries (Legacy - now using centralized)
+export const allServicesLegacyQuery = defineQuery(`
   *[_type == "service" && language == $lang] | order(order asc) {
     _id,
     name,

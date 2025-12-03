@@ -1,15 +1,47 @@
+import { useEffect, useState } from 'react';
 import { Card } from '../components/ui/card';
 import { useLanguage } from '../lib/LanguageContext';
+import { client, getImageUrl } from '../lib/sanity';
+import { serviceBySlugQuery } from '../lib/queries';
+
+interface ServiceData {
+  _id: string;
+  name: string;
+  description: string;
+  features: string[];
+  image?: any;
+}
 
 export function SortingPage() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const [service, setService] = useState<ServiceData | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchService = async () => {
+      try {
+        const data = await client.fetch(serviceBySlugQuery, { slug: 'sorting', lang: language });
+        setService(data);
+      } catch (error) {
+        console.error('Failed to fetch service:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchService();
+  }, [language]);
+
+  // Fallback image
+  const imageUrl = service?.image 
+    ? getImageUrl(service.image) 
+    : 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=80';
 
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
       <div className="bg-gradient-to-r from-[var(--citrus-orange)] to-[var(--citrus-orange-hover)] py-16">
         <div className="max-w-7xl mx-auto px-6 lg:px-16">
-          <h1 className="text-4xl font-bold text-white mb-4">{t.sorting}</h1>
+          <h1 className="text-4xl font-bold text-white mb-4">{service?.name || t.sorting}</h1>
           <p className="text-xl text-white/90">{t.processing}</p>
         </div>
       </div>
@@ -19,12 +51,12 @@ export function SortingPage() {
           {/* Content */}
           <div>
             <h2 className="text-3xl font-bold mb-6" style={{ color: 'var(--gray-900)' }}>
-              {t.sorting}
+              {service?.name || t.sorting}
             </h2>
             
             <Card className="p-6 mb-6">
               <p className="text-lg mb-4" style={{ color: 'var(--gray-700)' }}>
-                {t.sortingDesc}
+                {service?.description || t.sortingDesc}
               </p>
 
               <div className="space-y-4">
@@ -62,22 +94,33 @@ export function SortingPage() {
                 {t.sortingKeyBenefits}
               </h3>
               <ul className="space-y-2">
-                <li className="flex items-start gap-2">
-                  <span style={{ color: 'var(--fresh-green)' }}>✓</span>
-                  <span style={{ color: 'var(--gray-700)' }}>{t.sortingBenefit1}</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span style={{ color: 'var(--fresh-green)' }}>✓</span>
-                  <span style={{ color: 'var(--gray-700)' }}>{t.sortingBenefit2}</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span style={{ color: 'var(--fresh-green)' }}>✓</span>
-                  <span style={{ color: 'var(--gray-700)' }}>{t.sortingBenefit3}</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span style={{ color: 'var(--fresh-green)' }}>✓</span>
-                  <span style={{ color: 'var(--gray-700)' }}>{t.sortingBenefit4}</span>
-                </li>
+                {service?.features?.length ? (
+                  service.features.map((feature, index) => (
+                    <li key={index} className="flex items-start gap-2">
+                      <span style={{ color: 'var(--fresh-green)' }}>✓</span>
+                      <span style={{ color: 'var(--gray-700)' }}>{feature}</span>
+                    </li>
+                  ))
+                ) : (
+                  <>
+                    <li className="flex items-start gap-2">
+                      <span style={{ color: 'var(--fresh-green)' }}>✓</span>
+                      <span style={{ color: 'var(--gray-700)' }}>{t.sortingBenefit1}</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span style={{ color: 'var(--fresh-green)' }}>✓</span>
+                      <span style={{ color: 'var(--gray-700)' }}>{t.sortingBenefit2}</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span style={{ color: 'var(--fresh-green)' }}>✓</span>
+                      <span style={{ color: 'var(--gray-700)' }}>{t.sortingBenefit3}</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span style={{ color: 'var(--fresh-green)' }}>✓</span>
+                      <span style={{ color: 'var(--gray-700)' }}>{t.sortingBenefit4}</span>
+                    </li>
+                  </>
+                )}
               </ul>
             </Card>
           </div>
@@ -86,8 +129,8 @@ export function SortingPage() {
           <div className="lg:sticky lg:top-24">
             <Card className="overflow-hidden">
               <img
-                src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=80"
-                alt="Sorting Process"
+                src={imageUrl}
+                alt={service?.name || 'Sorting Process'}
                 className="w-full h-auto object-cover"
               />
               <div className="p-4 bg-[var(--gray-50)]">
