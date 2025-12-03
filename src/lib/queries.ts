@@ -6,7 +6,7 @@ import { defineQuery } from 'groq'
 
 // Get all products with localized fields
 export const allProductsCentralizedQuery = defineQuery(`
-  *[_type == "productCentralized"] | order(titleEn asc) {
+  *[_type == "productCentralized" && !(_id in path("drafts.**"))] | order(titleEn asc) {
     _id,
     slug,
     scientificName,
@@ -32,7 +32,7 @@ export const allProductsCentralizedQuery = defineQuery(`
 
 // Get single product by slug with localized fields
 export const productBySlugCentralizedQuery = defineQuery(`
-  *[_type == "productCentralized" && slug.current == $slug][0] {
+  *[_type == "productCentralized" && !(_id in path("drafts.**")) && slug.current == $slug][0] {
     _id,
     slug,
     scientificName,
@@ -74,7 +74,7 @@ export const productBySlugCentralizedQuery = defineQuery(`
 
 // Get products by category (centralized)
 export const productsByCategoryCentralizedQuery = defineQuery(`
-  *[_type == "productCentralized" && category == $category] | order(titleEn asc) {
+  *[_type == "productCentralized" && !(_id in path("drafts.**")) && category == $category] | order(titleEn asc) {
     _id,
     slug,
     scientificName,
@@ -97,7 +97,7 @@ export const productsByCategoryCentralizedQuery = defineQuery(`
 
 // Get products by season (centralized)
 export const productsBySeasonCentralizedQuery = defineQuery(`
-  *[_type == "productCentralized" && season == $season] | order(titleEn asc) {
+  *[_type == "productCentralized" && !(_id in path("drafts.**")) && season == $season] | order(titleEn asc) {
     _id,
     slug,
     scientificName,
