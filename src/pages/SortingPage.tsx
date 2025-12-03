@@ -32,9 +32,8 @@ export function SortingPage() {
   }, [language]);
 
   // Fallback image
-  const imageUrl = service?.image 
-    ? getImageUrl(service.image) 
-    : 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=80' as string;
+  const fallbackImage = 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=80';
+  const imageUrl = (service?.image ? getImageUrl(service.image) : null) || fallbackImage;
 
   return (
     <div className="min-h-screen bg-white">
