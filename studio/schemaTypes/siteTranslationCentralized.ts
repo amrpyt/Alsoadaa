@@ -1,4 +1,4 @@
-import {defineType, defineField} from 'sanity'
+import { defineType, defineField } from 'sanity'
 
 /**
  * Centralized Site Translation Schema
@@ -12,8 +12,8 @@ export const siteTranslationCentralizedType = defineType({
   title: 'Translation',
   type: 'document',
   groups: [
-    {name: 'key', title: '🔑 Key', default: true},
-    {name: 'translations', title: '🌍 Translations'},
+    { name: 'key', title: '🔑 Key', default: true },
+    { name: 'translations', title: '🌍 Translations' },
   ],
   fields: [
     // ============================================
@@ -32,19 +32,25 @@ export const siteTranslationCentralizedType = defineType({
       title: 'Category',
       type: 'string',
       group: 'key',
+      description: 'Which page/section does this text appear on?',
       options: {
         list: [
-          {title: '🧭 Navigation', value: 'navigation'},
-          {title: '🎯 Hero Section', value: 'hero'},
-          {title: '📦 Products', value: 'products'},
-          {title: '📝 Forms', value: 'forms'},
-          {title: '📞 Contact', value: 'contact'},
-          {title: 'ℹ️ About', value: 'about'},
-          {title: '🔧 Common', value: 'common'},
-          {title: '📅 Calendar', value: 'calendar'},
-          {title: '🏷️ Categories', value: 'categories'},
-          {title: '🌤️ Seasons', value: 'seasons'},
-          {title: '⚙️ System', value: 'system'},
+          // Pages
+          { title: '🏠 Home Page', value: 'home' },
+          { title: '👥 About Page', value: 'about' },
+          { title: '📞 Contact Page', value: 'contact' },
+          { title: '📦 Products Page', value: 'products' },
+          { title: '📅 Calendar Page', value: 'calendar' },
+          { title: '🔧 Sorting Page', value: 'sorting' },
+          { title: '📦 Packing Page', value: 'packing' },
+          { title: '🚢 Exporting Page', value: 'exporting' },
+          // Components
+          { title: '📝 Quote Form', value: 'quote-form' },
+          { title: '🧭 Navigation', value: 'navigation' },
+          { title: '👣 Footer', value: 'footer' },
+          // Shared
+          { title: '🔧 Common/Shared', value: 'common' },
+          { title: '❌ Errors & Validation', value: 'errors' },
         ],
       },
       validation: (rule) => rule.required(),
@@ -93,27 +99,29 @@ export const siteTranslationCentralizedType = defineType({
       valueEn: 'valueEn',
       valueRu: 'valueRu',
     },
-    prepare({key, category, valueAr, valueEn, valueRu}) {
+    prepare({ key, category, valueAr, valueEn, valueRu }) {
       const categoryIcons: Record<string, string> = {
-        'navigation': '🧭',
-        'hero': '🎯',
-        'products': '📦',
-        'forms': '📝',
+        'home': '🏠',
+        'about': '👥',
         'contact': '📞',
-        'about': 'ℹ️',
-        'common': '🔧',
+        'products': '📦',
         'calendar': '📅',
-        'categories': '🏷️',
-        'seasons': '🌤️',
-        'system': '⚙️',
+        'sorting': '🔧',
+        'packing': '📦',
+        'exporting': '🚢',
+        'quote-form': '📝',
+        'navigation': '🧭',
+        'footer': '👣',
+        'common': '🔧',
+        'errors': '❌',
       }
       const icon = category ? categoryIcons[category] || '📝' : '📝'
-      
+
       // Show completion status
       const hasAr = valueAr ? '🇪🇬' : '⬜'
       const hasEn = valueEn ? '🇬🇧' : '⬜'
       const hasRu = valueRu ? '🇷🇺' : '⬜'
-      
+
       return {
         title: `${icon} ${key}`,
         subtitle: `${hasAr}${hasEn}${hasRu} • ${(valueEn || valueAr || '').substring(0, 40)}...`,
@@ -126,14 +134,14 @@ export const siteTranslationCentralizedType = defineType({
       title: 'Category, then Key',
       name: 'categoryKeyAsc',
       by: [
-        {field: 'category', direction: 'asc'},
-        {field: 'key', direction: 'asc'},
+        { field: 'category', direction: 'asc' },
+        { field: 'key', direction: 'asc' },
       ],
     },
     {
       title: 'Key (A-Z)',
       name: 'keyAsc',
-      by: [{field: 'key', direction: 'asc'}],
+      by: [{ field: 'key', direction: 'asc' }],
     },
   ],
 })

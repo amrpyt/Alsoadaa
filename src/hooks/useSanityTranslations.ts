@@ -3,59 +3,117 @@ import { client } from '../lib/sanity';
 import { translations as fallbackTranslations, Language } from '../lib/translations';
 import type { Translations } from '../lib/translations';
 
-interface SanityTranslation {
+interface SanityTranslationCentralized {
   key: string;
-  value: string;
-  language: string;
+  valueAr: string;
+  valueEn: string;
+  valueRu: string;
+}
+
+// Cache duration: 1 hour
+const CACHE_DURATION = 60 * 60 * 1000;
+const CACHE_KEY_PREFIX = 'cms-translations-';
+
+function getCachedTranslations(language: Language): Translations | null {
+  try {
+    const cacheKey = CACHE_KEY_PREFIX + language;
+    const cached = localStorage.getItem(cacheKey);
+    if (!cached) return null;
+
+    const { data, timestamp } = JSON.parse(cached);
+    const now = Date.now();
+
+    // Check if cache is still valid
+    if (now - timestamp < CACHE_DURATION) {
+      console.log('📦 Using cached translations for', language);
+      return data;
+    }
+
+    // Cache expired
+    localStorage.removeItem(cacheKey);
+    return null;
+  } catch (error) {
+    console.error('Error reading translation cache:', error);
+    return null;
+  }
+}
+
+function setCachedTranslations(language: Language, data: Translations): void {
+  try {
+    const cacheKey = CACHE_KEY_PREFIX + language;
+    const cacheData = {
+      data,
+      timestamp: Date.now(),
+    };
+    localStorage.setItem(cacheKey, JSON.stringify(cacheData));
+  } catch (error) {
+    console.error('Error caching translations:', error);
+  }
 }
 
 export function useSanityTranslations(language: Language) {
-  const [translations, setTranslations] = useState<Translations>(
-    fallbackTranslations[language]
-  );
+  const [translations, setTranslations] = useState<Translations>(() => {
+    // Try to load from cache first
+    const cached = getCachedTranslations(language);
+    return cached || fallbackTranslations[language];
+  });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchTranslations() {
       try {
-        // Fetch all translations for current language from Sanity
-        const sanityTranslations = await client.fetch<SanityTranslation[]>(
-          `*[_type == "siteTranslation" && language == $lang] {
+        // Check cache first
+        const cached = getCachedTranslations(language);
+        if (cached) {
+          setTranslations(cached);
+          setLoading(false);
+          return;
+        }
+
+        console.log('🌍 Fetching translations from CMS for', language);
+
+        // Fetch all translations from centralized schema
+        const sanityTranslations = await client.fetch<SanityTranslationCentralized[]>(
+          `*[_type == "siteTranslationCentralized"] {
             key,
-            value,
-            language
-          }`,
-          { lang: language }
+            valueAr,
+            valueEn,
+            valueRu
+          }`
         );
 
-        // Convert array to object
-        // Convert keys like "hero.title" to camelCase like "heroTitle"
+        if (!sanityTranslations || sanityTranslations.length === 0) {
+          console.warn('⚠️ No translations found in CMS, using fallback');
+          setTranslations(fallbackTranslations[language]);
+          setLoading(false);
+          return;
+        }
+
+        // Convert array to object based on current language
         const translationsObject = sanityTranslations.reduce((acc, t) => {
-          // Convert dot notation to camelCase
-          const camelCaseKey = t.key
-            .split('.')
-            .map((part, index) => 
-              index === 0 
-                ? part 
-                : part.charAt(0).toUpperCase() + part.slice(1)
-            )
-            .join('');
-          
+          // Get value for current language
+          const value = language === 'ar' ? t.valueAr : language === 'ru' ? (t.valueRu || t.valueEn) : t.valueEn;
+
           return {
             ...acc,
-            [camelCaseKey]: t.value
+            [t.key]: value
           };
-        }, {});
+        }, {} as Record<string, string>);
 
-        // Merge with fallback translations
+        // Merge with fallback translations (fallback takes precedence for missing keys)
         const merged = {
           ...fallbackTranslations[language],
           ...translationsObject
         };
 
         setTranslations(merged as Translations);
+
+        // Cache the translations
+        setCachedTranslations(language, merged as Translations);
+
+        console.log(`✅ Loaded ${sanityTranslations.length} translations from CMS`);
       } catch (error) {
-        console.error('Error fetching translations:', error);
+        console.error('❌ Error fetching translations from CMS:', error);
         // Keep fallback translations on error
         setTranslations(fallbackTranslations[language]);
       } finally {
