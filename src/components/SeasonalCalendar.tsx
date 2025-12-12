@@ -15,60 +15,34 @@ const MONTH_KEYS = [
 
 // Stable image component to prevent flickering (iOS Safari fix)
 function ProductImage({ image, title, size = 100 }: { image: any; title: string; size?: number }) {
-  const [loaded, setLoaded] = useState(false);
-  const [error, setError] = useState(false);
-
   const imageUrl = useMemo(() => {
     if (!image) return null;
     return typeof image === 'string' ? image : getImageUrl(image, size, size);
   }, [image, size]);
 
-  useEffect(() => {
-    if (!imageUrl) return;
-    const img = new Image();
-    img.src = imageUrl;
-    img.onload = () => setLoaded(true);
-    img.onerror = () => setError(true);
-  }, [imageUrl]);
-
-  if (!imageUrl || error) {
+  if (!imageUrl) {
     return (
-      <div className="w-full h-full flex items-center justify-center text-xl bg-gradient-to-br from-gray-50 to-gray-100 text-gray-400">
+      <div className="w-full h-full flex items-center justify-center text-xl bg-gray-100 text-gray-400">
         {getProductEmoji('')}
       </div>
     );
   }
 
+  // Simple img with background fallback - no state toggling that causes iOS issues
   return (
-    <div
-      className="w-full h-full relative"
+    <img
+      src={imageUrl}
+      alt={title || ''}
+      className="w-full h-full object-cover bg-gray-100"
       style={{
-        // iOS Safari flickering fix
-        transform: 'translateZ(0)',
-        WebkitBackfaceVisibility: 'hidden',
+        // iOS Safari flickering prevention
+        transform: 'translate3d(0,0,0)',
         backfaceVisibility: 'hidden',
+        WebkitBackfaceVisibility: 'hidden',
       }}
-    >
-      {!loaded && (
-        <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 animate-pulse absolute inset-0">
-          <div className="w-4 h-4 rounded-full bg-gray-200" />
-        </div>
-      )}
-      <img
-        src={imageUrl}
-        alt={title || ''}
-        className={`w-full h-full object-cover ${loaded ? 'opacity-100' : 'opacity-0'}`}
-        style={{
-          // iOS Safari flickering fix
-          transform: 'translateZ(0)',
-          WebkitBackfaceVisibility: 'hidden',
-          backfaceVisibility: 'hidden',
-        }}
-        decoding="async"
-        onLoad={() => setLoaded(true)}
-        onError={() => setError(true)}
-      />
-    </div>
+      loading="eager"
+      decoding="sync"
+    />
   );
 }
 
@@ -397,6 +371,8 @@ export function SeasonalCalendar() {
               scrollbarWidth: 'none',
               msOverflowStyle: 'none',
               WebkitOverflowScrolling: 'touch',
+              willChange: 'scroll-position',
+              isolation: 'isolate',
             }}
           >
             <table className="w-full min-w-[1000px] border-collapse">
@@ -434,7 +410,13 @@ export function SeasonalCalendar() {
                       style={{ transform: 'translateZ(0)', WebkitBackfaceVisibility: 'hidden' }}
                     >
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-lg overflow-hidden bg-gray-100 ring-1 ring-gray-200/50 flex-shrink-0">
+                        <div
+                          className="w-10 h-10 rounded-lg overflow-hidden bg-gray-100 ring-1 ring-gray-200/50 flex-shrink-0"
+                          style={{
+                            contain: 'paint',
+                            willChange: 'transform',
+                          }}
+                        >
                           {product.image ? (
                             <ProductImage
                               image={product.image}
