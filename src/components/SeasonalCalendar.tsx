@@ -369,11 +369,11 @@ export function SeasonalCalendar() {
           {/* Split Pane Layout (iOS Fix: No sticky positioning) */}
           <div className="flex bg-white relative">
 
-            {/* Left Pane: Fixed Product List */}
-            <div className="flex-none w-[160px] md:w-[220px] z-20 bg-white border-r border-gray-100 shadow-[4px_0_12px_-4px_rgba(0,0,0,0.05)]">
+            {/* Left Pane: Fixed Product List (Mobile Optimized) */}
+            <div className="flex-none w-[110px] md:w-[220px] z-20 bg-white border-r border-gray-100 shadow-[4px_0_12px_-4px_rgba(0,0,0,0.05)]">
               {/* Header */}
-              <div className="h-[50px] flex items-center px-4 bg-gray-50/50 border-b border-gray-100">
-                <span className="font-semibold text-gray-900">
+              <div className="h-[50px] flex items-center px-2 md:px-4 bg-gray-50/50 border-b border-gray-100">
+                <span className="font-semibold text-gray-900 text-sm md:text-base">
                   {t.product || 'Product'}
                 </span>
               </div>
@@ -383,14 +383,14 @@ export function SeasonalCalendar() {
                 {products.map((product) => (
                   <div
                     key={product._id}
-                    className={`h-[72px] flex items-center px-3 border-b border-gray-50 cursor-pointer transition-colors duration-150 ${hoveredProduct === product._id ? 'bg-[var(--citrus-orange-bg)]/30' : 'bg-white'
+                    className={`h-[72px] flex items-center px-2 md:px-3 border-b border-gray-50 cursor-pointer transition-colors duration-150 ${hoveredProduct === product._id ? 'bg-[var(--citrus-orange-bg)]/30' : 'bg-white'
                       }`}
                     onMouseEnter={() => setHoveredProduct(product._id)}
                     onMouseLeave={() => setHoveredProduct(null)}
                     onClick={() => navigate('product-detail', { slug: product.slug?.current })}
                   >
-                    <div className="flex items-center gap-3 w-full overflow-hidden">
-                      <div className="w-10 h-10 rounded-lg overflow-hidden bg-gray-100 ring-1 ring-gray-200/50 flex-shrink-0">
+                    <div className="flex items-center gap-2 md:gap-3 w-full overflow-hidden">
+                      <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg overflow-hidden bg-gray-100 ring-1 ring-gray-200/50 flex-shrink-0">
                         {product.image ? (
                           <ProductImage
                             image={product.image}
@@ -403,7 +403,7 @@ export function SeasonalCalendar() {
                           </div>
                         )}
                       </div>
-                      <span className="font-medium text-gray-800 text-sm truncate">
+                      <span className="font-medium text-gray-800 text-xs md:text-sm truncate leading-tight">
                         {product.title}
                       </span>
                     </div>
@@ -427,8 +427,8 @@ export function SeasonalCalendar() {
                     <div
                       key={month}
                       className={`flex-1 flex items-center justify-center text-[10px] sm:text-xs font-semibold uppercase tracking-wide px-1 ${idx === currentMonthIndex
-                          ? 'bg-[var(--citrus-orange-bg)] text-[var(--citrus-orange)]'
-                          : 'text-gray-500'
+                        ? 'bg-[var(--citrus-orange-bg)] text-[var(--citrus-orange)]'
+                        : 'text-gray-500'
                         }`}
                     >
                       {month}
