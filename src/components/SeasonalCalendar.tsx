@@ -78,6 +78,7 @@ export function SeasonalCalendar() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [hoveredProduct, setHoveredProduct] = useState<string | null>(null);
 
   // Responsive detection - only affects initial load
   useEffect(() => {
@@ -365,103 +366,108 @@ export function SeasonalCalendar() {
           </div>
 
           {/* Scrollable Table */}
-          <div
-            className="overflow-x-auto"
-            style={{
-              scrollbarWidth: 'none',
-              msOverflowStyle: 'none',
-              // DO NOT use -webkit-overflow-scrolling: touch - it causes flicker!
-            }}
-          >
-            <table className="w-full min-w-[1000px] border-collapse">
-              <thead>
-                <tr className="bg-gray-50/50">
-                  <th
-                    className="sticky left-0 z-30 p-4 text-left font-semibold text-gray-900 bg-white border-b border-r border-gray-100 min-w-[200px] shadow-[2px_0_8px_rgba(0,0,0,0.04)]"
-                    style={{ transform: 'translate3d(0,0,0)' }}
-                  >
-                    <span style={{ transform: 'translate3d(0,0,0)', display: 'inline-block' }}>
-                      {t.product || 'Product'}
-                    </span>
-                  </th>
-                  {MONTHS.map((month, idx) => (
-                    <th
-                      key={month}
-                      className={`p-2 text-center text-[10px] font-semibold uppercase tracking-wide border-b border-gray-100 min-w-[70px] ${idx === currentMonthIndex
-                        ? 'bg-[var(--citrus-orange-bg)] text-[var(--citrus-orange)]'
-                        : 'text-gray-500 bg-white/50'
-                        }`}
-                    >
-                      {/* Full month name for all languages */}
-                      {month}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
+          {/* Split Pane Layout (iOS Fix: No sticky positioning) */}
+          <div className="flex bg-white relative">
+
+            {/* Left Pane: Fixed Product List */}
+            <div className="flex-none w-[160px] md:w-[220px] z-20 bg-white border-r border-gray-100 shadow-[4px_0_12px_-4px_rgba(0,0,0,0.05)]">
+              {/* Header */}
+              <div className="h-[50px] flex items-center px-4 bg-gray-50/50 border-b border-gray-100">
+                <span className="font-semibold text-gray-900">
+                  {t.product || 'Product'}
+                </span>
+              </div>
+
+              {/* Body */}
+              <div className="bg-white">
                 {products.map((product) => (
-                  <tr
+                  <div
                     key={product._id}
-                    className="group hover:bg-[var(--citrus-orange-bg)]/30 transition-colors cursor-pointer border-b border-gray-50 last:border-0"
+                    className={`h-[72px] flex items-center px-3 border-b border-gray-50 cursor-pointer transition-colors duration-150 ${hoveredProduct === product._id ? 'bg-[var(--citrus-orange-bg)]/30' : 'bg-white'
+                      }`}
+                    onMouseEnter={() => setHoveredProduct(product._id)}
+                    onMouseLeave={() => setHoveredProduct(null)}
                     onClick={() => navigate('product-detail', { slug: product.slug?.current })}
                   >
-                    <td
-                      className="sticky left-0 z-20 p-3 bg-white group-hover:bg-[var(--citrus-orange-bg)]/30 transition-colors border-r border-gray-100 shadow-[2px_0_8px_rgba(0,0,0,0.04)]"
-                      style={{ transform: 'translate3d(0,0,0)' }}
-                    >
-                      {/* IMPORTANT: ALL children need translate3d for iOS Safari */}
-                      <div
-                        className="flex items-center gap-3"
-                        style={{ transform: 'translate3d(0,0,0)' }}
-                      >
-                        <div
-                          className="w-10 h-10 rounded-lg overflow-hidden bg-gray-100 ring-1 ring-gray-200/50 flex-shrink-0"
-                          style={{ transform: 'translate3d(0,0,0)' }}
-                        >
-                          {product.image ? (
-                            <ProductImage
-                              image={product.image}
-                              title={product.title || ''}
-                              size={80}
-                            />
-                          ) : (
-                            <div className="flex items-center justify-center w-full h-full text-lg bg-gradient-to-br from-gray-50 to-gray-100">
-                              {getProductEmoji(product.category)}
-                            </div>
-                          )}
-                        </div>
-                        <span
-                          className="font-medium text-gray-800 group-hover:text-[var(--citrus-orange)] transition-colors text-sm whitespace-nowrap"
-                          style={{ transform: 'translate3d(0,0,0)' }}
-                        >
-                          {product.title}
-                        </span>
+                    <div className="flex items-center gap-3 w-full overflow-hidden">
+                      <div className="w-10 h-10 rounded-lg overflow-hidden bg-gray-100 ring-1 ring-gray-200/50 flex-shrink-0">
+                        {product.image ? (
+                          <ProductImage
+                            image={product.image}
+                            title={product.title || ''}
+                            size={80}
+                          />
+                        ) : (
+                          <div className="flex items-center justify-center w-full h-full text-lg bg-gray-50">
+                            {getProductEmoji(product.category)}
+                          </div>
+                        )}
                       </div>
-                    </td>
+                      <span className="font-medium text-gray-800 text-sm truncate">
+                        {product.title}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
 
-                    {MONTH_KEYS.map((monthKey, mIndex) => {
-                      const isAvailable = product.availability?.[monthKey];
-                      const isCurrentMonth = mIndex === currentMonthIndex;
+            {/* Right Pane: Scrollable Timeline */}
+            <div
+              className="flex-1 overflow-x-auto overflow-y-hidden bg-white"
+              style={{
+                scrollbarWidth: 'none',
+                msOverflowStyle: 'none',
+              }}
+            >
+              <div className="min-w-[900px]">
+                {/* Header */}
+                <div className="h-[50px] flex border-b border-gray-100 bg-gray-50/50">
+                  {MONTHS.map((month, idx) => (
+                    <div
+                      key={month}
+                      className={`flex-1 flex items-center justify-center text-[10px] sm:text-xs font-semibold uppercase tracking-wide px-1 ${idx === currentMonthIndex
+                          ? 'bg-[var(--citrus-orange-bg)] text-[var(--citrus-orange)]'
+                          : 'text-gray-500'
+                        }`}
+                    >
+                      {month}
+                    </div>
+                  ))}
+                </div>
 
-                      return (
-                        <td
-                          key={monthKey}
-                          className={`p-2 text-center h-[60px] ${isCurrentMonth ? 'bg-[var(--citrus-orange-bg)]/20' : ''
-                            }`}
-                        >
-                          <div className="flex items-center justify-center">
+                {/* Body */}
+                <div>
+                  {products.map((product) => (
+                    <div
+                      key={product._id}
+                      className={`h-[72px] flex border-b border-gray-50 cursor-pointer transition-colors duration-150 ${hoveredProduct === product._id ? 'bg-[var(--citrus-orange-bg)]/30' : 'bg-white'
+                        }`}
+                      onMouseEnter={() => setHoveredProduct(product._id)}
+                      onMouseLeave={() => setHoveredProduct(null)}
+                      onClick={() => navigate('product-detail', { slug: product.slug?.current })}
+                    >
+                      {MONTH_KEYS.map((monthKey, mIndex) => {
+                        const isAvailable = product.availability?.[monthKey];
+                        const isCurrentMonth = mIndex === currentMonthIndex;
+                        return (
+                          <div
+                            key={monthKey}
+                            className={`flex-1 flex items-center justify-center ${isCurrentMonth ? 'bg-[var(--citrus-orange-bg)]/20' : ''
+                              }`}
+                          >
                             <AvailabilityDot
                               isAvailable={!!isAvailable}
                               isCurrentMonth={isCurrentMonth && !!isAvailable}
                             />
                           </div>
-                        </td>
-                      );
-                    })}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                        );
+                      })}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       )}
