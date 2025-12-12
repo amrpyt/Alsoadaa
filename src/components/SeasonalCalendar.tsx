@@ -13,7 +13,7 @@ const MONTH_KEYS = [
   'july', 'august', 'september', 'october', 'november', 'december'
 ] as const;
 
-// Stable image component to prevent flickering
+// Stable image component to prevent flickering (iOS Safari fix)
 function ProductImage({ image, title, size = 100 }: { image: any; title: string; size?: number }) {
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState(false);
@@ -40,22 +40,35 @@ function ProductImage({ image, title, size = 100 }: { image: any; title: string;
   }
 
   return (
-    <>
+    <div
+      className="w-full h-full relative"
+      style={{
+        // iOS Safari flickering fix
+        transform: 'translateZ(0)',
+        WebkitBackfaceVisibility: 'hidden',
+        backfaceVisibility: 'hidden',
+      }}
+    >
       {!loaded && (
-        <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 animate-pulse">
+        <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 animate-pulse absolute inset-0">
           <div className="w-4 h-4 rounded-full bg-gray-200" />
         </div>
       )}
       <img
         src={imageUrl}
         alt={title || ''}
-        className={`w-full h-full object-cover transition-opacity duration-300 ${loaded ? 'opacity-100' : 'opacity-0 absolute'}`}
+        className={`w-full h-full object-cover ${loaded ? 'opacity-100' : 'opacity-0'}`}
+        style={{
+          // iOS Safari flickering fix
+          transform: 'translateZ(0)',
+          WebkitBackfaceVisibility: 'hidden',
+          backfaceVisibility: 'hidden',
+        }}
         decoding="async"
-        loading="lazy"
         onLoad={() => setLoaded(true)}
         onError={() => setError(true)}
       />
-    </>
+    </div>
   );
 }
 
@@ -389,7 +402,10 @@ export function SeasonalCalendar() {
             <table className="w-full min-w-[1000px] border-collapse">
               <thead>
                 <tr className="bg-gray-50/50">
-                  <th className="sticky left-0 z-30 p-4 text-left font-semibold text-gray-900 bg-white border-b border-r border-gray-100 min-w-[200px] shadow-[2px_0_8px_rgba(0,0,0,0.04)]">
+                  <th
+                    className="sticky left-0 z-30 p-4 text-left font-semibold text-gray-900 bg-white border-b border-r border-gray-100 min-w-[200px] shadow-[2px_0_8px_rgba(0,0,0,0.04)]"
+                    style={{ transform: 'translateZ(0)', WebkitBackfaceVisibility: 'hidden' }}
+                  >
                     {t.product || 'Product'}
                   </th>
                   {MONTHS.map((month, idx) => (
@@ -413,7 +429,10 @@ export function SeasonalCalendar() {
                     className="group hover:bg-[var(--citrus-orange-bg)]/30 transition-colors cursor-pointer border-b border-gray-50 last:border-0"
                     onClick={() => navigate('product-detail', { slug: product.slug?.current })}
                   >
-                    <td className="sticky left-0 z-20 p-3 bg-white group-hover:bg-[var(--citrus-orange-bg)]/30 transition-colors border-r border-gray-100 shadow-[2px_0_8px_rgba(0,0,0,0.04)]">
+                    <td
+                      className="sticky left-0 z-20 p-3 bg-white group-hover:bg-[var(--citrus-orange-bg)]/30 transition-colors border-r border-gray-100 shadow-[2px_0_8px_rgba(0,0,0,0.04)]"
+                      style={{ transform: 'translateZ(0)', WebkitBackfaceVisibility: 'hidden' }}
+                    >
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-lg overflow-hidden bg-gray-100 ring-1 ring-gray-200/50 flex-shrink-0">
                           {product.image ? (
