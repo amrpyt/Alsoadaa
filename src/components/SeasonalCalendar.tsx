@@ -370,9 +370,7 @@ export function SeasonalCalendar() {
             style={{
               scrollbarWidth: 'none',
               msOverflowStyle: 'none',
-              WebkitOverflowScrolling: 'touch',
-              willChange: 'scroll-position',
-              isolation: 'isolate',
+              // DO NOT use -webkit-overflow-scrolling: touch - it causes flicker!
             }}
           >
             <table className="w-full min-w-[1000px] border-collapse">
@@ -380,9 +378,11 @@ export function SeasonalCalendar() {
                 <tr className="bg-gray-50/50">
                   <th
                     className="sticky left-0 z-30 p-4 text-left font-semibold text-gray-900 bg-white border-b border-r border-gray-100 min-w-[200px] shadow-[2px_0_8px_rgba(0,0,0,0.04)]"
-                    style={{ transform: 'translateZ(0)', WebkitBackfaceVisibility: 'hidden' }}
+                    style={{ transform: 'translate3d(0,0,0)' }}
                   >
-                    {t.product || 'Product'}
+                    <span style={{ transform: 'translate3d(0,0,0)', display: 'inline-block' }}>
+                      {t.product || 'Product'}
+                    </span>
                   </th>
                   {MONTHS.map((month, idx) => (
                     <th
@@ -407,15 +407,16 @@ export function SeasonalCalendar() {
                   >
                     <td
                       className="sticky left-0 z-20 p-3 bg-white group-hover:bg-[var(--citrus-orange-bg)]/30 transition-colors border-r border-gray-100 shadow-[2px_0_8px_rgba(0,0,0,0.04)]"
-                      style={{ transform: 'translateZ(0)', WebkitBackfaceVisibility: 'hidden' }}
+                      style={{ transform: 'translate3d(0,0,0)' }}
                     >
-                      <div className="flex items-center gap-3">
+                      {/* IMPORTANT: ALL children need translate3d for iOS Safari */}
+                      <div
+                        className="flex items-center gap-3"
+                        style={{ transform: 'translate3d(0,0,0)' }}
+                      >
                         <div
                           className="w-10 h-10 rounded-lg overflow-hidden bg-gray-100 ring-1 ring-gray-200/50 flex-shrink-0"
-                          style={{
-                            contain: 'paint',
-                            willChange: 'transform',
-                          }}
+                          style={{ transform: 'translate3d(0,0,0)' }}
                         >
                           {product.image ? (
                             <ProductImage
@@ -429,7 +430,10 @@ export function SeasonalCalendar() {
                             </div>
                           )}
                         </div>
-                        <span className="font-medium text-gray-800 group-hover:text-[var(--citrus-orange)] transition-colors text-sm whitespace-nowrap">
+                        <span
+                          className="font-medium text-gray-800 group-hover:text-[var(--citrus-orange)] transition-colors text-sm whitespace-nowrap"
+                          style={{ transform: 'translate3d(0,0,0)' }}
+                        >
                           {product.title}
                         </span>
                       </div>
