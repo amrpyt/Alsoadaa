@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { client } from '../lib/sanity';
 import type { Language } from '../lib/LanguageContext';
 import { translations as fallbackTranslations } from '../lib/translations';
@@ -81,24 +81,13 @@ export function useSiteSettings(language: Language) {
         fetchSettings();
     }, [language]);
 
-    // Create a proxy that falls back to hardcoded translations
-    const fallback = fallbackTranslations[language] || fallbackTranslations.en;
+    // Merge fallback translations with Sanity - fallback first, then Sanity overrides
+    const t = useMemo(() => {
+        const fallback = fallbackTranslations[language] || fallbackTranslations.en;
+        // Spread fallback first (as base), then Sanity data overrides
+        return { ...fallback, ...sanityT } as SiteSettings;
+    }, [language, sanityT]);
 
-    const t = new Proxy(sanityT, {
-        get(target, prop: string) {
-            // If Sanity has the translation, use it
-            if (prop in target && target[prop]) {
-                return target[prop];
-            }
-            // Otherwise fall back to hardcoded translations
-            if (prop in fallback) {
-                return (fallback as any)[prop];
-            }
-            // Return empty string if not found anywhere
-            return '';
-        }
-    });
-
-    return { t: t as SiteSettings, loading };
+    return { t, loading };
 }
 
