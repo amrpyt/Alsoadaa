@@ -7,6 +7,8 @@ import { Card } from './ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { ChevronLeft, ChevronRight, Check, Loader2, AlertCircle, Wifi, WifiOff, HelpCircle } from 'lucide-react';
 import { useLanguage } from '../lib/LanguageContext';
+import { useSiteSettings } from '../hooks/useSiteSettings';
+import { usePageContent } from '../hooks/usePageContent';
 import { client, writeClient } from '../lib/sanity';
 import { allProductsQuery } from '../lib/queries';
 import { useFormPersistence } from '../hooks/useFormPersistence';
@@ -29,7 +31,12 @@ interface FormData {
 }
 
 export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
-  const { language, t } = useLanguage();
+  const { language } = useLanguage();
+  const { t: siteT, loading: siteLoading } = useSiteSettings(language);
+  const { content: pageT, loading: pageLoading } = usePageContent('quote_form', language);
+
+  const t = { ...siteT, ...pageT };
+  const translationsLoading = siteLoading || pageLoading;
   const {
     cachedData,
     saveFormData,
@@ -420,6 +427,14 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
       setSubmitting(false);
     }
   };
+
+  if (translationsLoading) {
+    return (
+      <div className="flex justify-center items-center p-12">
+        <Loader2 className="w-8 h-8 animate-spin text-orange-500" />
+      </div>
+    );
+  }
 
   if (submitted) {
     return (

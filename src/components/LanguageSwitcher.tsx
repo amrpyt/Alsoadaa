@@ -1,5 +1,5 @@
 import { useLanguage } from '../lib/LanguageContext'
-import { Language } from '../lib/translations'
+import { Language } from '../lib/LanguageContext'
 import { Globe } from 'lucide-react'
 import {
   DropdownMenu,
@@ -50,9 +50,8 @@ export function LanguageSwitcher() {
           <DropdownMenuItem
             key={lang.code}
             onClick={() => handleLanguageChange(lang.code)}
-            className={`cursor-pointer ${
-              language === lang.code ? 'bg-accent' : ''
-            }`}
+            className={`cursor-pointer ${language === lang.code ? 'bg-accent' : ''
+              }`}
           >
             <span className="mr-2 text-lg">{lang.flag}</span>
             <div className="flex flex-col">

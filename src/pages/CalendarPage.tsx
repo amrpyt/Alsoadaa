@@ -1,8 +1,14 @@
 import { SeasonalCalendar } from '../components/SeasonalCalendar';
 import { useLanguage } from '../lib/LanguageContext';
+import { useSiteSettings } from '../hooks/useSiteSettings';
+import { usePageContent } from '../hooks/usePageContent';
 
 export function CalendarPage() {
-  const { t } = useLanguage();
+  const { language } = useLanguage();
+  const { t: siteT } = useSiteSettings(language);
+  const { content: pageT } = usePageContent('calendar', language);
+
+  const t = { ...siteT, ...pageT };
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}

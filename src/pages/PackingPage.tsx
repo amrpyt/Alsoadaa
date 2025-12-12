@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Card } from '../components/ui/card';
 import { useLanguage } from '../lib/LanguageContext';
+import { useSiteSettings } from '../hooks/useSiteSettings';
+import { usePageContent } from '../hooks/usePageContent';
 import { Package, Shield, Truck } from 'lucide-react';
 import { client, getImageUrl } from '../lib/sanity';
 import { serviceBySlugQuery } from '../lib/queries';
@@ -14,7 +16,11 @@ interface ServiceData {
 }
 
 export function PackingPage() {
-  const { t, language } = useLanguage();
+  const { language } = useLanguage();
+  const { t: siteT } = useSiteSettings(language);
+  const { content: pageT } = usePageContent('packing', language);
+
+  const t = { ...siteT, ...pageT };
   const [service, setService] = useState<ServiceData | null>(null);
 
   useEffect(() => {
@@ -49,7 +55,7 @@ export function PackingPage() {
             <h2 className="text-3xl font-bold mb-6" style={{ color: 'var(--gray-900)' }}>
               {t.packing}
             </h2>
-            
+
             <Card className="p-6 mb-6">
               <p className="text-lg mb-4" style={{ color: 'var(--gray-700)' }}>
                 {t.packingDesc1}

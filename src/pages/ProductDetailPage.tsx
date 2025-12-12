@@ -7,6 +7,8 @@ import { ChevronLeft, Check, Package, Truck, Thermometer, Calendar, Loader2 } fr
 import { useRouter } from '../lib/router';
 import { ProductCard } from '../components/ProductCard';
 import { useLanguage } from '../lib/LanguageContext';
+import { useSiteSettings } from '../hooks/useSiteSettings';
+import { usePageContent } from '../hooks/usePageContent';
 import { client, getImageUrl } from '../lib/sanity';
 import { productBySlugQuery, productsByCategoryQuery, findProductTranslationQuery } from '../lib/queries';
 
@@ -14,7 +16,12 @@ const MONTH_KEYS = ['january', 'february', 'march', 'april', 'may', 'june', 'jul
 
 export function ProductDetailPage() {
   const { navigate, params } = useRouter();
-  const { t, language } = useLanguage();
+  const { language } = useLanguage();
+  const { t: siteT, loading: siteLoading } = useSiteSettings(language);
+  const { content: pageT, loading: pageLoading } = usePageContent('products', language);
+
+  const t: Record<string, any> = { ...siteT, ...pageT };
+  const translationsLoading = siteLoading || pageLoading;
   const [selectedImage, setSelectedImage] = useState(0);
   const [product, setProduct] = useState<any>(null);
   const [relatedProducts, setRelatedProducts] = useState<any[]>([]);
@@ -87,6 +94,14 @@ export function ProductDetailPage() {
       document.title = product.seo?.metaTitle || `${product.title} | Al Soadaa`;
     }
   }, [product]);
+
+  if (translationsLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="w-12 h-12 animate-spin text-[var(--citrus-orange)]" />
+      </div>
+    );
+  }
 
   if (loading) {
     return (
@@ -283,19 +298,19 @@ export function ProductDetailPage() {
 
         <Tabs defaultValue="specifications" className="mb-12">
           <TabsList className="grid w-full grid-cols-3 gap-2 bg-transparent p-0 h-auto">
-            <TabsTrigger 
-              value="specifications" 
+            <TabsTrigger
+              value="specifications"
               className="data-[state=active]:bg-[var(--citrus-orange)] data-[state=active]:text-white data-[state=inactive]:bg-white data-[state=inactive]:border data-[state=inactive]:border-gray-200 data-[state=inactive]:text-gray-600 data-[state=inactive]:hover:bg-gray-50 rounded-xl py-3 px-4 font-medium transition-all duration-200 shadow-sm"
             >
               {t.specifications}
             </TabsTrigger>
-            <TabsTrigger 
+            <TabsTrigger
               value="availability"
               className="data-[state=active]:bg-[var(--citrus-orange)] data-[state=active]:text-white data-[state=inactive]:bg-white data-[state=inactive]:border data-[state=inactive]:border-gray-200 data-[state=inactive]:text-gray-600 data-[state=inactive]:hover:bg-gray-50 rounded-xl py-3 px-4 font-medium transition-all duration-200 shadow-sm"
             >
               {t.availability}
             </TabsTrigger>
-            <TabsTrigger 
+            <TabsTrigger
               value="shipping"
               className="data-[state=active]:bg-[var(--citrus-orange)] data-[state=active]:text-white data-[state=inactive]:bg-white data-[state=inactive]:border data-[state=inactive]:border-gray-200 data-[state=inactive]:text-gray-600 data-[state=inactive]:hover:bg-gray-50 rounded-xl py-3 px-4 font-medium transition-all duration-200 shadow-sm"
             >

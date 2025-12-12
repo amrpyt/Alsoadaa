@@ -3,26 +3,32 @@ import { Menu, X, Globe } from 'lucide-react';
 import { Button } from './ui/button';
 import { useRouter } from '../lib/router';
 import { useLanguage } from '../lib/LanguageContext';
-import { Language } from '../lib/translations';
+import { useSiteSettings } from '../hooks/useSiteSettings';
+import { Language } from '../lib/LanguageContext';
 
 export function Header() {
   const { navigate, currentPage } = useRouter();
-  const { language, setLanguage, t } = useLanguage();
+  const { language, setLanguage } = useLanguage(); // Don't use legacy 't'
+  const { t, loading } = useSiteSettings(language); // Use new 't'
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [languageMenuOpen, setLanguageMenuOpen] = useState(false);
   const [processingMenuOpen, setProcessingMenuOpen] = useState(false);
 
+  // Simple loading state to prevent flash
+  if (loading) return <div className="h-20 bg-white border-b border-gray-200"></div>;
+
   const navItems = [
-    { label: t.products, page: 'products' },
-    { label: t.seasonalCalendar, page: 'calendar' },
-    { label: t.aboutUs, page: 'about' },
-    { label: t.contact, page: 'contact' },
+    { label: t.products || 'Products', page: 'products' },
+    { label: t.seasonalCalendar || 'Calendar', page: 'calendar' },
+    { label: t.aboutUs || 'About', page: 'about' },
+    { label: t.contact || 'Contact', page: 'contact' },
   ];
 
   const processingItems = [
-    { label: t.sorting, page: 'sorting' },
-    { label: t.packing, page: 'packing' },
-    { label: t.exporting, page: 'exporting' },
+    { label: t.sorting || 'Sorting', page: 'sorting' },
+    { label: t.packing || 'Packing', page: 'packing' },
+    { label: t.exporting || 'Exporting', page: 'exporting' },
   ];
 
   const languages: { code: Language; name: string; flag: string }[] = [
@@ -42,9 +48,9 @@ export function Header() {
             onClick={() => navigate('home')}
             className="flex items-center"
           >
-            <img 
-              src="/logo.png" 
-              alt="Al Soadaa - Import & Export" 
+            <img
+              src="/logo.png"
+              alt="Al Soadaa - Import & Export"
               className="h-14 w-auto object-contain"
             />
           </button>
@@ -78,7 +84,7 @@ export function Header() {
                   fontWeight: ['sorting', 'packing', 'exporting'].includes(currentPage) ? 600 : 500,
                 }}
               >
-                {t.processing}
+                {t.processing || 'Processing'}
               </button>
 
               {processingMenuOpen && (
@@ -161,7 +167,7 @@ export function Header() {
               onClick={() => navigate('contact')}
               className="bg-[var(--citrus-orange)] hover:bg-[var(--citrus-orange-hover)] text-white"
             >
-              {t.requestQuote}
+              {t.requestQuote || 'Request Quote'}
             </Button>
           </div>
 

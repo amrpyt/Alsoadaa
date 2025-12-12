@@ -1,35 +1,17 @@
-import { useState, useEffect } from 'react';
 import { Card } from '../components/ui/card';
 import { Award, Globe, TrendingUp, Users, Shield, Leaf, Loader2 } from 'lucide-react';
 import { useLanguage } from '../lib/LanguageContext';
-import { client } from '../lib/sanity';
-import { pageBySlugQuery } from '../lib/queries';
+import { useSiteSettings } from '../hooks/useSiteSettings';
+import { usePageContent } from '../hooks/usePageContent';
 import { PortableText } from '../components/PortableText';
 import { companyStats } from '../lib/mockData';
 
 export function AboutPage() {
-  const { language, t } = useLanguage();
-  const [pageContent, setPageContent] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+  const { language } = useLanguage();
+  const { t: siteT } = useSiteSettings(language);
+  const { content: pageT, loading } = usePageContent('about', language);
 
-  useEffect(() => {
-    const fetchPage = async () => {
-      try {
-        setLoading(true);
-        const data = await client.fetch(pageBySlugQuery, {
-          slug: 'about',
-          lang: language
-        });
-        setPageContent(data);
-      } catch (err) {
-        console.error('Failed to fetch about page:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchPage();
-  }, [language]);
+  const t = { ...siteT, ...pageT };
 
   if (loading) {
     return (
@@ -94,10 +76,10 @@ export function AboutPage() {
       </div>
 
       {/* Dynamic Content from Sanity */}
-      {pageContent?.content && (
+      {t.content && (
         <div className="py-16">
           <div className="max-w-4xl mx-auto px-6 lg:px-16">
-            <PortableText value={pageContent.content} />
+            <PortableText value={t.content} />
           </div>
         </div>
       )}

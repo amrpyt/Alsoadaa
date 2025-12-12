@@ -4,16 +4,28 @@ import { Button } from '../components/ui/button';
 import { MapPin, Phone, Mail, Clock, MessageSquare, ArrowRight, Globe, ShieldCheck } from 'lucide-react';
 import { useRouter } from '../lib/router';
 import { useLanguage } from '../lib/LanguageContext';
+import { useSiteSettings } from '../hooks/useSiteSettings';
+import { usePageContent } from '../hooks/usePageContent';
 
 export function ContactPage() {
   const { navigate } = useRouter();
-  const { t } = useLanguage();
+  const { language } = useLanguage();
+  const { t: siteT, loading: siteLoading } = useSiteSettings(language);
+  const { content: pageT, loading: pageLoading } = usePageContent('contact', language);
+
+  // All hooks MUST be called before conditional returns
   const [showForm, setShowForm] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     setIsVisible(true);
   }, []);
+
+  const t = { ...siteT, ...pageT };
+
+  if (siteLoading || pageLoading) {
+    return <div className="min-h-screen flex items-center justify-center"><div className="w-8 h-8 rounded-full border-4 border-orange-500 border-t-transparent animate-spin"></div></div>;
+  }
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans selection:bg-orange-100 selection:text-orange-900">

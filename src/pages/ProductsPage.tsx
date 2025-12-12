@@ -8,6 +8,8 @@ import { Card } from '../components/ui/card';
 import { Search, Filter, Loader2 } from 'lucide-react';
 import { useRouter } from '../lib/router';
 import { useLanguage } from '../lib/LanguageContext';
+import { useSiteSettings } from '../hooks/useSiteSettings';
+import { usePageContent } from '../hooks/usePageContent';
 import { client } from '../lib/sanity';
 import { allProductsQuery } from '../lib/queries';
 import type { SanityDocument } from '@sanity/client';
@@ -25,7 +27,13 @@ interface SanityProduct extends SanityDocument {
 
 export function ProductsPage() {
   const { navigate } = useRouter();
-  const { language, t } = useLanguage();
+  const { language } = useLanguage();
+  const { t: siteT, loading: siteLoading } = useSiteSettings(language);
+  const { content: pageT, loading: pageLoading } = usePageContent('products', language);
+  const { content: calendarT, loading: calendarLoading } = usePageContent('calendar', language);
+
+  const t = { ...siteT, ...pageT, ...calendarT };
+  const translationsLoading = siteLoading || pageLoading || calendarLoading;
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedSeasons, setSelectedSeasons] = useState<string[]>([]);
@@ -83,6 +91,14 @@ export function ProductsPage() {
     setSelectedSeasons([]);
     setSearchTerm('');
   };
+
+  if (translationsLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="w-12 h-12 animate-spin text-[var(--citrus-orange)]" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -174,10 +190,10 @@ export function ProductsPage() {
                   </h3>
                   <div className="space-y-3">
                     {[
-                      { value: 'peak', label: '⭐ Peak Season' },
-                      { value: 'in-season', label: '🟢 In Season' },
-                      { value: 'coming-soon', label: '🟡 Coming Soon' },
-                      { value: 'last-weeks', label: '🔔 Last Weeks' },
+                      { value: 'peak', label: `⭐ ${t.peakSeason || 'Peak Season'}` },
+                      { value: 'in-season', label: `🟢 ${t.inSeason || 'In Season'}` },
+                      { value: 'coming-soon', label: `🟡 ${t.seasonComingSoon || 'Coming Soon'}` },
+                      { value: 'last-weeks', label: `🔔 ${t.seasonLastWeeks || 'Last Weeks'}` },
                     ].map((season) => (
                       <div key={season.value} className="flex items-center gap-2">
                         <Checkbox
@@ -261,10 +277,10 @@ export function ProductsPage() {
                 </h3>
                 <div className="space-y-3">
                   {[
-                    { value: 'peak', label: `⭐ ${t.peakSeason}` },
-                    { value: 'in-season', label: `🟢 ${t.inSeason}` },
-                    { value: 'coming-soon', label: `🟡 ${t.seasonComingSoon}` },
-                    { value: 'last-weeks', label: `🔔 ${t.seasonLastWeeks}` },
+                    { value: 'peak', label: `⭐ ${t.peakSeason || 'Peak Season'}` },
+                    { value: 'in-season', label: `🟢 ${t.inSeason || 'In Season'}` },
+                    { value: 'coming-soon', label: `🟡 ${t.seasonComingSoon || 'Coming Soon'}` },
+                    { value: 'last-weeks', label: `🔔 ${t.seasonLastWeeks || 'Last Weeks'}` },
                   ].map((season) => (
                     <div key={season.value} className="flex items-center gap-2">
                       <Checkbox
@@ -316,7 +332,7 @@ export function ProductsPage() {
               <>
                 <div className="flex justify-between items-center mb-6">
                   <p style={{ color: 'var(--gray-600)' }}>
-                    {t.showingProducts.replace('{count}', filteredProducts.length.toString()).replace('{total}', products.length.toString())}
+                    {(t.showingProducts || 'Showing {count} of {total} products').replace('{count}', filteredProducts.length.toString()).replace('{total}', products.length.toString())}
                   </p>
                 </div>
 

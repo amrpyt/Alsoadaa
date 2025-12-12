@@ -24,39 +24,25 @@ import {
 } from "../components/ui/carousel";
 import { useRouter } from '../lib/router';
 import { useLanguage } from '../lib/LanguageContext';
+import { useSiteSettings } from '../hooks/useSiteSettings';
+import { usePageContent } from '../hooks/usePageContent';
 import { client } from '../lib/sanity';
 import { allProductsQuery } from '../lib/queries';
 import { FadeIn } from '../components/FadeIn';
 
 export function HomePage() {
   const { navigate } = useRouter();
-  const { t, language } = useLanguage();
-  const testimonials = [
-    {
-      quote: t.testimonial1Quote,
-      author: t.testimonial1Author,
-      company: t.testimonial1Company,
-      country: t.testimonial1Country,
-    },
-    {
-      quote: t.testimonial2Quote,
-      author: t.testimonial2Author,
-      company: t.testimonial2Company,
-      country: t.testimonial2Country,
-    },
-    {
-      quote: t.testimonial3Quote,
-      author: t.testimonial3Author,
-      company: t.testimonial3Company,
-      country: t.testimonial3Country,
-    },
-  ];
+  const { language, dir } = useLanguage();
+  const { t: siteT, loading: siteLoading } = useSiteSettings(language);
+  const { content: pageT, loading: pageLoading } = usePageContent('/', language);
+  const { content: calendarT, loading: calendarLoading } = usePageContent('calendar', language);
+
+  // All hooks MUST be called before any conditional returns
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [scrollRotation, setScrollRotation] = useState(0);
   const citrusRef = useRef<HTMLDivElement>(null);
-
   const [featuredProducts, setFeaturedProducts] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [productsLoading, setProductsLoading] = useState(true);
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
@@ -78,25 +64,16 @@ export function HomePage() {
     const fetchProducts = async () => {
       try {
         const data = await client.fetch(allProductsQuery, { lang: language });
-        // Take first 4 products for now
         setFeaturedProducts(data.slice(0, 4));
       } catch (error) {
         console.error('Failed to fetch featured products:', error);
       } finally {
-        setLoading(false);
+        setProductsLoading(false);
       }
     };
 
     fetchProducts();
   }, [language]);
-
-  const nextTestimonial = () => {
-    setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
-  };
-
-  const prevTestimonial = () => {
-    setCurrentTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length);
-  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -105,23 +82,62 @@ export function HomePage() {
         const windowHeight = window.innerHeight;
         const elementTop = rect.top;
 
-        // Calculate scroll progress when element is in viewport (0 to 1)
-        // Start at 20% when element enters viewport, reach 0% when fully scrolled
         const scrollProgress = Math.max(0, Math.min(1,
           1 - ((elementTop - windowHeight * 0.2) / (windowHeight * 0.8))
         ));
 
-        // Calculate percentage movement (20% to 0%)
         const movePercent = 20 * (1 - scrollProgress);
         setScrollRotation(movePercent);
       }
     };
 
     window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Initial call
+    handleScroll();
 
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Merge translations
+  const t = { ...siteT, ...pageT, ...calendarT };
+  const loading = siteLoading || pageLoading || calendarLoading;
+
+  // Now we can do conditional returns AFTER all hooks
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="w-8 h-8 rounded-full border-4 border-orange-500 border-t-transparent animate-spin"></div>
+      </div>
+    );
+  }
+
+  const testimonials = [
+    {
+      quote: t.testimonial1Quote,
+      author: t.testimonial1Author,
+      company: t.testimonial1Company,
+      country: t.testimonial1Country,
+    },
+    {
+      quote: t.testimonial2Quote,
+      author: t.testimonial2Author,
+      company: t.testimonial2Company,
+      country: t.testimonial2Country,
+    },
+    {
+      quote: t.testimonial3Quote,
+      author: t.testimonial3Author,
+      company: t.testimonial3Company,
+      country: t.testimonial3Country,
+    },
+  ];
+
+  const nextTestimonial = () => {
+    setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
+  };
+
+  const prevTestimonial = () => {
+    setCurrentTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+  };
 
   return (
     <div>
@@ -179,7 +195,6 @@ export function HomePage() {
               transition: 'transform 0.05s ease-out'
             }}
           >
-            {/* Left Orange - Moves right (away from center) */}
             <div
               className="w-[180px] md:w-[280px] flex-shrink-0"
               style={{
@@ -200,7 +215,6 @@ export function HomePage() {
                 }}
               />
             </div>
-            {/* Center Lime - Stays in place */}
             <div className="w-[180px] md:w-[280px] flex-shrink-0">
               <img
                 src="/lime.png"
@@ -208,7 +222,6 @@ export function HomePage() {
                 className="w-full h-auto"
               />
             </div>
-            {/* Right Lemon - Moves left (away from center) */}
             <div
               className="w-[180px] md:w-[280px] flex-shrink-0"
               style={{
@@ -277,7 +290,7 @@ export function HomePage() {
             </div>
           </FadeIn>
 
-          {loading ? (
+          {productsLoading ? (
             <div className="flex justify-center py-12">
               <Loader2 className="w-8 h-8 animate-spin text-[var(--citrus-orange)]" />
             </div>
@@ -289,6 +302,7 @@ export function HomePage() {
                   opts={{
                     align: "start",
                     loop: true,
+                    direction: dir,
                   }}
                   className="w-full"
                 >
@@ -409,10 +423,10 @@ export function HomePage() {
           <FadeIn>
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{ color: 'var(--gray-900)' }}>
-                {t.seasonalAvailability}
+                {t.seasonalAvailability || 'Seasonal Availability'}
               </h2>
               <p className="text-lg" style={{ color: 'var(--gray-600)' }}>
-                {t.planAheadCalendar}
+                {t.planAheadCalendar || 'Plan your imports with our harvest calendar'}
               </p>
             </div>
           </FadeIn>
@@ -422,7 +436,7 @@ export function HomePage() {
               <Card className="p-8 bg-white border-none shadow-lg">
                 <div className="flex items-center justify-between mb-6">
                   <h3 className="text-2xl font-semibold" style={{ color: 'var(--gray-900)' }}>
-                    {t.october} 2025
+                    {t.october || 'October'} 2025
                   </h3>
                   <Calendar className="w-6 h-6" style={{ color: 'var(--citrus-orange)' }} />
                 </div>
@@ -430,28 +444,28 @@ export function HomePage() {
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
                   <div className="p-4 rounded-lg" style={{ backgroundColor: 'var(--citrus-orange-bg)' }}>
                     <div className="text-2xl mb-2">🍊</div>
-                    <div className="font-semibold mb-1" style={{ color: 'var(--gray-900)' }}>{t.oranges}</div>
+                    <div className="font-semibold mb-1" style={{ color: 'var(--gray-900)' }}>{t.oranges || 'Oranges'}</div>
                     <div className="text-xs flex items-center gap-1">
                       <span>⭐</span>
-                      <span style={{ color: 'var(--citrus-orange)' }}>{t.peakSeason}</span>
+                      <span style={{ color: 'var(--citrus-orange)' }}>{t.peakSeason || 'Peak Season'}</span>
                     </div>
                   </div>
 
                   <div className="p-4 rounded-lg" style={{ backgroundColor: 'var(--grape-purple-bg)' }}>
                     <div className="text-2xl mb-2">🍇</div>
-                    <div className="font-semibold mb-1" style={{ color: 'var(--gray-900)' }}>{t.grapes}</div>
+                    <div className="font-semibold mb-1" style={{ color: 'var(--gray-900)' }}>{t.grapes || 'Grapes'}</div>
                     <div className="text-xs flex items-center gap-1">
                       <span>🟢</span>
-                      <span style={{ color: 'var(--fresh-green)' }}>{t.inSeason}</span>
+                      <span style={{ color: 'var(--fresh-green)' }}>{t.inSeason || 'In Season'}</span>
                     </div>
                   </div>
 
                   <div className="p-4 rounded-lg" style={{ backgroundColor: 'var(--berry-red-bg)' }}>
                     <div className="text-2xl mb-2">🍓</div>
-                    <div className="font-semibold mb-1" style={{ color: 'var(--gray-900)' }}>{t.pomegranates}</div>
+                    <div className="font-semibold mb-1" style={{ color: 'var(--gray-900)' }}>{t.pomegranates || 'Pomegranates'}</div>
                     <div className="text-xs flex items-center gap-1">
                       <span>🟢</span>
-                      <span style={{ color: 'var(--fresh-green)' }}>{t.inSeason}</span>
+                      <span style={{ color: 'var(--fresh-green)' }}>{t.inSeason || 'In Season'}</span>
                     </div>
                   </div>
                 </div>
@@ -462,7 +476,7 @@ export function HomePage() {
                     className="border-[var(--citrus-orange)] text-[var(--citrus-orange)] hover:bg-[var(--citrus-orange-bg)]"
                     onClick={() => navigate('calendar')}
                   >
-                    {t.viewFullCalendar}
+                    {t.viewFullCalendar || 'View Full Calendar'}
                   </Button>
                 </div>
               </Card>
@@ -487,7 +501,7 @@ export function HomePage() {
               </div>
 
               <p className="text-xl mb-8 italic" style={{ color: 'var(--gray-700)' }}>
-                {testimonials[currentTestimonial].quote}
+                {testimonials[currentTestimonial]?.quote}
               </p>
 
               <div className="flex items-center gap-4 mb-6">
@@ -496,10 +510,10 @@ export function HomePage() {
                 </div>
                 <div>
                   <div className="font-semibold" style={{ color: 'var(--gray-900)' }}>
-                    {testimonials[currentTestimonial].author}
+                    {testimonials[currentTestimonial]?.author}
                   </div>
                   <div className="text-sm" style={{ color: 'var(--gray-600)' }}>
-                    {testimonials[currentTestimonial].company} • {testimonials[currentTestimonial].country}
+                    {testimonials[currentTestimonial]?.company} • {testimonials[currentTestimonial]?.country}
                   </div>
                 </div>
               </div>

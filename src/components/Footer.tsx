@@ -1,9 +1,11 @@
 import { Facebook, Instagram, Linkedin, Mail, MapPin, Phone } from 'lucide-react';
 
 import { useLanguage } from '../lib/LanguageContext';
+import { useSiteSettings } from '../hooks/useSiteSettings';
 
 export function Footer() {
-  const { t } = useLanguage();
+  const { language } = useLanguage();
+  const { t } = useSiteSettings(language);
   return (
     <footer className="bg-gray-50 border-t border-gray-200 pt-16 pb-8">
       <div className="max-w-7xl mx-auto px-6 lg:px-16">
@@ -13,9 +15,9 @@ export function Footer() {
             {/* Company Info */}
             <div>
               <div className="flex items-center gap-3 mb-4 justify-center lg:justify-start">
-                <img 
-                  src="/logo.png" 
-                  alt="Al Soadaa" 
+                <img
+                  src="/logo.png"
+                  alt="Al Soadaa"
                   className="h-14 w-auto object-contain"
                 />
               </div>
@@ -75,12 +77,12 @@ export function Footer() {
 
           {/* Right Column - Map */}
           <div className="h-full min-h-[300px] rounded-2xl overflow-hidden shadow-md border border-gray-200 bg-white">
-            <iframe 
-              src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d55026.24534800622!2d30.757870999999998!3d30.460463!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x145897556d1c1ef1%3A0x26036a1309babc65!2z2LTYsdmD2Ycg2KfZhNiz2LnYr9in2KEg2YTZhNin2LPYqtmK2LHYp9ivINmI2KfZhNiq2LXYr9mK2LEgQWxzb2FkYWEgY29tcGFueSBmb3IgaW1wb3J0IGFuZCBleHBvcnQ!5e0!3m2!1sar!2seg!4v1764759592322!5m2!1sar!2seg" 
-              width="100%" 
-              height="100%" 
-              style={{ border: 0 }} 
-              allowFullScreen 
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d55026.24534800622!2d30.757870999999998!3d30.460463!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x145897556d1c1ef1%3A0x26036a1309babc65!2z2LTYsdmD2Ycg2KfZhNiz2LnYr9in2KEg2YTZhNin2LPYqtmK2LHYp9ivINmI2KfZhNiq2LXYr9mK2LEgQWxzb2FkYWEgY29tcGFueSBmb3IgaW1wb3J0IGFuZCBleHBvcnQ!5e0!3m2!1sar!2seg!4v1764759592322!5m2!1sar!2seg"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
             ></iframe>

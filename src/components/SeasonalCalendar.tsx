@@ -3,6 +3,7 @@ import { Card } from './ui/card';
 import { Button } from './ui/button';
 import { Check, X, Loader2 } from 'lucide-react';
 import { useLanguage } from '../lib/LanguageContext';
+import { useSiteSettings } from '../hooks/useSiteSettings';
 import { useRouter } from '../lib/router';
 import { client, getImageUrl } from '../lib/sanity';
 import { allProductsQuery } from '../lib/queries';
@@ -13,7 +14,8 @@ const MONTH_KEYS = [
 ] as const;
 
 export function SeasonalCalendar() {
-  const { t, language } = useLanguage();
+  const { language } = useLanguage();
+  const { t } = useSiteSettings(language);
   const { navigate } = useRouter();
   const [view, setView] = useState<'product' | 'month'>('product');
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
@@ -173,14 +175,15 @@ export function SeasonalCalendar() {
 
       {/* Calendar Table */}
       <Card className="p-6 overflow-hidden">
-        <div 
+        <div
           className="overflow-x-auto -mx-6 px-6 pb-4"
-          style={{ 
+          style={{
             scrollbarWidth: 'none',  /* Firefox */
             msOverflowStyle: 'none'  /* IE and Edge */
           }}
         >
-          <style dangerouslySetInnerHTML={{__html: `
+          <style dangerouslySetInnerHTML={{
+            __html: `
             .overflow-x-auto::-webkit-scrollbar {
               display: none;
             }
@@ -213,8 +216,8 @@ export function SeasonalCalendar() {
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-100 flex-shrink-0 border border-gray-200">
                         {product.image ? (
-                          <img 
-                            src={getImageUrl(product.image, 100, 100) || undefined} 
+                          <img
+                            src={getImageUrl(product.image, 100, 100) || undefined}
                             alt={product.title || ''}
                             className="w-full h-full object-cover"
                           />

@@ -1,9 +1,15 @@
 import { Card } from '../components/ui/card';
 import { useLanguage } from '../lib/LanguageContext';
+import { useSiteSettings } from '../hooks/useSiteSettings';
+import { usePageContent } from '../hooks/usePageContent';
 import { Globe, Ship, Award, CheckCircle2 } from 'lucide-react';
 
 export function ExportingPage() {
-  const { t } = useLanguage();
+  const { language } = useLanguage();
+  const { t: siteT } = useSiteSettings(language);
+  const { content: pageT } = usePageContent('exporting', language);
+
+  const t = { ...siteT, ...pageT };
 
   return (
     <div className="min-h-screen bg-white">
@@ -22,7 +28,7 @@ export function ExportingPage() {
             <h2 className="text-3xl font-bold mb-6" style={{ color: 'var(--gray-900)' }}>
               {t.exporting}
             </h2>
-            
+
             <Card className="p-6 mb-6">
               <p className="text-lg mb-4" style={{ color: 'var(--gray-700)' }}>
                 {t.exportingDesc1}

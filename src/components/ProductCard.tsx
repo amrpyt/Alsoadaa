@@ -1,7 +1,7 @@
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { getImageUrl } from '../lib/sanity';
 import { useLanguage } from '../lib/LanguageContext';
-import { translations } from '../lib/translations';
+import { useSiteSettings } from '../hooks/useSiteSettings';
 import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
 
 interface ProductCardProps {
@@ -24,13 +24,13 @@ const defaultColors = { bg: 'var(--gray-500)', chip: 'rgba(107, 114, 128, 0.12)'
 
 export function ProductCard({ name, image, category, season, certifications = [] }: ProductCardProps) {
   const { language } = useLanguage();
-  const t = translations[language];
+  const { t } = useSiteSettings(language);
 
   const seasonBadges = {
-    'in-season': { emoji: '🟢', text: t.seasonInSeason, bg: 'var(--fresh-green-bg)', color: 'var(--fresh-green)' },
-    'peak': { emoji: '⭐', text: t.seasonPeak, bg: 'var(--citrus-orange-bg)', color: 'var(--citrus-orange)' },
-    'coming-soon': { emoji: '🟡', text: t.seasonComingSoon, bg: 'var(--lemon-yellow-bg)', color: '#C9A000' },
-    'last-weeks': { emoji: '🔔', text: t.seasonLastWeeks, bg: 'var(--berry-red-bg)', color: 'var(--berry-red)' },
+    'in-season': { emoji: '🟢', text: t.seasonInSeason || 'In Season', bg: 'var(--fresh-green-bg)', color: 'var(--fresh-green)' },
+    'peak': { emoji: '⭐', text: t.seasonPeak || 'Peak Season', bg: 'var(--citrus-orange-bg)', color: 'var(--citrus-orange)' },
+    'coming-soon': { emoji: '🟡', text: t.seasonComingSoon || 'Coming Soon', bg: 'var(--lemon-yellow-bg)', color: '#C9A000' },
+    'last-weeks': { emoji: '🔔', text: t.seasonLastWeeks || 'Last Weeks', bg: 'var(--berry-red-bg)', color: 'var(--berry-red)' },
   };
 
   const badge = seasonBadges[season] || seasonBadges['in-season'];
