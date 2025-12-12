@@ -3,9 +3,9 @@
 ## Summary
 | Phase | Tasks | Status |
 |-------|-------|--------|
-| 1. Fix Overlay Issue | 3 | ⬜ Not Started |
-| 2. Fix Image Flickering | 4 | ⬜ Not Started |
-| 3. Testing & Validation | 3 | ⬜ Not Started |
+| 1. Fix Overlay Issue | 3 | ✅ Complete |
+| 2. Fix Image Flickering | 4 | ✅ Complete |
+| 3. Testing & Validation | 3 | ⏳ Manual Testing Required |
 
 ---
 
@@ -13,18 +13,18 @@
 
 Fix the visual overlay that appears during horizontal swipe gestures.
 
-- [ ] 1.1 Remove the shadow effect from the sticky product column
+- [x] 1.1 Remove the shadow effect from the sticky product column
   - File: `src/components/SeasonalCalendar.tsx`
   - Current: `shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]`
-  - Change: Remove shadow or apply only on non-touch devices using media queries
+  - Change: ✅ Applied `@media (hover: hover) and (pointer: fine)` - shadow only shows on desktop with mouse
 
-- [ ] 1.2 Add `will-change: transform` CSS hint for smoother scrolling
+- [x] 1.2 Add `will-change: transform` CSS hint for smoother scrolling
   - File: `src/components/SeasonalCalendar.tsx`
-  - Apply to the scrollable container for GPU-accelerated scrolling
+  - ✅ Added `willChange: 'scroll-position'` to scroll container
 
-- [ ] 1.3 Add `-webkit-overflow-scrolling: touch` for smooth iOS swipe
+- [x] 1.3 Add `-webkit-overflow-scrolling: touch` for smooth iOS swipe
   - File: `src/components/SeasonalCalendar.tsx`
-  - Ensure native momentum scrolling on iOS devices
+  - ✅ Added `WebkitOverflowScrolling: 'touch'` for iOS momentum scrolling
 
 ---
 
@@ -32,21 +32,21 @@ Fix the visual overlay that appears during horizontal swipe gestures.
 
 Prevent product images from disappearing and reappearing on mobile.
 
-- [ ] 2.1 Add image loading state management
+- [x] 2.1 Add image loading state management
   - File: `src/components/SeasonalCalendar.tsx`
-  - Implement loading placeholder to prevent layout shift
+  - ✅ Created `ProductImage` component with loading/error state management and placeholder
 
-- [ ] 2.2 Add `decoding="async"` attribute to images
+- [x] 2.2 Add `decoding="async"` attribute to images
   - File: `src/components/SeasonalCalendar.tsx`
-  - Allows browser to decode images asynchronously
+  - ✅ Added to all images in the component
 
-- [ ] 2.3 Preload product images on fetch completion
+- [x] 2.3 Preload product images on fetch completion
   - File: `src/components/SeasonalCalendar.tsx`
-  - Use `Image` constructor to preload images before render
+  - ✅ Added image preloading in useEffect after product data fetch
 
-- [ ] 2.4 Remove `loading="lazy"` for table images
+- [x] 2.4 Remove `loading="lazy"` for table images
   - File: `src/components/SeasonalCalendar.tsx`
-  - Table images are critical and should load immediately
+  - ✅ Removed lazy loading and replaced with async decoding
 
 ---
 
@@ -73,3 +73,22 @@ Prevent product images from disappearing and reappearing on mobile.
 - Changes are isolated to `SeasonalCalendar.tsx`
 - No breaking changes expected
 - Mobile-specific CSS uses media queries to avoid affecting desktop
+
+## Implementation Summary
+### Changes Made:
+1. **New `ProductImage` component** - Handles image loading with:
+   - useMemo for stable image URLs
+   - Loading state with placeholder animation
+   - Error handling with fallback emoji
+   - `decoding="async"` for smooth rendering
+
+2. **CSS Media Query for Shadow** - Shadow only on hover-capable devices:
+   ```css
+   @media (hover: hover) and (pointer: fine) { /* Desktop with mouse */ }
+   @media (hover: none), (pointer: coarse) { /* Touch devices */ }
+   ```
+
+3. **Mobile Scroll Optimizations**:
+   - `WebkitOverflowScrolling: 'touch'` for iOS momentum
+   - `willChange: 'scroll-position'` for GPU acceleration
+

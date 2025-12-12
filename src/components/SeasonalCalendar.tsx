@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Card } from './ui/card';
 import { Button } from './ui/button';
 import { Check, X, Loader2 } from 'lucide-react';
@@ -12,6 +12,55 @@ const MONTH_KEYS = [
   'january', 'february', 'march', 'april', 'may', 'june',
   'july', 'august', 'september', 'october', 'november', 'december'
 ] as const;
+
+// Stable image component to prevent flickering
+function ProductImage({ image, title, size = 100 }: { image: any; title: string; size?: number }) {
+  const [loaded, setLoaded] = useState(false);
+  const [error, setError] = useState(false);
+
+  // Memoize the image URL to prevent recalculation on re-renders
+  const imageUrl = useMemo(() => {
+    if (!image) return null;
+    return typeof image === 'string' ? image : getImageUrl(image, size, size);
+  }, [image, size]);
+
+  // Preload image
+  useEffect(() => {
+    if (!imageUrl) return;
+
+    const img = new Image();
+    img.src = imageUrl;
+    img.onload = () => setLoaded(true);
+    img.onerror = () => setError(true);
+  }, [imageUrl]);
+
+  if (!imageUrl || error) {
+    return (
+      <div className="w-full h-full flex items-center justify-center text-xl bg-gray-100">
+        {getProductEmoji('')}
+      </div>
+    );
+  }
+
+  return (
+    <>
+      {/* Placeholder while loading */}
+      {!loaded && (
+        <div className="w-full h-full flex items-center justify-center bg-gray-100 animate-pulse">
+          <div className="w-4 h-4 rounded-full bg-gray-300" />
+        </div>
+      )}
+      <img
+        src={imageUrl}
+        alt={title || ''}
+        className={`w-full h-full object-cover transition-opacity duration-200 ${loaded ? 'opacity-100' : 'opacity-0 absolute'}`}
+        decoding="async"
+        onLoad={() => setLoaded(true)}
+        onError={() => setError(true)}
+      />
+    </>
+  );
+}
 
 export function SeasonalCalendar() {
   const { language } = useLanguage();
@@ -29,6 +78,20 @@ export function SeasonalCalendar() {
         setLoading(true);
         const data = await client.fetch(allProductsQuery, { lang: language });
         setProducts(data || []);
+
+        // Preload all product images after fetch (fire and forget)
+        if (data && data.length > 0) {
+          data.forEach((product: any) => {
+            if (!product.image) return;
+            const url = typeof product.image === 'string'
+              ? product.image
+              : getImageUrl(product.image, 100, 100);
+            if (!url) return;
+
+            const img = new Image();
+            img.src = url;
+          });
+        }
       } catch (err) {
         console.error('Failed to fetch products:', err);
         setError('Failed to load products.');
@@ -108,7 +171,7 @@ export function SeasonalCalendar() {
                   src={typeof product.image === 'string' ? product.image : getImageUrl(product.image, 400, 300) || ''}
                   alt={product.title}
                   className="w-full h-48 object-cover rounded-lg mb-4"
-                  loading="lazy"
+                  decoding="async"
                 />
                 <h3 className="text-xl font-semibold mb-2" style={{ color: 'var(--gray-900)' }}>
                   {product.title}
@@ -173,25 +236,40 @@ export function SeasonalCalendar() {
         </div>
       </Card>
 
-      {/* Calendar Table */}
+      {/* Calendar Table - Mobile optimized */}
       <Card className="p-6 overflow-hidden">
         <div
-          className="overflow-x-auto -mx-6 px-6 pb-4"
+          className="calendar-scroll-container overflow-x-auto -mx-6 px-6 pb-4"
           style={{
             scrollbarWidth: 'none',  /* Firefox */
-            msOverflowStyle: 'none'  /* IE and Edge */
+            msOverflowStyle: 'none', /* IE and Edge */
+            WebkitOverflowScrolling: 'touch', /* iOS momentum scrolling */
+            willChange: 'scroll-position', /* GPU acceleration hint */
           }}
         >
           <style dangerouslySetInnerHTML={{
             __html: `
-            .overflow-x-auto::-webkit-scrollbar {
+            .calendar-scroll-container::-webkit-scrollbar {
               display: none;
+            }
+            /* Only show shadow on devices with hover capability (mouse/desktop) */
+            @media (hover: hover) and (pointer: fine) {
+              .sticky-product-cell {
+                box-shadow: 2px 0 5px -2px rgba(0,0,0,0.1);
+              }
+            }
+            /* Remove shadow on touch devices to prevent overlay during swipe */
+            @media (hover: none), (pointer: coarse) {
+              .sticky-product-cell {
+                box-shadow: none;
+                border-right: 1px solid var(--gray-200);
+              }
             }
           `}} />
           <table className="w-full min-w-max">
             <thead>
               <tr style={{ borderBottom: '2px solid var(--gray-200)' }}>
-                <th className="p-3 text-start font-semibold sticky start-0 bg-white z-10" style={{ color: 'var(--gray-900)' }}>
+                <th className="sticky-product-cell p-3 text-start font-semibold sticky start-0 bg-white z-10" style={{ color: 'var(--gray-900)' }}>
                   {t.product}
                 </th>
                 {MONTHS.map((month) => (
@@ -212,14 +290,14 @@ export function SeasonalCalendar() {
                   className="hover:bg-gray-50 transition-colors cursor-pointer"
                   onClick={() => navigate('product-detail', { slug: product.slug?.current })}
                 >
-                  <td className="p-3 font-medium sticky start-0 bg-white z-10 min-w-[200px] shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]" style={{ color: 'var(--gray-900)' }}>
+                  <td className="sticky-product-cell p-3 font-medium sticky start-0 bg-white z-10 min-w-[200px]" style={{ color: 'var(--gray-900)' }}>
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-100 flex-shrink-0 border border-gray-200">
+                      <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-100 flex-shrink-0 border border-gray-200 relative">
                         {product.image ? (
-                          <img
-                            src={getImageUrl(product.image, 100, 100) || undefined}
-                            alt={product.title || ''}
-                            className="w-full h-full object-cover"
+                          <ProductImage
+                            image={product.image}
+                            title={product.title || ''}
+                            size={100}
                           />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center text-xl">
