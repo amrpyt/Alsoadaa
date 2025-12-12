@@ -146,15 +146,7 @@ export function SeasonalCalendar() {
     t.july, t.august, t.september, t.october, t.november, t.december
   ];
 
-  // Short months - only for English, Arabic keeps full names
-  const getShortMonth = (month: string, idx: number) => {
-    if (language === 'ar') {
-      // Arabic months - use first word or keep short
-      return month; // Full name for Arabic
-    }
-    // English/Russian - first 3 letters
-    return month?.substring(0, 3) || '';
-  };
+
 
   // Navigation helpers for Cards view
   const goToPrevMonth = () => setSelectedMonth(prev => (prev === 0 ? 11 : prev - 1));
@@ -218,8 +210,8 @@ export function SeasonalCalendar() {
           <button
             onClick={() => setView('timeline')}
             className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${view === 'timeline'
-                ? 'bg-white text-[var(--citrus-orange)] shadow-sm'
-                : 'text-gray-500 hover:text-gray-700'
+              ? 'bg-white text-[var(--citrus-orange)] shadow-sm'
+              : 'text-gray-500 hover:text-gray-700'
               }`}
           >
             <Calendar className="w-4 h-4" />
@@ -228,8 +220,8 @@ export function SeasonalCalendar() {
           <button
             onClick={() => setView('cards')}
             className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${view === 'cards'
-                ? 'bg-white text-[var(--citrus-orange)] shadow-sm'
-                : 'text-gray-500 hover:text-gray-700'
+              ? 'bg-white text-[var(--citrus-orange)] shadow-sm'
+              : 'text-gray-500 hover:text-gray-700'
               }`}
           >
             <LayoutGrid className="w-4 h-4" />
@@ -404,8 +396,8 @@ export function SeasonalCalendar() {
                     <th
                       key={month}
                       className={`p-2 text-center text-[10px] font-semibold uppercase tracking-wide border-b border-gray-100 min-w-[70px] ${idx === currentMonthIndex
-                          ? 'bg-[var(--citrus-orange-bg)] text-[var(--citrus-orange)]'
-                          : 'text-gray-500 bg-white/50'
+                        ? 'bg-[var(--citrus-orange-bg)] text-[var(--citrus-orange)]'
+                        : 'text-gray-500 bg-white/50'
                         }`}
                     >
                       {/* Full month name for all languages */}
