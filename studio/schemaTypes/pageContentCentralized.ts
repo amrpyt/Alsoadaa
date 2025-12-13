@@ -20,7 +20,7 @@ export const pageContentCentralizedType = defineType({
     { name: 'sorting', title: '⚙️ Sorting' },
     { name: 'packing', title: '⚙️ Packing' },
     { name: 'exporting', title: '⚙️ Exporting' },
-    { name: 'quote_form', title: '📝 Quote Form' },
+    { name: 'quote-form', title: '📝 Quote Form' },
   ],
   fields: [
     // Page Reference
