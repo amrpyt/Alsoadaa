@@ -1,5 +1,5 @@
 // ============================================
-// NEW CENTRALIZED SCHEMAS (1 doc = all languages)
+// CENTRALIZED SCHEMAS (1 doc = all languages)
 // ============================================
 import { productCentralizedType } from './productCentralized'
 import { serviceCentralizedType } from './serviceCentralized'
@@ -10,36 +10,29 @@ import { siteSettingsType } from './siteSettings'
 import { pageContentCentralizedType } from './pageContentCentralized'
 
 // ============================================
-// OLD SCHEMAS (kept for migration, will be removed)
-// ============================================
-import { productType } from './product'
-import { pageType } from './page'
-import { serviceType } from './service'
-import { calendarEventType } from './calendarEvent'
-import { siteTranslationType } from './siteTranslation'
-
-// ============================================
 // OTHER SCHEMAS
 // ============================================
 import { formSubmissionType } from './formSubmission'
 
 export const schemaTypes = [
-  // ✅ NEW CENTRALIZED (use these!)
+  // 🍊 Products
   productCentralizedType,
+
+  // ⚙️ Services
   serviceCentralizedType,
+
+  // 📄 Pages & Content
   pageCentralizedType,
-  siteTranslationCentralizedType,
-  calendarEventCentralizedType,
-  siteSettingsType,
   pageContentCentralizedType,
+
+  // 🌍 Translations & Settings
+  siteTranslationCentralizedType,
+  siteSettingsType,
+
+  // 📅 Calendar
+  calendarEventCentralizedType,
 
   // 📥 Form Submissions
   formSubmissionType,
-
-  // ⚠️ OLD (for migration - will be removed)
-  productType,
-  pageType,
-  serviceType,
-  calendarEventType,
-  siteTranslationType,
 ]
+

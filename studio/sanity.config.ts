@@ -1,8 +1,8 @@
-import {defineConfig} from 'sanity'
-import {structureTool} from 'sanity/structure'
-import {visionTool} from '@sanity/vision'
-import {assist} from '@sanity/assist'
-import {schemaTypes} from './schemaTypes'
+import { defineConfig } from 'sanity'
+import { structureTool } from 'sanity/structure'
+import { visionTool } from '@sanity/vision'
+import { assist } from '@sanity/assist'
+import { schemaTypes } from './schemaTypes'
 
 export default defineConfig({
   name: 'default',
@@ -26,7 +26,7 @@ export default defineConfig({
               .child(
                 S.documentTypeList('productCentralized')
                   .title('All Products')
-                  .defaultOrdering([{field: 'titleEn', direction: 'asc'}])
+                  .defaultOrdering([{ field: 'titleEn', direction: 'asc' }])
               ),
             S.listItem()
               .title('⚙️ Services')
@@ -34,7 +34,7 @@ export default defineConfig({
               .child(
                 S.documentTypeList('serviceCentralized')
                   .title('All Services')
-                  .defaultOrdering([{field: 'order', direction: 'asc'}])
+                  .defaultOrdering([{ field: 'order', direction: 'asc' }])
               ),
             S.listItem()
               .title('📄 Pages')
@@ -42,7 +42,7 @@ export default defineConfig({
               .child(
                 S.documentTypeList('pageCentralized')
                   .title('All Pages')
-                  .defaultOrdering([{field: 'order', direction: 'asc'}])
+                  .defaultOrdering([{ field: 'order', direction: 'asc' }])
               ),
             S.divider(),
 
@@ -55,7 +55,7 @@ export default defineConfig({
               .child(
                 S.documentTypeList('siteTranslationCentralized')
                   .title('All Translations')
-                  .defaultOrdering([{field: 'category', direction: 'asc'}, {field: 'key', direction: 'asc'}])
+                  .defaultOrdering([{ field: 'category', direction: 'asc' }, { field: 'key', direction: 'asc' }])
               ),
             S.listItem()
               .title('📅 Calendar Events')
@@ -63,7 +63,7 @@ export default defineConfig({
               .child(
                 S.documentTypeList('calendarEventCentralized')
                   .title('Calendar Events')
-                  .defaultOrdering([{field: 'month', direction: 'asc'}])
+                  .defaultOrdering([{ field: 'month', direction: 'asc' }])
               ),
             S.divider(),
 
@@ -83,7 +83,7 @@ export default defineConfig({
                         S.documentTypeList('formSubmission')
                           .title('New Submissions')
                           .filter('_type == "formSubmission" && status == "new"')
-                          .defaultOrdering([{field: 'submittedAt', direction: 'desc'}])
+                          .defaultOrdering([{ field: 'submittedAt', direction: 'desc' }])
                       ),
                     S.listItem()
                       .title('👀 Reviewed')
@@ -112,50 +112,7 @@ export default defineConfig({
                       .child(
                         S.documentTypeList('formSubmission')
                           .title('All Form Submissions')
-                          .defaultOrdering([{field: 'submittedAt', direction: 'desc'}])
-                      ),
-                  ])
-              ),
-            S.divider(),
-
-            // ============================================
-            // ⚠️ LEGACY (Old Schemas - for migration)
-            // ============================================
-            S.listItem()
-              .title('⚠️ Legacy (Old)')
-              .child(
-                S.list()
-                  .title('Legacy Schemas')
-                  .items([
-                    S.listItem()
-                      .title('📦 Products (Old)')
-                      .child(
-                        S.documentTypeList('product')
-                          .title('Old Products')
-                      ),
-                    S.listItem()
-                      .title('📄 Pages (Old)')
-                      .child(
-                        S.documentTypeList('page')
-                          .title('Old Pages')
-                      ),
-                    S.listItem()
-                      .title('⚙️ Services (Old)')
-                      .child(
-                        S.documentTypeList('service')
-                          .title('Old Services')
-                      ),
-                    S.listItem()
-                      .title('📅 Calendar (Old)')
-                      .child(
-                        S.documentTypeList('calendarEvent')
-                          .title('Old Calendar Events')
-                      ),
-                    S.listItem()
-                      .title('🌍 Translations (Old)')
-                      .child(
-                        S.documentTypeList('siteTranslation')
-                          .title('Old Translations')
+                          .defaultOrdering([{ field: 'submittedAt', direction: 'desc' }])
                       ),
                   ])
               ),
