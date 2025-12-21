@@ -35,7 +35,7 @@ export function PackingPage() {
     fetchService();
   }, [language]);
 
-  const fallbackImage = 'https://images.unsplash.com/photo-1553413077-190dd305871c?w=800&q=80';
+  const fallbackImage = '/packing.jpg';
   const imageUrl = (service?.image ? getImageUrl(service.image) : null) || fallbackImage;
 
   return (

@@ -37,8 +37,8 @@ export function SortingPage() {
     fetchService();
   }, [language]);
 
-  // Fallback image
-  const fallbackImage = 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=80';
+  // Fallback image - using your uploaded sorting photo
+  const fallbackImage = '/sorting.jpg';
   const imageUrl = (service?.image ? getImageUrl(service.image) : null) || fallbackImage;
 
   return (
