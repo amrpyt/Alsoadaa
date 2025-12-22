@@ -101,7 +101,7 @@ export function ContactPage() {
                     +20 100 747 8669
                   </a>
                   <a href="tel:+20482667764" dir="ltr" className="text-lg font-bold text-slate-900 hover:text-[var(--fresh-green)] transition-colors block mt-1">
-                    +20 48 266 7764
+                    +20 48 266 7784
                   </a>
                   <a href="https://wa.me/201007478669" className="text-sm font-medium text-slate-500 hover:text-[var(--fresh-green)] transition-colors mt-2 block">
                     {t.whatsappAvailable}
