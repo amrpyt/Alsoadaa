@@ -116,6 +116,18 @@ export default defineConfig({
                       ),
                   ])
               ),
+            S.divider(),
+
+            // ============================================
+            // ⚙️ GLOBAL SETTINGS
+            // ============================================
+            S.listItem()
+              .title('⚙️ Site Settings')
+              .child(
+                S.document()
+                  .schemaType('siteSettings')
+                  .documentId('siteSettings')
+              ),
           ])
     }),
     visionTool(),

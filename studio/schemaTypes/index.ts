@@ -7,7 +7,6 @@ import { pageCentralizedType } from './pageCentralized'
 import { siteTranslationCentralizedType } from './siteTranslationCentralized'
 import { calendarEventCentralizedType } from './calendarEventCentralized'
 import { siteSettingsType } from './siteSettings'
-import { pageContentCentralizedType } from './pageContentCentralized'
 
 // ============================================
 // OTHER SCHEMAS
@@ -23,10 +22,6 @@ export const schemaTypes = [
 
   // 📄 Pages & Content
   pageCentralizedType,
-  pageContentCentralizedType,
-
-  // 🌍 Translations & Settings
-  siteTranslationCentralizedType,
   siteSettingsType,
 
   // 📅 Calendar

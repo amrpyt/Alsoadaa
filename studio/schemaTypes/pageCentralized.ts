@@ -1,4 +1,4 @@
-import {defineType, defineField} from 'sanity'
+import { defineType, defineField } from 'sanity'
 
 /**
  * Centralized Page Schema
@@ -12,9 +12,9 @@ export const pageCentralizedType = defineType({
   title: 'Page',
   type: 'document',
   groups: [
-    {name: 'content', title: '📝 Content', default: true},
-    {name: 'seo', title: '🔍 SEO'},
-    {name: 'settings', title: '⚙️ Settings'},
+    { name: 'content', title: '📝 Content', default: true },
+    { name: 'seo', title: '🔍 SEO' },
+    { name: 'settings', title: '⚙️ Settings' },
   ],
   fields: [
     // ============================================
@@ -38,13 +38,13 @@ export const pageCentralizedType = defineType({
       group: 'settings',
       options: {
         list: [
-          {title: '🏠 Home', value: 'home'},
-          {title: '📦 Products', value: 'products'},
-          {title: 'ℹ️ About', value: 'about'},
-          {title: '📞 Contact', value: 'contact'},
-          {title: '📋 Services', value: 'services'},
-          {title: '📄 Legal', value: 'legal'},
-          {title: '📰 Blog', value: 'blog'},
+          { title: '🏠 Home', value: 'home' },
+          { title: '📦 Products', value: 'products' },
+          { title: 'ℹ️ About', value: 'about' },
+          { title: '📞 Contact', value: 'contact' },
+          { title: '📋 Services', value: 'services' },
+          { title: '📄 Legal', value: 'legal' },
+          { title: '📰 Blog', value: 'blog' },
         ],
       },
     }),
@@ -90,6 +90,28 @@ export const pageCentralizedType = defineType({
     }),
 
     // ============================================
+    // LOCALIZED SUBTITLES / TAGLINES
+    // ============================================
+    defineField({
+      name: 'heroSubtitleAr',
+      title: '🇪🇬 Hero Subtitle (Arabic)',
+      type: 'string',
+      group: 'content',
+    }),
+    defineField({
+      name: 'heroSubtitleEn',
+      title: '🇬🇧 Hero Subtitle (English)',
+      type: 'string',
+      group: 'content',
+    }),
+    defineField({
+      name: 'heroSubtitleRu',
+      title: '🇷🇺 Hero Subtitle (Russian)',
+      type: 'string',
+      group: 'content',
+    }),
+
+    // ============================================
     // LOCALIZED CONTENT (Rich Text)
     // ============================================
     defineField({
@@ -101,20 +123,20 @@ export const pageCentralizedType = defineType({
         {
           type: 'block',
           styles: [
-            {title: 'Normal', value: 'normal'},
-            {title: 'H1', value: 'h1'},
-            {title: 'H2', value: 'h2'},
-            {title: 'H3', value: 'h3'},
-            {title: 'Quote', value: 'blockquote'},
+            { title: 'Normal', value: 'normal' },
+            { title: 'H1', value: 'h1' },
+            { title: 'H2', value: 'h2' },
+            { title: 'H3', value: 'h3' },
+            { title: 'Quote', value: 'blockquote' },
           ],
           lists: [
-            {title: 'Bullet', value: 'bullet'},
-            {title: 'Numbered', value: 'number'},
+            { title: 'Bullet', value: 'bullet' },
+            { title: 'Numbered', value: 'number' },
           ],
         },
         {
           type: 'image',
-          options: {hotspot: true},
+          options: { hotspot: true },
         },
       ],
     }),
@@ -127,20 +149,20 @@ export const pageCentralizedType = defineType({
         {
           type: 'block',
           styles: [
-            {title: 'Normal', value: 'normal'},
-            {title: 'H1', value: 'h1'},
-            {title: 'H2', value: 'h2'},
-            {title: 'H3', value: 'h3'},
-            {title: 'Quote', value: 'blockquote'},
+            { title: 'Normal', value: 'normal' },
+            { title: 'H1', value: 'h1' },
+            { title: 'H2', value: 'h2' },
+            { title: 'H3', value: 'h3' },
+            { title: 'Quote', value: 'blockquote' },
           ],
           lists: [
-            {title: 'Bullet', value: 'bullet'},
-            {title: 'Numbered', value: 'number'},
+            { title: 'Bullet', value: 'bullet' },
+            { title: 'Numbered', value: 'number' },
           ],
         },
         {
           type: 'image',
-          options: {hotspot: true},
+          options: { hotspot: true },
         },
       ],
     }),
@@ -153,20 +175,20 @@ export const pageCentralizedType = defineType({
         {
           type: 'block',
           styles: [
-            {title: 'Normal', value: 'normal'},
-            {title: 'H1', value: 'h1'},
-            {title: 'H2', value: 'h2'},
-            {title: 'H3', value: 'h3'},
-            {title: 'Quote', value: 'blockquote'},
+            { title: 'Normal', value: 'normal' },
+            { title: 'H1', value: 'h1' },
+            { title: 'H2', value: 'h2' },
+            { title: 'H3', value: 'h3' },
+            { title: 'Quote', value: 'blockquote' },
           ],
           lists: [
-            {title: 'Bullet', value: 'bullet'},
-            {title: 'Numbered', value: 'number'},
+            { title: 'Bullet', value: 'bullet' },
+            { title: 'Numbered', value: 'number' },
           ],
         },
         {
           type: 'image',
-          options: {hotspot: true},
+          options: { hotspot: true },
         },
       ],
     }),
@@ -193,8 +215,8 @@ export const pageCentralizedType = defineType({
       type: 'object',
       group: 'seo',
       fields: [
-        {name: 'metaTitle', type: 'string', title: 'Meta Title'},
-        {name: 'metaDescription', type: 'text', title: 'Meta Description', rows: 2},
+        { name: 'metaTitle', type: 'string', title: 'Meta Title' },
+        { name: 'metaDescription', type: 'text', title: 'Meta Description', rows: 2 },
       ],
     }),
     defineField({
@@ -203,8 +225,8 @@ export const pageCentralizedType = defineType({
       type: 'object',
       group: 'seo',
       fields: [
-        {name: 'metaTitle', type: 'string', title: 'Meta Title'},
-        {name: 'metaDescription', type: 'text', title: 'Meta Description', rows: 2},
+        { name: 'metaTitle', type: 'string', title: 'Meta Title' },
+        { name: 'metaDescription', type: 'text', title: 'Meta Description', rows: 2 },
       ],
     }),
     defineField({
@@ -213,8 +235,8 @@ export const pageCentralizedType = defineType({
       type: 'object',
       group: 'seo',
       fields: [
-        {name: 'metaTitle', type: 'string', title: 'Meta Title'},
-        {name: 'metaDescription', type: 'text', title: 'Meta Description', rows: 2},
+        { name: 'metaTitle', type: 'string', title: 'Meta Title' },
+        { name: 'metaDescription', type: 'text', title: 'Meta Description', rows: 2 },
       ],
     }),
   ],
@@ -227,7 +249,7 @@ export const pageCentralizedType = defineType({
       isPublished: 'isPublished',
       media: 'heroImage',
     },
-    prepare({titleEn, titleAr, pageType, isPublished, media}) {
+    prepare({ titleEn, titleAr, pageType, isPublished, media }) {
       const typeIcons: Record<string, string> = {
         'home': '🏠',
         'products': '📦',
@@ -239,7 +261,7 @@ export const pageCentralizedType = defineType({
       }
       const icon = pageType ? typeIcons[pageType] || '📄' : '📄'
       const status = isPublished ? '✅' : '📝'
-      
+
       return {
         title: `${icon} ${titleEn || titleAr}`,
         subtitle: `${status} ${isPublished ? 'Published' : 'Draft'} • ${titleAr || ''}`,
@@ -252,12 +274,12 @@ export const pageCentralizedType = defineType({
     {
       title: 'Menu Order',
       name: 'orderAsc',
-      by: [{field: 'order', direction: 'asc'}],
+      by: [{ field: 'order', direction: 'asc' }],
     },
     {
       title: 'Title (A-Z)',
       name: 'titleAsc',
-      by: [{field: 'titleEn', direction: 'asc'}],
+      by: [{ field: 'titleEn', direction: 'asc' }],
     },
   ],
 })

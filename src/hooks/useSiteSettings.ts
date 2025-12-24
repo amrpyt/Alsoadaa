@@ -27,41 +27,34 @@ export function useSiteSettings(language: Language) {
                     }
                 }
 
-                // Fetch from Sanity siteSettings
+                // Fetch from Sanity siteSettings singleton
                 const data = await client.fetch<any>(
                     `*[_type == "siteSettings" && _id == "siteSettings"][0]`
                 );
 
-                // Fetch from Sanity siteTranslationCentralized
-                const translationsData = await client.fetch<any[]>(
-                    `*[_type == "siteTranslationCentralized"]`
-                );
-
                 const suffix = language === 'ar' ? 'Ar' : language === 'en' ? 'En' : 'Ru';
-                const valueSuffix = language === 'ar' ? 'Ar' : language === 'en' ? 'En' : 'Ru';
                 const settings: SiteSettings = {};
 
-                // Map siteSettings fields
                 if (data) {
                     Object.keys(data).forEach(key => {
                         if (key.endsWith(suffix)) {
+                            // Localized strings
                             const baseKey = key.slice(0, -suffix.length);
                             settings[baseKey] = data[key];
+                        } else if (!key.startsWith('_') && typeof data[key] === 'string') {
+                            // Generic strings (email, phone, etc.)
+                            settings[key] = data[key];
                         }
                     });
-                }
 
-                // Map siteTranslationCentralized
-                if (translationsData) {
-                    translationsData.forEach(trans => {
-                        if (trans.key && trans[`value${valueSuffix}`]) {
-                            // Convert dot notation keys to camelCase for compatibility
-                            const key = trans.key.includes('.')
-                                ? trans.key.split('.').pop() || trans.key
-                                : trans.key;
-                            settings[key] = trans[`value${valueSuffix}`];
-                        }
-                    });
+                    // Flatten social links for easy use
+                    if (data.socialLinks && Array.isArray(data.socialLinks)) {
+                        data.socialLinks.forEach((link: any) => {
+                            if (link.platform && link.url) {
+                                settings[`social_${link.platform.toLowerCase()}`] = link.url;
+                            }
+                        });
+                    }
                 }
 
                 setSanityT(settings);

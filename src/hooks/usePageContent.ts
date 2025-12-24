@@ -26,20 +26,23 @@ export function usePageContent(slug: string, language: Language) {
 
                 // Fetch from Sanity
                 const data = await client.fetch<any>(
-                    `*[_type == "pageContentCentralized" && pageSlug == $slug][0]`,
+                    `*[_type == "pageCentralized" && (slug.current == $slug || pageType == $slug)][0]`,
                     { slug }
                 );
 
                 if (data) {
                     const suffix = language === 'ar' ? 'Ar' : language === 'en' ? 'En' : 'Ru';
 
-                    // Extract all fields with the language suffix
+                    // Extract fields: first generic (image, slug), then localized (suffix)
                     const contentObj: Record<string, any> = {};
                     Object.keys(data).forEach(key => {
                         if (key.endsWith(suffix)) {
-                            // Remove suffix to get base key
+                            // Localized fields: remove suffix for use in component
                             const baseKey = key.slice(0, -suffix.length);
                             contentObj[baseKey] = data[key];
+                        } else if (!key.startsWith('_') && !['slug', 'pageType', 'isPublished', 'order'].includes(key)) {
+                            // Generic fields (like heroImage)
+                            contentObj[key] = data[key];
                         }
                     });
 
