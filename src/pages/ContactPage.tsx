@@ -155,7 +155,10 @@ export function ContactPage() {
                     <p className="text-xl text-slate-300">{t.locationMenoufia}</p>
                     <p className="text-slate-400 mt-2">{t.exportProcessingZone}</p>
 
-                    <Button className="mt-8 bg-white text-slate-900 hover:bg-slate-100 border-0">
+                    <Button
+                      className="mt-8 bg-white text-slate-900 hover:bg-slate-100 border-0"
+                      onClick={() => window.open('https://www.google.com/maps/place/%D8%B4%D8%B1%D9%83%D9%87+%D8%A7%D9%84%D8%B3%D8%B9%D8%AF%D8%A7%D8%A1+%D9%84%D9%84%D8%A7%D8%B3%D8%AA%D9%8A%D8%B1%D8%A7%D8%AF+%D9%88%D8%A7%D9%84%D8%AA%D8%B5%D8%AF%D9%8A%D8%B1+Alsoadaa+company+for+import+and+export/@30.460463,30.757871,15z', '_blank')}
+                    >
                       {t.viewOnGoogleMaps}
                     </Button>
                   </div>
