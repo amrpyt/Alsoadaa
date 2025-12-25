@@ -7,7 +7,7 @@ import { translations as fallbackTranslations } from '../lib/translations';
 type SiteSettings = Record<string, string>;
 
 const CACHE_KEY = 'siteSettings';
-const CACHE_DURATION = 60 * 60 * 1000; // 1 hour
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes (shorter for faster CMS updates)
 
 export function useSiteSettings(language: Language) {
     const [sanityT, setSanityT] = useState<SiteSettings>({});

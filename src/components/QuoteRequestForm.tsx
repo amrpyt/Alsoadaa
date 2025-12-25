@@ -532,7 +532,7 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
           <p className="text-sm" style={{ color: 'var(--gray-600)' }}>
             {t.needHelpText}{' '}
             <a
-              href="mailto:sales@alsoadaa.com"
+              href={`mailto:${t.email || 'sales@alsoadaa.com'}`}
               className="font-semibold hover:underline"
               style={{ color: 'var(--trust-blue)' }}
             >
@@ -872,7 +872,7 @@ export function QuoteRequestForm({ onClose }: { onClose?: () => void }) {
                       </Button>
                       <Button
                         variant="outline"
-                        onClick={() => window.open('mailto:support@alsoadaa.com?subject=Product Loading Issue', '_blank')}
+                        onClick={() => window.open(`mailto:${t.email || 'support@alsoadaa.com'}?subject=Product Loading Issue`, '_blank')}
                         className="border-red-300 text-red-700 hover:bg-red-50"
                       >
                         {t.contactSupport}

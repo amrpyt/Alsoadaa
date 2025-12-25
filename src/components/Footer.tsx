@@ -58,23 +58,25 @@ export function Footer() {
               <ul className="space-y-4 text-sm text-gray-600">
                 <li className="flex items-start gap-3 justify-center lg:justify-start">
                   <MapPin className="w-5 h-5 mt-0.5 flex-shrink-0 text-[var(--citrus-orange)]" />
-                  <span>{t.cairoEgypt}</span>
+                  <span>{t.cairoEgypt || t.address}</span>
                 </li>
                 <li className="flex items-start gap-3 justify-center lg:justify-start">
                   <Phone className="w-5 h-5 mt-0.5 flex-shrink-0 text-[var(--citrus-orange)]" />
                   <div className="flex flex-col">
-                    <a href="tel:+201007478669" dir="ltr" className="hover:text-[var(--citrus-orange)] transition-colors font-medium">
-                      +20 100 747 8669
+                    <a href={`tel:${t.phone || '+201007478669'}`} dir="ltr" className="hover:text-[var(--citrus-orange)] transition-colors font-medium">
+                      {t.phone || '+20 100 747 8669'}
                     </a>
-                    <a href="tel:+20482667784" dir="ltr" className="hover:text-[var(--citrus-orange)] transition-colors font-medium">
-                      +20 48 266 7784
-                    </a>
+                    {t.whatsapp && (
+                      <a href={`tel:${t.whatsapp}`} dir="ltr" className="hover:text-[var(--citrus-orange)] transition-colors font-medium">
+                        {t.whatsapp}
+                      </a>
+                    )}
                   </div>
                 </li>
                 <li className="flex items-start gap-3 justify-center lg:justify-start">
                   <Mail className="w-5 h-5 mt-0.5 flex-shrink-0 text-[var(--citrus-orange)]" />
-                  <a href="mailto:info@alsoadaa.com" className="hover:text-[var(--citrus-orange)] transition-colors font-medium">
-                    info@alsoadaa.com
+                  <a href={`mailto:${t.email || 'info@alsoadaa.com'}`} className="hover:text-[var(--citrus-orange)] transition-colors font-medium">
+                    {t.email || 'info@alsoadaa.com'}
                   </a>
                 </li>
               </ul>
