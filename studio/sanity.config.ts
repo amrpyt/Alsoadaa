@@ -18,7 +18,28 @@ export default defineConfig({
           .title('📂 Content Management')
           .items([
             // ============================================
-            // ✅ NEW CENTRALIZED SCHEMAS
+            // 🏠 MAIN PAGES (Singletons)
+            // ============================================
+            S.listItem()
+              .title('🏠 Home Page')
+              .child(
+                S.document()
+                  .schemaType('pageCentralized')
+                  .documentId('page-home') // Points to existing document
+                  .title('Home Page')
+              ),
+            S.listItem()
+              .title('ℹ️ About Page')
+              .child(
+                S.document()
+                  .schemaType('pageCentralized')
+                  .documentId('page-about') // Points to existing document
+                  .title('About Page')
+              ),
+            S.divider(),
+
+            // ============================================
+            // 📦 COLLECTIONS
             // ============================================
             S.listItem()
               .title('🍊 Products')
@@ -37,11 +58,12 @@ export default defineConfig({
                   .defaultOrdering([{ field: 'order', direction: 'asc' }])
               ),
             S.listItem()
-              .title('📄 Pages')
+              .title('📄 Other Pages')
               .schemaType('pageCentralized')
               .child(
                 S.documentTypeList('pageCentralized')
-                  .title('All Pages')
+                  .title('Generic Pages')
+                  .filter('_type == "pageCentralized" && !(_id in ["page-home", "page-about", "drafts.page-home", "drafts.page-about"])')
                   .defaultOrdering([{ field: 'order', direction: 'asc' }])
               ),
             S.divider(),
@@ -72,7 +94,7 @@ export default defineConfig({
             // ============================================
             S.listItem()
               .title('📥 Form Submissions')
-              .schemaType('formSubmission')
+              .icon(() => '📨')
               .child(
                 S.list()
                   .title('Form Submissions')

@@ -25,10 +25,15 @@ export function usePageContent(slug: string, language: Language) {
                 }
 
                 // Fetch from Sanity
-                const data = await client.fetch<any>(
-                    `*[_type == "pageCentralized" && (slug.current == $slug || pageType == $slug)][0]`,
-                    { slug }
-                );
+                // Handle special cases for singleton pages
+                const pageType = slug === '/' ? 'home' : slug;
+                const documentId = slug === '/' ? 'page-home' : (slug === 'about' ? 'page-about' : null);
+
+                const query = documentId
+                    ? `*[_type == "pageCentralized" && (_id == $documentId || _id == "drafts." + $documentId)][0]`
+                    : `*[_type == "pageCentralized" && (slug.current == $slug || pageType == $pageType)][0]`;
+
+                const data = await client.fetch<any>(query, { slug, pageType, documentId });
 
                 if (data) {
                     const suffix = language === 'ar' ? 'Ar' : language === 'en' ? 'En' : 'Ru';

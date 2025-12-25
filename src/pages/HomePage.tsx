@@ -309,7 +309,7 @@ export function HomePage() {
                   <CarouselContent className="-ml-4">
                     {featuredProducts.map((product) => (
                       <CarouselItem key={product._id || product.id} className="pl-4 basis-[75%] md:basis-1/2 lg:basis-1/3 xl:basis-1/4">
-                        <div className="h-full transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl rounded-xl" onClick={() => navigate('product-detail', { slug: product.slug.current || product.slug })}>
+                        <div className="h-full cursor-pointer" onClick={() => navigate('product-detail', { slug: product.slug.current || product.slug })}>
                           <ProductCard
                             name={product.title || product.name}
                             image={product.image}

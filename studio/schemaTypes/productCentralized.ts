@@ -1,4 +1,4 @@
-import {defineType, defineField} from 'sanity'
+import { defineType, defineField } from 'sanity'
 
 /**
  * Centralized Product Schema
@@ -12,10 +12,10 @@ export const productCentralizedType = defineType({
   title: 'Product',
   type: 'document',
   groups: [
-    {name: 'content', title: '📝 Content', default: true},
-    {name: 'media', title: '🖼️ Media'},
-    {name: 'specs', title: '📋 Specifications'},
-    {name: 'seo', title: '🔍 SEO'},
+    { name: 'content', title: '📝 Content', default: true },
+    { name: 'media', title: '🖼️ Media' },
+    { name: 'specs', title: '📋 Specifications' },
+    { name: 'seo', title: '🔍 SEO' },
   ],
   fields: [
     // ============================================
@@ -46,13 +46,21 @@ export const productCentralizedType = defineType({
       group: 'content',
       options: {
         list: [
-          {title: '🍊 Citrus', value: 'citrus'},
-          {title: '🥬 Vegetables', value: 'vegetables'},
-          {title: '🍇 Grapes', value: 'grapes'},
-          {title: '🥭 Tropical', value: 'tropical'},
+          { title: '🍊 Citrus', value: 'citrus' },
+          { title: '🥬 Vegetables', value: 'vegetables' },
+          { title: '🍇 Grapes', value: 'grapes' },
+          { title: '🥭 Tropical', value: 'tropical' },
         ],
       },
       validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: 'isActive',
+      title: 'Show on Site',
+      type: 'boolean',
+      group: 'content',
+      initialValue: true,
+      description: 'Turn off to hide this product from the website without deleting it.',
     }),
     defineField({
       name: 'season',
@@ -61,10 +69,10 @@ export const productCentralizedType = defineType({
       group: 'content',
       options: {
         list: [
-          {title: '✅ In Season', value: 'in-season'},
-          {title: '⏳ Coming Soon', value: 'coming-soon'},
-          {title: '🔥 Peak Season', value: 'peak'},
-          {title: '⚠️ Last Weeks', value: 'last-weeks'},
+          { title: '✅ In Season', value: 'in-season' },
+          { title: '⏳ Coming Soon', value: 'coming-soon' },
+          { title: '🔥 Peak Season', value: 'peak' },
+          { title: '⚠️ Last Weeks', value: 'last-weeks' },
         ],
       },
     }),
@@ -160,18 +168,18 @@ export const productCentralizedType = defineType({
         collapsible: false,
       },
       fields: [
-        {name: 'january', type: 'boolean', title: 'Jan', initialValue: false},
-        {name: 'february', type: 'boolean', title: 'Feb', initialValue: false},
-        {name: 'march', type: 'boolean', title: 'Mar', initialValue: false},
-        {name: 'april', type: 'boolean', title: 'Apr', initialValue: false},
-        {name: 'may', type: 'boolean', title: 'May', initialValue: false},
-        {name: 'june', type: 'boolean', title: 'Jun', initialValue: false},
-        {name: 'july', type: 'boolean', title: 'Jul', initialValue: false},
-        {name: 'august', type: 'boolean', title: 'Aug', initialValue: false},
-        {name: 'september', type: 'boolean', title: 'Sep', initialValue: false},
-        {name: 'october', type: 'boolean', title: 'Oct', initialValue: false},
-        {name: 'november', type: 'boolean', title: 'Nov', initialValue: false},
-        {name: 'december', type: 'boolean', title: 'Dec', initialValue: false},
+        { name: 'january', type: 'boolean', title: 'Jan', initialValue: false },
+        { name: 'february', type: 'boolean', title: 'Feb', initialValue: false },
+        { name: 'march', type: 'boolean', title: 'Mar', initialValue: false },
+        { name: 'april', type: 'boolean', title: 'Apr', initialValue: false },
+        { name: 'may', type: 'boolean', title: 'May', initialValue: false },
+        { name: 'june', type: 'boolean', title: 'Jun', initialValue: false },
+        { name: 'july', type: 'boolean', title: 'Jul', initialValue: false },
+        { name: 'august', type: 'boolean', title: 'Aug', initialValue: false },
+        { name: 'september', type: 'boolean', title: 'Sep', initialValue: false },
+        { name: 'october', type: 'boolean', title: 'Oct', initialValue: false },
+        { name: 'november', type: 'boolean', title: 'Nov', initialValue: false },
+        { name: 'december', type: 'boolean', title: 'Dec', initialValue: false },
       ],
     }),
     defineField({
@@ -207,13 +215,13 @@ export const productCentralizedType = defineType({
       title: 'Certifications',
       type: 'array',
       group: 'specs',
-      of: [{type: 'string'}],
+      of: [{ type: 'string' }],
       options: {
         list: [
-          {title: 'GlobalGAP', value: 'GlobalGAP'},
-          {title: 'ISO 9001', value: 'ISO 9001'},
-          {title: 'Organic', value: 'Organic'},
-          {title: 'HACCP', value: 'HACCP'},
+          { title: 'GlobalGAP', value: 'GlobalGAP' },
+          { title: 'ISO 9001', value: 'ISO 9001' },
+          { title: 'Organic', value: 'Organic' },
+          { title: 'HACCP', value: 'HACCP' },
         ],
       },
     }),
@@ -227,8 +235,8 @@ export const productCentralizedType = defineType({
       type: 'object',
       group: 'seo',
       fields: [
-        {name: 'metaTitle', type: 'string', title: 'Meta Title'},
-        {name: 'metaDescription', type: 'text', title: 'Meta Description', rows: 2},
+        { name: 'metaTitle', type: 'string', title: 'Meta Title' },
+        { name: 'metaDescription', type: 'text', title: 'Meta Description', rows: 2 },
       ],
     }),
     defineField({
@@ -237,8 +245,8 @@ export const productCentralizedType = defineType({
       type: 'object',
       group: 'seo',
       fields: [
-        {name: 'metaTitle', type: 'string', title: 'Meta Title'},
-        {name: 'metaDescription', type: 'text', title: 'Meta Description', rows: 2},
+        { name: 'metaTitle', type: 'string', title: 'Meta Title' },
+        { name: 'metaDescription', type: 'text', title: 'Meta Description', rows: 2 },
       ],
     }),
     defineField({
@@ -247,8 +255,8 @@ export const productCentralizedType = defineType({
       type: 'object',
       group: 'seo',
       fields: [
-        {name: 'metaTitle', type: 'string', title: 'Meta Title'},
-        {name: 'metaDescription', type: 'text', title: 'Meta Description', rows: 2},
+        { name: 'metaTitle', type: 'string', title: 'Meta Title' },
+        { name: 'metaDescription', type: 'text', title: 'Meta Description', rows: 2 },
       ],
     }),
   ],
@@ -261,7 +269,7 @@ export const productCentralizedType = defineType({
       category: 'category',
       season: 'season',
     },
-    prepare({titleAr, titleEn, media, category, season}) {
+    prepare({ titleAr, titleEn, media, category, season }) {
       const seasonIcons: Record<string, string> = {
         'in-season': '✅',
         'coming-soon': '⏳',
@@ -269,7 +277,7 @@ export const productCentralizedType = defineType({
         'last-weeks': '⚠️',
       }
       const icon = season ? seasonIcons[season] || '' : ''
-      
+
       return {
         title: `${titleEn || titleAr}`,
         subtitle: `${icon} ${category || ''} • ${titleAr || ''}`,
@@ -282,12 +290,12 @@ export const productCentralizedType = defineType({
     {
       title: 'Name (A-Z)',
       name: 'titleAsc',
-      by: [{field: 'titleEn', direction: 'asc'}],
+      by: [{ field: 'titleEn', direction: 'asc' }],
     },
     {
       title: 'Category',
       name: 'categoryAsc',
-      by: [{field: 'category', direction: 'asc'}, {field: 'titleEn', direction: 'asc'}],
+      by: [{ field: 'category', direction: 'asc' }, { field: 'titleEn', direction: 'asc' }],
     },
   ],
 })

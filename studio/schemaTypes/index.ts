@@ -23,6 +23,7 @@ export const schemaTypes = [
   // 📄 Pages & Content
   pageCentralizedType,
   siteSettingsType,
+  siteTranslationCentralizedType,
 
   // 📅 Calendar
   calendarEventCentralizedType,
