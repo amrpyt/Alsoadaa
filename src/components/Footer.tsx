@@ -26,19 +26,25 @@ export function Footer() {
               </p>
               <div className="flex gap-3 justify-center lg:justify-start">
                 <a
-                  href="#"
+                  href={t.social_facebook || '#'}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-10 h-10 rounded-full flex items-center justify-center transition-all bg-white border border-gray-200 hover:border-[var(--citrus-orange)] hover:text-[var(--citrus-orange)] text-gray-500 shadow-sm"
                 >
                   <Facebook className="w-5 h-5" />
                 </a>
                 <a
-                  href="#"
+                  href={t.social_instagram || '#'}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-10 h-10 rounded-full flex items-center justify-center transition-all bg-white border border-gray-200 hover:border-[var(--citrus-orange)] hover:text-[var(--citrus-orange)] text-gray-500 shadow-sm"
                 >
                   <Instagram className="w-5 h-5" />
                 </a>
                 <a
-                  href="#"
+                  href={t.social_linkedin || '#'}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-10 h-10 rounded-full flex items-center justify-center transition-all bg-white border border-gray-200 hover:border-[var(--citrus-orange)] hover:text-[var(--citrus-orange)] text-gray-500 shadow-sm"
                 >
                   <Linkedin className="w-5 h-5" />

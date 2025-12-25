@@ -21,4 +21,5 @@ Keep this managed block so 'openspec update' can refresh the instructions.
 - Use git best practices to manage your changes and commit them to the repository.
 - simple terms, no yapping. TLDR in simple english, You are talkong to begginer person.
 - DONT CREATE comprehensive guides, just do the job. 
+Always answer in english even i talk to you in arabic.
 <!-- AGENTSBehavior:END -->
