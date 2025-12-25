@@ -1,5 +1,15 @@
 {
+  "redirects": [
+    {
+      "source": "/studio",
+      "destination": "https://alsoadaa.sanity.studio",
+      "permanent": false
+    }
+  ],
   "rewrites": [
-    { "source": "/(.*)", "destination": "/" }
+    {
+      "source": "/(.*)",
+      "destination": "/"
+    }
   ]
 }
