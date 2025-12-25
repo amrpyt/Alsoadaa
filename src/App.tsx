@@ -11,6 +11,7 @@ import { ContactPage } from './pages/ContactPage';
 import { SortingPage } from './pages/SortingPage';
 import { PackingPage } from './pages/PackingPage';
 import { ExportingPage } from './pages/ExportingPage';
+import { NotFoundPage } from './pages/NotFoundPage';
 
 function AppContent() {
   const { currentPage } = useRouter();
@@ -36,8 +37,10 @@ function AppContent() {
         return <AboutPage />;
       case 'contact':
         return <ContactPage />;
+      case '404':
+        return <NotFoundPage />;
       default:
-        return <HomePage />;
+        return <NotFoundPage />;
     }
   };
 
