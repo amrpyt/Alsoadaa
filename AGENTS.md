@@ -1,3 +1,5 @@
+Always use ';' insted of '&&', you are working on a windows machine.
+
 <!-- OPENSPEC:START -->
 # OpenSpec Instructions
 

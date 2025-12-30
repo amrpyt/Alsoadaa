@@ -90,6 +90,23 @@ export const siteSettingsType = defineType({
       rows: 2,
     }),
 
+    // Map Configuration
+    defineField({
+      name: 'mapLocation',
+      title: 'Map Location Link (Google Maps Button)',
+      type: 'url',
+      group: 'contact',
+      description: 'The link that opens when clicking "Get Directions" or similar buttons.',
+    }),
+    defineField({
+      name: 'mapEmbedCode',
+      title: 'Map Embed Code (Iframe)',
+      type: 'text',
+      group: 'contact',
+      description: 'Paste the full <iframe> code from Google Maps here.',
+      rows: 4,
+    }),
+
     defineField({
       name: 'socialLinks',
       title: 'Social Media Links',

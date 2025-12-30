@@ -49,18 +49,21 @@ function getCategoryForKey(key: string): string {
         return 'calendar';
     }
 
-    // Group translations by category
-    const translationsByCategory: Record<string, string[]> = {};
-    Object.keys(enTranslations).forEach(key => {
-        const category = getCategoryForKey(key);
-        if (!translationsByCategory[category]) {
-            translationsByCategory[category] = [];
-        }
-        translationsByCategory[category].push(key);
-    });
+    return 'generic';
+}
 
-    // Generate schema file
-    let schemaContent = `import {defineType, defineField} from 'sanity'
+// Group translations by category
+const translationsByCategory: Record<string, string[]> = {};
+Object.keys(enTranslations).forEach(key => {
+    const category = getCategoryForKey(key);
+    if (!translationsByCategory[category]) {
+        translationsByCategory[category] = [];
+    }
+    translationsByCategory[category].push(key);
+});
+
+// Generate schema file
+let schemaContent = `import {defineType, defineField} from 'sanity'
 
 /**
  * Page Content Centralized
@@ -76,19 +79,19 @@ export const pageContentCentralizedType = defineType({
   groups: [
 `;
 
-    // Add groups for each page category
-    Object.keys(categoryToSlug).forEach(category => {
-        const icon = category === 'home' ? '🏠' :
-            category === 'about' ? '👥' :
-                category === 'contact' ? '📞' :
-                    category === 'products' ? '📦' :
-                        category === 'calendar' ? '📅' :
-                            category === 'quote-form' ? '📝' : '⚙️';
-        const title = category.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-        schemaContent += `    {name: '${category}', title: '${icon} ${title}'},\n`;
-    });
+// Add groups for each page category
+Object.keys(categoryToSlug).forEach(category => {
+    const icon = category === 'home' ? '🏠' :
+        category === 'about' ? '👥' :
+            category === 'contact' ? '📞' :
+                category === 'products' ? '📦' :
+                    category === 'calendar' ? '📅' :
+                        category === 'quote-form' ? '📝' : '⚙️';
+    const title = category.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+    schemaContent += `    {name: '${category}', title: '${icon} ${title}'},\n`;
+});
 
-    schemaContent += `  ],
+schemaContent += `  ],
   fields: [
     // Page Reference
     defineField({
@@ -101,51 +104,51 @@ export const pageContentCentralizedType = defineType({
     }),
 \n`;
 
-    // Generate fields for each category
-    Object.entries(categoryToSlug).forEach(([category, slug]) => {
-        const keys = translationsByCategory[category] || [];
-        if (keys.length === 0) return;
+// Generate fields for each category
+Object.entries(categoryToSlug).forEach(([category, slug]) => {
+    const keys = translationsByCategory[category] || [];
+    if (keys.length === 0) return;
 
-        schemaContent += `    // ============================================\n`;
-        schemaContent += `    // ${category.toUpperCase()} PAGE (${keys.length} fields)\n`;
-        schemaContent += `    // ============================================\n`;
+    schemaContent += `    // ============================================\n`;
+    schemaContent += `    // ${category.toUpperCase()} PAGE (${keys.length} fields)\n`;
+    schemaContent += `    // ============================================\n`;
 
-        keys.forEach(key => {
-            const fieldTitle = key
-                .replace(/([A-Z])/g, ' $1')
-                .replace(/^./, str => str.toUpperCase())
-                .trim();
+    keys.forEach(key => {
+        const fieldTitle = key
+            .replace(/([A-Z])/g, ' $1')
+            .replace(/^./, str => str.toUpperCase())
+            .trim();
 
-            // Arabic
-            schemaContent += `    defineField({\n`;
-            schemaContent += `      name: '${key}Ar',\n`;
-            schemaContent += `      title: '${fieldTitle} (Arabic)',\n`;
-            schemaContent += `      type: 'string',\n`;
-            schemaContent += `      group: '${category}',\n`;
-            schemaContent += `      hidden: ({document}) => document?.pageSlug !== '${slug}',\n`;
-            schemaContent += `    }),\n`;
+        // Arabic
+        schemaContent += `    defineField({\n`;
+        schemaContent += `      name: '${key}Ar',\n`;
+        schemaContent += `      title: '${fieldTitle} (Arabic)',\n`;
+        schemaContent += `      type: 'string',\n`;
+        schemaContent += `      group: '${category}',\n`;
+        schemaContent += `      hidden: ({document}) => document?.pageSlug !== '${slug}',\n`;
+        schemaContent += `    }),\n`;
 
-            // English
-            schemaContent += `    defineField({\n`;
-            schemaContent += `      name: '${key}En',\n`;
-            schemaContent += `      title: '${fieldTitle} (English)',\n`;
-            schemaContent += `      type: 'string',\n`;
-            schemaContent += `      group: '${category}',\n`;
-            schemaContent += `      hidden: ({document}) => document?.pageSlug !== '${slug}',\n`;
-            schemaContent += `    }),\n`;
+        // English
+        schemaContent += `    defineField({\n`;
+        schemaContent += `      name: '${key}En',\n`;
+        schemaContent += `      title: '${fieldTitle} (English)',\n`;
+        schemaContent += `      type: 'string',\n`;
+        schemaContent += `      group: '${category}',\n`;
+        schemaContent += `      hidden: ({document}) => document?.pageSlug !== '${slug}',\n`;
+        schemaContent += `    }),\n`;
 
-            // Russian
-            schemaContent += `    defineField({\n`;
-            schemaContent += `      name: '${key}Ru',\n`;
-            schemaContent += `      title: '${fieldTitle} (Russian)',\n`;
-            schemaContent += `      type: 'string',\n`;
-            schemaContent += `      group: '${category}',\n`;
-            schemaContent += `      hidden: ({document}) => document?.pageSlug !== '${slug}',\n`;
-            schemaContent += `    }),\n\n`;
-        });
+        // Russian
+        schemaContent += `    defineField({\n`;
+        schemaContent += `      name: '${key}Ru',\n`;
+        schemaContent += `      title: '${fieldTitle} (Russian)',\n`;
+        schemaContent += `      type: 'string',\n`;
+        schemaContent += `      group: '${category}',\n`;
+        schemaContent += `      hidden: ({document}) => document?.pageSlug !== '${slug}',\n`;
+        schemaContent += `    }),\n\n`;
     });
+});
 
-    schemaContent += `  ],
+schemaContent += `  ],
   preview: {
     select: {
       slug: 'pageSlug',
@@ -160,9 +163,9 @@ export const pageContentCentralizedType = defineType({
 })
 `;
 
-    // Write schema file
-    const outputPath = path.join(process.cwd(), 'studio', 'schemaTypes', 'pageContentCentralized.ts');
-    fs.writeFileSync(outputPath, schemaContent);
+// Write schema file
+const outputPath = path.join(process.cwd(), 'studio', 'schemaTypes', 'pageContentCentralized.ts');
+fs.writeFileSync(outputPath, schemaContent);
 
-    console.log(`✅ Generated pageContentCentralized schema with ${Object.keys(enTranslations).length} fields`);
-    console.log(`📄 Output: ${outputPath}`);
+console.log(`✅ Generated pageContentCentralized schema with ${Object.keys(enTranslations).length} fields`);
+console.log(`📄 Output: ${outputPath}`);

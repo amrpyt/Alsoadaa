@@ -33,7 +33,7 @@ export default defineConfig({
               .child(
                 S.document()
                   .schemaType('pageCentralized')
-                  .documentId('page-about') // Points to existing document
+                  .documentId('page-about')
                   .title('About Page')
               ),
             S.divider(),
